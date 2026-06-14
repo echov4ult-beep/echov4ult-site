@@ -23,7 +23,9 @@
     min-height:100vh;-webkit-font-smoothing:antialiased}
   a{color:var(--cyan);text-decoration:none}
   .wrap{max-width:920px;margin:0 auto;padding:0 22px}
-  .logo{width:130px;height:140px;filter:drop-shadow(0 0 26px rgba(45,212,255,.45))}
+  /* screen blend drops the logo's pure-black background into the dark page
+     and blends its glow seamlessly — no transparent PNG needed */
+  .logo{width:140px;height:140px;mix-blend-mode:screen}
 
   /* hero */
   header{text-align:center;padding:68px 0 34px}
