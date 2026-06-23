@@ -460,7 +460,7 @@ document.getElementById('yr').textContent=new Date().getFullYear();
      e.g. 'https://something.trycloudflare.com/api/site-chat'  (see worker/README.md → "Free stopgap")
    • Paid, always-on (Claude API): the deployed Worker URL (see worker/README.md)
    The chat bubble stays hidden until this is a real URL. */
-var CHAT_ENDPOINT='https://YOUR_ENDPOINT_URL';
+var CHAT_ENDPOINT='https://gmt-inspired-baskets-wto.trycloudflare.com/api/site-chat';
 (function(){
   if(CHAT_ENDPOINT.indexOf('YOUR_ENDPOINT')!==-1)return; // not configured → no bubble
   var bubble=document.getElementById('chat-bubble'),
