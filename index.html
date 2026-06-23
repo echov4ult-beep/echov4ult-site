@@ -3,76 +3,151 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EchoV4ult — AI, explained for everyone</title>
-<meta name="description" content="EchoV4ult — plain-English AI updates, automation experiments, and data engineering, by Chris Retherford.">
-<meta property="og:title" content="EchoV4ult">
-<meta property="og:description" content="I make sense of AI so you don't have to. Plain-English breakdowns, every weekday.">
+<title>EchoV4ult — AI agents & automation, set up for your business</title>
+<meta name="description" content="EchoV4ult helps small businesses put AI to work: done-for-you Hermes & OpenClaw agent setup, custom Claude Skills, and ongoing management. Practical AI, no jargon.">
+<meta property="og:title" content="EchoV4ult — AI, set up for your business">
+<meta property="og:description" content="Done-for-you AI agents, custom Claude Skills, and ongoing management for small businesses. Practical, plain-English, no jargon.">
 <meta property="og:type" content="website">
 <style>
   :root{
     --bg:#03070c; --bg2:#060c14; --panel:#0a121d; --panel2:#0c1626;
     --cyan:#2dd4ff; --cyan2:#7fe9ff; --deep:#0a96d6; --ink:#e6f2fb; --mut:#8aa3bd;
     --line:rgba(45,212,255,.18); --glow:0 0 30px rgba(45,212,255,.28);
+    --warm:#ffd9a0;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{background:
       radial-gradient(1200px 700px at 70% -10%, rgba(45,212,255,.12), transparent 60%),
       radial-gradient(1000px 600px at -10% 10%, rgba(10,150,214,.10), transparent 55%),
       var(--bg);
-    color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     min-height:100vh;-webkit-font-smoothing:antialiased}
   a{color:var(--cyan);text-decoration:none}
-  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
-  /* screen blend drops the logo's pure-black background into the dark page
-     and blends its glow seamlessly — no transparent PNG needed */
-  .logo{width:140px;height:140px;mix-blend-mode:screen}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
+    background:rgba(3,7,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:960px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;font-size:16px}
+  .brand img{width:30px;height:30px;mix-blend-mode:screen}
+  .brand b{color:var(--cyan)}
+  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
+  .nav-links a{color:var(--mut);font-size:14px;font-weight:600}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c !important;
+    padding:8px 15px;border-radius:10px;font-weight:700}
+  @media(max-width:680px){.nav-links a:not(.nav-cta){display:none}}
 
   /* hero */
-  header{text-align:center;padding:68px 0 34px}
-  h1{font-size:46px;letter-spacing:1px;margin:22px 0 6px}
+  header{text-align:center;padding:72px 0 24px}
+  .logo{width:118px;height:118px;mix-blend-mode:screen}
+  .eyebrow{color:var(--cyan);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-top:16px}
+  h1{font-size:48px;line-height:1.1;letter-spacing:.5px;margin:14px 0 12px}
   h1 b{color:var(--cyan)}
-  .tag{color:var(--mut);font-size:18px;max-width:560px;margin:0 auto}
+  .tag{color:#cfe2f2;font-size:19px;max-width:600px;margin:0 auto 8px}
+  .subtag{color:var(--mut);font-size:16px;max-width:560px;margin:0 auto}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+  .btn{display:inline-block;background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c;font-weight:700;
+    border:0;border-radius:11px;padding:14px 24px;cursor:pointer;font-size:15px;transition:.15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:var(--glow)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--cyan)}
+  .trust{color:var(--mut);font-size:13px;margin-top:18px}
 
-  /* subscribe */
+  /* sections */
+  section{margin:60px 0;scroll-margin-top:70px}
+  h2.sec{font-size:30px;text-align:center;margin-bottom:8px}
+  .sec-sub{color:var(--mut);text-align:center;max-width:560px;margin:0 auto 30px}
+  h3.k{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:var(--cyan);
+    display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  h3.k::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* problem strip */
+  .strip{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:18px;padding:30px 28px}
+  .strip p{color:#cfe2f2;font-size:17.5px}
+  .strip p + p{margin-top:12px;color:var(--mut);font-size:16px}
+
+  /* services */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:780px){.cards{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:24px;display:flex;flex-direction:column;position:relative}
+  .card.feat{border-color:rgba(45,212,255,.5);box-shadow:inset 0 0 60px rgba(45,212,255,.06)}
+  .ribbon{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#19c3ff,#0a78c0);
+    color:#03121c;font-size:11px;font-weight:800;letter-spacing:.5px;padding:4px 12px;border-radius:999px;text-transform:uppercase}
+  .card .ico{font-size:26px;margin-bottom:10px}
+  .card h4{font-size:19px;margin-bottom:6px}
+  .card .price{color:var(--cyan2);font-weight:700;font-size:15px;margin-bottom:12px}
+  .card p.desc{color:var(--mut);font-size:14.5px;margin-bottom:14px}
+  .card ul{list-style:none;margin:0 0 18px;padding:0;flex:1}
+  .card li{color:#cfe2f2;font-size:14px;padding:6px 0 6px 24px;position:relative;border-top:1px solid rgba(45,212,255,.08)}
+  .card li:first-child{border-top:0}
+  .card li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:700}
+  .card .btn{text-align:center;margin-top:auto}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:780px){.steps{grid-template-columns:1fr 1fr}}
+  .step{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:14px;padding:20px}
+  .step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+    background:rgba(45,212,255,.12);border:1px solid var(--line);color:var(--cyan);font-weight:800;margin-bottom:10px}
+  .step h4{font-size:15px;margin-bottom:5px}
+  .step p{color:var(--mut);font-size:13.5px}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  .about p{color:#cfe2f2;font-size:16.5px;margin-bottom:12px}
+  .about .me{color:var(--mut)}
+  .pill{display:inline-block;font-size:11px;color:var(--cyan2);border:1px solid var(--line);
+    border-radius:999px;padding:3px 10px;margin:8px 6px 0 0}
+
+  /* newsletter */
   .sub{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:18px;padding:30px;margin:34px 0;text-align:center;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
-  .sub h2{font-size:22px;margin-bottom:6px}
+    border-radius:18px;padding:30px;text-align:center;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
+  .sub h3{font-size:22px;margin-bottom:6px}
   .sub p{color:var(--mut);margin-bottom:18px}
   .form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
   .form input{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;
     padding:13px 14px;color:var(--ink);font:inherit}
   .form input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
-  .btn{display:inline-block;background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c;font-weight:700;
-    border:0;border-radius:11px;padding:13px 22px;cursor:pointer;font-size:15px;transition:.15s}
-  .btn:hover{transform:translateY(-1px);box-shadow:var(--glow)}
   .embed-note{font-size:12px;color:var(--mut);margin-top:12px}
 
-  section{margin:46px 0}
-  h3.k{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:var(--cyan);
-    display:flex;align-items:center;gap:12px;margin-bottom:16px}
-  h3.k::after{content:"";flex:1;height:1px;background:var(--line)}
-  .about p{color:#cfe2f2;font-size:16.5px;margin-bottom:12px}
-  .about .me{color:var(--mut)}
+  /* final cta */
+  .final{text-align:center;background:
+      radial-gradient(600px 300px at 50% 0%, rgba(45,212,255,.10), transparent 70%);
+    border:1px solid var(--line);border-radius:20px;padding:46px 28px}
+  .final h2{font-size:30px;margin-bottom:10px}
+  .final p{color:var(--mut);max-width:520px;margin:0 auto 22px;font-size:17px}
 
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media(max-width:680px){.cards{grid-template-columns:1fr}h1{font-size:36px}}
-  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:14px;padding:18px}
-  .card h4{font-size:16px;margin-bottom:6px}
-  .card p{color:var(--mut);font-size:14px}
-  .pill{display:inline-block;font-size:11px;color:var(--cyan2);border:1px solid var(--line);
-    border-radius:999px;padding:2px 9px;margin:8px 6px 0 0}
-
-  footer{text-align:center;color:var(--mut);font-size:13px;padding:40px 0 60px;border-top:1px solid var(--line);margin-top:50px}
+  footer{text-align:center;color:var(--mut);font-size:13px;padding:42px 0 60px;border-top:1px solid var(--line);margin-top:60px}
   footer a{margin:0 8px}
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<nav>
+  <div class="nav-in">
+    <a href="#top" class="brand">
+      <img src="assets/v-shield.png?v=3" alt="" onerror="this.style.display='none'">
+      ECHOV<b>4</b>ULT
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#about">About</a>
+      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry" class="nav-cta">Book a call</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
 
   <header>
-    <!-- Uses your real logo from assets/v-shield.png; falls back to a vector if absent -->
-    <img src="assets/v-shield.png?v=2" alt="EchoV4ult logo" class="logo" id="logoimg"
+    <img src="assets/v-shield.png?v=3" alt="EchoV4ult logo" class="logo" id="logoimg"
       onerror="document.getElementById('logoimg').style.display='none';document.getElementById('logosvg').style.display='block'">
     <svg id="logosvg" class="logo" viewBox="0 0 100 110" style="display:none;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -89,63 +164,126 @@
         <path d="M31 30 L50 82 L69 30" stroke-width="9" stroke-linecap="round"/>
       </g>
     </svg>
-    <h1>ECHOV<b>4</b>ULT</h1>
-    <p class="tag">I make sense of AI so you don't have to. Plain-English breakdowns, every weekday.</p>
+    <div class="eyebrow">AI Implementation for Small Business</div>
+    <h1>Put AI agents to work<br>in your business</h1>
+    <p class="tag">Done-for-you AI agents, custom Claude Skills, and ongoing management — so your team gets the time-saving power of AI without the technical headache.</p>
+    <p class="subtag">Practical, plain-English, and built around how you actually work.</p>
+    <div class="cta-row">
+      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry&body=Hi%20Chris%2C%20I'd%20like%20to%20talk%20about%20putting%20AI%20to%20work%20in%20my%20business." class="btn">Book a free intro call</a>
+      <a href="#services" class="btn ghost">See what I offer</a>
+    </div>
+    <p class="trust">No jargon · No long-term lock-in · You stay in control of your data</p>
   </header>
 
-  <div class="sub" id="subscribe">
-    <h2>📬 Echov4ult AI Updates</h2>
-    <p>What just happened in AI, and why it matters to you — in 5 minutes. No PhD required.</p>
-    <!-- Quick version: links to your Beehiiv subscribe page. To embed the inline form,
-         paste your Beehiiv embed <iframe> (Beehiiv → Settings → Publication → Embed) in place of this form. -->
-    <form class="form" action="https://echov4ult.beehiiv.com/subscribe" method="get" target="_blank">
-      <input type="email" name="email" placeholder="you@email.com" aria-label="Email">
-      <button class="btn" type="submit">Subscribe free</button>
-    </form>
-    <p class="embed-note">Every weekday. Free. Unsubscribe anytime.</p>
-  </div>
-
-  <section class="about">
-    <h3 class="k">About</h3>
-    <p>EchoV4ult is where I explore AI in the open — translating fast-moving tech into plain English,
-       and building automation systems that put AI agents to work on real tasks.</p>
-    <p class="me">I'm <strong>Chris Retherford</strong> — a data professional moving into Data &amp; MLOps engineering.
-       I build production data pipelines and AI-driven automation, and I write about what I learn along the way.</p>
+  <section id="problem">
+    <div class="strip">
+      <p>Everyone says “use AI” — nobody tells you <em>how</em>, or does it <em>for</em> you.</p>
+      <p>I set up real, working AI agents that handle the busywork — drafting, research, replies, reporting, content — tailored to your business. You get the results without learning a single tool or writing a line of code.</p>
+    </div>
   </section>
 
-  <section>
-    <h3 class="k">What I build</h3>
+  <section id="services">
+    <h2 class="sec">Ways to work together</h2>
+    <p class="sec-sub">Start small or go full done-for-you. Every engagement begins with a free intro call.</p>
     <div class="cards">
+
       <div class="card">
-        <h4>🤖 Multi-agent automation</h4>
-        <p>A crew of AI agents (drafting, copy, image generation, trend analysis) callable for any task via a universal API.</p>
-        <span class="pill">Node.js</span><span class="pill">LLM orchestration</span><span class="pill">local + cloud models</span>
+        <div class="ico">🧩</div>
+        <h4>Claude Skills</h4>
+        <div class="price">From $99 · packs &amp; custom builds</div>
+        <p class="desc">Ready-to-use and bespoke AI “skills” that teach Claude to do a specific job for your business — exactly your way.</p>
+        <ul>
+          <li>Pre-built skill packs you can use today</li>
+          <li>Custom skills for your workflows</li>
+          <li>Your tone, templates &amp; rules baked in</li>
+          <li>Quick to deploy, easy to update</li>
+        </ul>
+        <a href="mailto:echov4ult@gmail.com?subject=Claude%20Skills%20inquiry" class="btn ghost">Ask about Skills</a>
       </div>
+
+      <div class="card feat">
+        <div class="ribbon">Most popular</div>
+        <div class="ico">🤖</div>
+        <h4>Hermes / OpenClaw Setup</h4>
+        <div class="price">From $1,500 · one-time setup</div>
+        <p class="desc">A complete AI agent workspace, installed and tuned for your business — a crew of agents you can actually talk to and put to work.</p>
+        <ul>
+          <li>Full install &amp; configuration</li>
+          <li>Agents tailored to your tasks</li>
+          <li>Connected to your tools &amp; data</li>
+          <li>Hands-on training for your team</li>
+        </ul>
+        <a href="mailto:echov4ult@gmail.com?subject=Hermes%20%2F%20OpenClaw%20setup%20inquiry" class="btn">Get set up</a>
+      </div>
+
       <div class="card">
-        <h4>📨 Automated newsletter pipeline</h4>
-        <p>Pulls AI news, drafts with a local LLM, generates branded art, human-in-the-loop before publishing.</p>
-        <span class="pill">pipelines</span><span class="pill">scheduling</span><span class="pill">API integration</span>
+        <div class="ico">🛠️</div>
+        <h4>Ongoing Management</h4>
+        <div class="price">Monthly retainer · custom quote</div>
+        <p class="desc">Keep your AI stack sharp. I monitor, tune, and expand your agents as your business grows — so it keeps paying off.</p>
+        <ul>
+          <li>Monitoring &amp; maintenance</li>
+          <li>Tuning &amp; new automations</li>
+          <li>Priority support</li>
+          <li>Monthly “what’s new in AI for you” check-in</li>
+        </ul>
+        <a href="mailto:echov4ult@gmail.com?subject=Ongoing%20management%20inquiry" class="btn ghost">Talk retainers</a>
       </div>
-      <div class="card">
-        <h4>📊 Data apps &amp; dashboards</h4>
-        <p>Full-stack tools that snapshot external data into time-series stores and compute live signals.</p>
-        <span class="pill">SQLite</span><span class="pill">Express</span><span class="pill">testing</span>
+
+    </div>
+  </section>
+
+  <section id="how">
+    <h2 class="sec">How it works</h2>
+    <p class="sec-sub">Simple, low-risk, and built so you’re never left guessing.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h4>Free intro call</h4><p>We talk through your day-to-day and find where AI saves the most time.</p></div>
+      <div class="step"><div class="n">2</div><h4>Plan &amp; quote</h4><p>You get a clear, plain-English plan and a fixed price — no surprises.</p></div>
+      <div class="step"><div class="n">3</div><h4>I build it</h4><p>I set everything up and tune it to fit how your business actually runs.</p></div>
+      <div class="step"><div class="n">4</div><h4>Handoff &amp; support</h4><p>Your team gets trained, and I’m there to keep it running and improving.</p></div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <h3 class="k">About</h3>
+    <div class="about-grid">
+      <p>I’m <strong>Chris Retherford</strong> — a data professional who builds production AI automation for a living, and runs a fleet of AI agents every day. EchoV4ult is how I bring that same setup to other businesses.</p>
+      <p class="me">I’ve built multi-agent systems, automated content pipelines, live data dashboards, and real API integrations — the same kind of practical, working AI I’ll set up for you. No hype, no lock-in: just tools that earn their keep.</p>
+      <div>
+        <span class="pill">Multi-agent systems</span><span class="pill">Claude Skills</span><span class="pill">Automation pipelines</span>
+        <span class="pill">Data engineering</span><span class="pill">API integrations</span><span class="pill">Local + cloud LLMs</span>
       </div>
-      <div class="card">
-        <h4>🔌 Live API integrations</h4>
-        <p>Production REST/OAuth integrations with data reconciliation and graceful degradation.</p>
-        <span class="pill">REST</span><span class="pill">OAuth2</span><span class="pill">reliability</span>
-      </div>
+    </div>
+  </section>
+
+  <section id="newsletter">
+    <div class="sub">
+      <h3>📬 Echov4ult AI Updates</h3>
+      <p>What just happened in AI, and why it matters to your business — in 5 minutes. No PhD required.</p>
+      <form class="form" action="https://echov4ult.beehiiv.com/subscribe" method="get" target="_blank">
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email">
+        <button class="btn" type="submit">Subscribe free</button>
+      </form>
+      <p class="embed-note">Free · Unsubscribe anytime · A no-pressure way to see how I think.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="final">
+      <h2>Ready to put AI to work?</h2>
+      <p>Tell me what eats your time and I’ll show you what AI can take off your plate. The intro call is free and there’s zero obligation.</p>
+      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry&body=Hi%20Chris%2C%20here's%20what%20I'd%20love%20help%20with%3A" class="btn">Email me — let’s talk</a>
     </div>
   </section>
 
   <footer>
     <div>
-      <a href="#subscribe">Newsletter</a>·
-      <a href="https://echov4ult.beehiiv.com" target="_blank">Read online</a>
-      <!-- add your LinkedIn / X here when ready -->
+      <a href="#services">Services</a>·
+      <a href="#how">How it works</a>·
+      <a href="mailto:echov4ult@gmail.com">Email</a>·
+      <a href="https://echov4ult.beehiiv.com" target="_blank">Newsletter</a>
     </div>
-    <p style="margin-top:12px">© <span id="yr"></span> EchoV4ult · Chris Retherford</p>
+    <p style="margin-top:12px">© <span id="yr"></span> EchoV4ult · Chris Retherford · AI implementation for small business</p>
   </footer>
 
 </div>
