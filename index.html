@@ -120,6 +120,21 @@
   .form input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
   .embed-note{font-size:12px;color:var(--mut);margin-top:12px}
 
+  /* examples */
+  .examples{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:780px){.examples{grid-template-columns:1fr}}
+  .ex{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:22px 24px}
+  .ex .who{font-size:13px;color:var(--cyan);font-weight:700;letter-spacing:.4px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .ex .ba{display:grid;grid-template-columns:1fr;gap:10px}
+  .ex .row{display:flex;gap:10px;align-items:flex-start}
+  .ex .lab{flex:0 0 58px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    padding:3px 0;color:var(--mut)}
+  .ex .row.after .lab{color:var(--cyan2)}
+  .ex .txt{font-size:14.5px;color:#cfe2f2;line-height:1.5}
+  .ex .row.before .txt{color:var(--mut)}
+  .ex .arrow{color:var(--cyan);font-size:13px;text-align:center;margin:-2px 0}
+
   /* booking form */
   .book{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
     border-radius:20px;padding:36px 30px;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
@@ -161,6 +176,7 @@
     <div class="nav-links">
       <a href="#services">Services</a>
       <a href="#how">How it works</a>
+      <a href="#examples">Examples</a>
       <a href="#about">About</a>
       <a href="#contact" class="nav-cta">Book a call</a>
     </div>
@@ -265,6 +281,51 @@
       <div class="step"><div class="n">3</div><h4>I build it</h4><p>I set everything up and tune it to fit how your business actually runs.</p></div>
       <div class="step"><div class="n">4</div><h4>Handoff &amp; support</h4><p>Your team gets trained, and I’m there to keep it running and improving.</p></div>
     </div>
+  </section>
+
+  <section id="examples">
+    <h2 class="sec">What it looks like in practice</h2>
+    <p class="sec-sub">Real, everyday busywork — handled by AI that works the way you do. Here’s the kind of before &amp; after I build.</p>
+    <div class="examples">
+
+      <div class="ex">
+        <div class="who">🥐 The bakery owner</div>
+        <div class="ba">
+          <div class="row before"><div class="lab">Before</div><div class="txt">Spends 5+ hours a week answering the same emails about orders, hours, and custom-cake questions.</div></div>
+          <div class="arrow">↓</div>
+          <div class="row after"><div class="lab">After</div><div class="txt">An agent drafts every reply in her voice the moment an email lands. She skims and clicks send — minutes a day.</div></div>
+        </div>
+      </div>
+
+      <div class="ex">
+        <div class="who">🛒 The online shop</div>
+        <div class="ba">
+          <div class="row before"><div class="lab">Before</div><div class="txt">Writing product descriptions and titles by hand for every new item — slow, inconsistent, and never SEO-friendly.</div></div>
+          <div class="arrow">↓</div>
+          <div class="row after"><div class="lab">After</div><div class="txt">A custom Skill turns a few bullet points into on-brand titles, descriptions, and tags in seconds — same voice every time.</div></div>
+        </div>
+      </div>
+
+      <div class="ex">
+        <div class="who">📅 The service business</div>
+        <div class="ba">
+          <div class="row before"><div class="lab">Before</div><div class="txt">New leads sit in the inbox for hours; some go cold before anyone replies.</div></div>
+          <div class="arrow">↓</div>
+          <div class="row after"><div class="lab">After</div><div class="txt">Every inquiry gets an instant, personal first response and a suggested booking time — drafted for approval, so nothing falls through.</div></div>
+        </div>
+      </div>
+
+      <div class="ex">
+        <div class="who">📊 The busy founder</div>
+        <div class="ba">
+          <div class="row before"><div class="lab">Before</div><div class="txt">No time to track competitors, trends, or what’s working — decisions made on gut feel.</div></div>
+          <div class="arrow">↓</div>
+          <div class="row after"><div class="lab">After</div><div class="txt">A morning briefing agent scans the sources that matter and drops a 5-minute summary in their inbox before coffee.</div></div>
+        </div>
+      </div>
+
+    </div>
+    <p class="sec-sub" style="margin:26px auto 0">These are the patterns I run in my own business every day — yours would be built around your work.</p>
   </section>
 
   <section id="about" class="about">
