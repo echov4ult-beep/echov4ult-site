@@ -116,6 +116,25 @@
   .form input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
   .embed-note{font-size:12px;color:var(--mut);margin-top:12px}
 
+  /* booking form */
+  .book{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:20px;padding:36px 30px;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
+  .book .bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  @media(max-width:680px){.book .bf-grid{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1 / -1}
+  .field label{font-size:13px;color:var(--mut);font-weight:600;letter-spacing:.3px}
+  .field input,.field select,.field textarea{background:var(--bg2);border:1px solid var(--line);border-radius:11px;
+    padding:13px 14px;color:var(--ink);font:inherit;width:100%}
+  .field textarea{resize:vertical;min-height:96px}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
+  .book .btn{margin-top:6px;width:100%;padding:15px}
+  .book-note{font-size:12.5px;color:var(--mut);text-align:center;margin-top:14px}
+  .book-ok{display:none;text-align:center;padding:24px 10px}
+  .book-ok h3{font-size:22px;margin-bottom:8px}
+  .book-ok p{color:var(--mut)}
+  .book-ok .big{font-size:40px;margin-bottom:10px}
+
   /* final cta */
   .final{text-align:center;background:
       radial-gradient(600px 300px at 50% 0%, rgba(45,212,255,.10), transparent 70%);
@@ -139,7 +158,7 @@
       <a href="#services">Services</a>
       <a href="#how">How it works</a>
       <a href="#about">About</a>
-      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry" class="nav-cta">Book a call</a>
+      <a href="#contact" class="nav-cta">Book a call</a>
     </div>
   </div>
 </nav>
@@ -169,7 +188,7 @@
     <p class="tag">Done-for-you AI agents, custom Claude Skills, and ongoing management — so your team gets the time-saving power of AI without the technical headache.</p>
     <p class="subtag">Practical, plain-English, and built around how you actually work.</p>
     <div class="cta-row">
-      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry&body=Hi%20Chris%2C%20I'd%20like%20to%20talk%20about%20putting%20AI%20to%20work%20in%20my%20business." class="btn">Book a free intro call</a>
+      <a href="#contact" class="btn">Book a free intro call</a>
       <a href="#services" class="btn ghost">See what I offer</a>
     </div>
     <p class="trust">No jargon · No long-term lock-in · You stay in control of your data</p>
@@ -269,10 +288,49 @@
   </section>
 
   <section id="contact">
-    <div class="final">
-      <h2>Ready to put AI to work?</h2>
-      <p>Tell me what eats your time and I’ll show you what AI can take off your plate. The intro call is free and there’s zero obligation.</p>
-      <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry&body=Hi%20Chris%2C%20here's%20what%20I'd%20love%20help%20with%3A" class="btn">Email me — let’s talk</a>
+    <h2 class="sec">Book a free intro call</h2>
+    <p class="sec-sub">Tell me what eats your time and I’ll show you what AI can take off your plate. No obligation — you’ll get a real, plain-English reply within one business day.</p>
+    <div class="book">
+      <form id="bookform" class="bf" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- Helps Aura recognize & route booking emails in Gmail -->
+        <input type="hidden" name="_subject" value="New booking request — EchoV4ult">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="bf-grid">
+          <div class="field">
+            <label for="bf-name">Your name</label>
+            <input id="bf-name" type="text" name="name" required placeholder="Jane Smith">
+          </div>
+          <div class="field">
+            <label for="bf-email">Email</label>
+            <input id="bf-email" type="email" name="email" required placeholder="you@business.com">
+          </div>
+          <div class="field">
+            <label for="bf-biz">Business / website</label>
+            <input id="bf-biz" type="text" name="business" placeholder="Acme Co. — acme.com">
+          </div>
+          <div class="field">
+            <label for="bf-service">What you’re interested in</label>
+            <select id="bf-service" name="service">
+              <option>Not sure yet — let’s talk</option>
+              <option>Claude Skills</option>
+              <option>Hermes / OpenClaw setup</option>
+              <option>Ongoing management</option>
+              <option>Custom automation</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="bf-msg">What eats your time? (the more detail, the better the call)</label>
+            <textarea id="bf-msg" name="message" required placeholder="e.g. I spend hours every week answering the same customer emails and writing product descriptions…"></textarea>
+          </div>
+        </div>
+        <button class="btn" type="submit" id="bf-submit">Request my free call</button>
+        <p class="book-note">🔒 Your details go straight to my inbox — never shared or sold. Prefer email? <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry">echov4ult@gmail.com</a></p>
+      </form>
+      <div class="book-ok" id="bookok">
+        <div class="big">✅</div>
+        <h3>Got it — thank you!</h3>
+        <p>Your request landed in my inbox. You’ll hear back from me personally within one business day.</p>
+      </div>
     </div>
   </section>
 
@@ -287,6 +345,33 @@
   </footer>
 
 </div>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){
+  var f=document.getElementById('bookform');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    // Until Formspree is configured, fall back to a pre-filled email so the form still works.
+    if(f.action.indexOf('YOUR_FORM_ID')!==-1){
+      e.preventDefault();
+      var g=function(n){var el=f.elements[n];return el?el.value:'';};
+      var body='Name: '+g('name')+'\nEmail: '+g('email')+'\nBusiness: '+g('business')
+        +'\nInterested in: '+g('service')+'\n\n'+g('message');
+      window.location.href='mailto:echov4ult@gmail.com?subject='
+        +encodeURIComponent('New booking request — EchoV4ult')+'&body='+encodeURIComponent(body);
+      return;
+    }
+    e.preventDefault();
+    var btn=document.getElementById('bf-submit');
+    btn.textContent='Sending…';btn.disabled=true;
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){
+        if(r.ok){f.style.display='none';document.getElementById('bookok').style.display='block';}
+        else{btn.textContent='Something went wrong — try email';btn.disabled=false;}
+      })
+      .catch(function(){btn.textContent='Something went wrong — try email';btn.disabled=false;});
+  });
+})();
+</script>
 </body>
 </html>
