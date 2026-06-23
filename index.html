@@ -454,12 +454,15 @@
 document.getElementById('yr').textContent=new Date().getFullYear();
 
 /* ── AI qualifier chat ──
-   After deploying the Cloudflare Worker (see worker/README.md), replace
-   the placeholder below with your printed *.workers.dev URL. The chat
-   bubble stays hidden until this is a real URL. */
-var CHAT_ENDPOINT='https://YOUR_WORKER_SUBDOMAIN.workers.dev';
+   The widget POSTs {messages:[...]} and expects {reply:"..."} back.
+   Two backends work — set CHAT_ENDPOINT to whichever you're using:
+   • FREE stopgap (local Ollama): your Cloudflare tunnel URL + "/api/site-chat"
+     e.g. 'https://something.trycloudflare.com/api/site-chat'  (see worker/README.md → "Free stopgap")
+   • Paid, always-on (Claude API): the deployed Worker URL (see worker/README.md)
+   The chat bubble stays hidden until this is a real URL. */
+var CHAT_ENDPOINT='https://YOUR_ENDPOINT_URL';
 (function(){
-  if(CHAT_ENDPOINT.indexOf('YOUR_WORKER')!==-1)return; // not configured → no bubble
+  if(CHAT_ENDPOINT.indexOf('YOUR_ENDPOINT')!==-1)return; // not configured → no bubble
   var bubble=document.getElementById('chat-bubble'),
       panel=document.getElementById('chat-panel'),
       log=document.getElementById('chat-log'),
