@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Is My Multi-Agent Setup Slow? It's a Queue, Not a Graph | echov4ult</title>
+  <meta name="description" content="Most multi-agent setups are a queue: each agent waits on the last for no reason. The edge test, the diamond shape, and when a fan-out is worth the tokens.">
+  <link rel="canonical" href="https://echov4ult.com/blog/multi-agent-queue-vs-graph/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Why Is My Multi-Agent Setup Slow? Queue vs. Graph">
+  <meta property="og:description" content="An 'and then' is only a real dependency if the next step reads the last step's output. Everything else can run at the same time.">
+  <meta property="og:url" content="https://echov4ult.com/blog/multi-agent-queue-vs-graph/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Why Is My Multi-Agent Setup Slow? Queue vs. Graph">
+  <meta name="twitter:description" content="Your agents aren't slow. Your topology is.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Why is my multi-agent setup so slow? Because it's a queue, not a graph","description":"Most multi-agent setups are a queue: each agent waits on the last for no reason. The edge test, the diamond shape, and when a fan-out is worth the tokens.","datePublished":"2026-07-27","dateModified":"2026-07-27","url":"https://echov4ult.com/blog/multi-agent-queue-vs-graph/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/multi-agent-queue-vs-graph/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I make Claude Code run subagents in parallel?","acceptedAnswer":{"@type":"Answer","text":"Ask for it in plain words (\"use a workflow to…\") or put the keyword ultracode in your prompt. Claude writes a JavaScript orchestration script and runs it in the background while your session stays free. Requires Claude Code v2.1.154 or later on a paid plan; on Pro you enable Dynamic workflows in /config."}},
+    {"@type":"Question","name":"Do parallel fan-outs cost more tokens?","acceptedAnswer":{"@type":"Answer","text":"Yes. A workflow run can use meaningfully more tokens than working the same task in conversation, and Claude Code flags runs that schedule more than 25 agents or project past 1.5 million tokens. Gauge the spend on a small slice first: one directory, one narrow question."}},
+    {"@type":"Question","name":"What's the difference between a workflow and a subagent?","acceptedAnswer":{"@type":"Answer","text":"A subagent is a worker the main session spawns turn by turn, and its results land back in the context window. A workflow is a script that holds the whole plan: intermediate results stay in script variables, and only the final answer reaches your session."}},
+    {"@type":"Question","name":"When is a queue the right choice?","acceptedAnswer":{"@type":"Answer","text":"When steps genuinely feed each other, when the whole job fits one context window, or when the token budget matters more than the clock. A graph earns its cost on breadth: repo-wide audits, big migrations, research that needs cross-checking. Not on everyday tasks."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">Explainer</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Why is my multi-agent setup so slow? Because it's a queue, not a graph</h1>
+    <p class="post-meta">2026-07-27 · echov4ult</p>
+    <p class="lede"><strong>Quick answer: your setup is slow because it runs as a queue. Each agent waits for the one before it, even when it doesn't use anything that agent produced. Draw the work as a graph instead: keep an arrow between two steps only when real data flows across it, run everything without an arrow at the same time, and merge the results with plain code. Claude Code's dynamic workflows exist for exactly this.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>I run a real multi-agent setup: an eight-agent business crew plus a game-studio roster. Here's the uncomfortable thing about most "multi-agent pipelines," mine included, most days: only one agent is actually working at any moment. The rest are waiting in line.</p>
+    <p>That's not a bug in Claude Code. It's the default. Unless you ask for something else, the main session decides what to spawn next, waits for the result, reads it, and spawns the next thing. Turn by turn. A queue with good manners.</p>
+    <p>A queue is fine for small jobs, and it's the cheapest shape there is. It becomes a problem when your steps don't actually depend on each other. Most of the time, they don't.</p>
+    <p>(Credit where due: the queue-vs-graph framing clicked for me reading a long X piece on graph engineering by <a href="https://x.com/0xCodez/status/2079165300625330317" rel="noopener">@0xCodez</a>. This post is that idea run through my own setup, with my own receipts.)</p>
+
+    <h2>In simple terms</h2>
+    <p>Picture one clerk with five errands: bank, post office, pharmacy, hardware store, groceries. He does them in the order you wrote them down, and the trip eats the whole afternoon. Nothing about the pharmacy depends on the post office. Send five people out with one errand each and have them meet back at the kitchen table, and the afternoon collapses into twenty minutes plus one conversation to put it all together.</p>
+    <p>That's the entire idea. "Multi-agent" should mean the team that splits up. Most setups are the one clerk holding a longer list.</p>
+
+    <h2>The edge test: "and then" is not a dependency</h2>
+    <p>Write your pipeline as a list of steps. At every "and then," ask one question: <strong>does the next step read the previous step's output?</strong></p>
+    <p>If yes, that's a real dependency. Keep the arrow. If no, the second step was only waiting out of habit. Delete the arrow, and the two steps can run at the same time.</p>
+    <p>Take "research competitor A, then competitor B, then competitor C, then compare them." The compare step reads all three write-ups, so its arrows are real. But B never reads A's notes, and C never reads B's. Run the edge test and a four-step line collapses into three agents working at once plus one that waits for all of them.</p>
+    <p>The word "then" in your prompts is the culprit. It smuggles in dependencies that don't exist.</p>
+
+    <h2>The diamond: fan out, merge with code, judge once</h2>
+    <p>Once you start deleting fake arrows, most big jobs settle into one shape: wide in the middle, narrow at both ends. Fan independent workers out. Collect what they return. Merge, dedupe, and filter the pile with plain code. Hand one clean list to a single agent for the final judgment call. A diamond.</p>
+    <p>Claude Code has a native mechanism for this: <a href="https://code.claude.com/docs/en/workflows" rel="noopener">dynamic workflows</a>. You describe the job and ask for a workflow (or type the keyword <code>ultracode</code>), and Claude writes a short JavaScript script that spawns the subagents and runs in the background. Intermediate results live in script variables instead of the context window, so your session only ever sees the final answer.</p>
+    <p>A stripped-down diamond, in the flavor I care about (game dev):</p>
+    <pre><code>// fileList = a tiny JSON Schema: an object with a files array
+const scenes  = await agent('List every scene file under game/scenes/.', { schema: fileList })
+const checks  = await pipeline(scenes.files, s =>
+  agent(`Check ${s} for placeholder art. Return null if clean.`, { label: s }))
+const flagged = checks.filter(Boolean)  // the merge: plain JS, no model call, zero tokens
+const report  = await agent(`Rank these flagged scenes by player impact: ${JSON.stringify(flagged)}`)</code></pre>
+    <p>Two details carry the weight. First, give each worker a <code>schema</code> so it must return structured data instead of prose; the middle of the diamond should be a list your code can filter, not paragraphs your next agent has to interpret. Second, look at the merge line. It costs nothing, because no model runs. If you ever catch an agent whose whole job is summarizing what other agents said so it can pass the summary along, stop: you're paying tokens for work a for-loop does free.</p>
+
+    <h2>Put a skeptic on the edge</h2>
+    <p>My house has one law older than any of this: <a href="/blog/recheck-rule/">nothing ships checked once</a>. Every artifact gets a second pass that tries to prove it wrong, not confirm it right. In one launch week that rule caught a stale test log, a phantom feature in my own marketing copy, and a discount nobody had approved.</p>
+    <p>A graph turns that law from a habit into a structure. Between "an agent found something" and "the report says something," insert a verifier: an agent that reads the finding cold and tries to kill it. Only survivors count. Claude Code's bundled <code>/deep-research</code> workflow already works this way: it cross-checks sources against each other and filters out claims that don't survive.</p>
+    <p>It's the same reason I ran <a href="/blog/acceptance-testing-ai-kits/">22 acceptance scenarios</a> against my own kit before I'd sell it. One pass produces plausible. An adversarial pass produces true.</p>
+
+    <h2>Loops have to converge</h2>
+    <p>Some jobs are loops: hunt for problems, verify them, hunt again, repeat until the codebase runs dry. Two rules keep a loop from becoming a token furnace.</p>
+    <p><strong>Stop on dry rounds, not on a hunch.</strong> Give the loop a hard exit: two rounds in a row with nothing new means done. That's the shape the official docs suggest for jobs like flaky-test hunts, and it's the difference between a loop and a subscription.</p>
+    <p><strong>Dedupe against everything you've seen, not just what you've confirmed.</strong> This one bites people. If round three only checks new findings against the confirmed list, every dead end your verifier already rejected comes back next round, and you pay to refute the same ghost forever. The seen list includes the rejects.</p>
+
+    <h2>Cheap models on boring nodes</h2>
+    <p>Every agent in a workflow inherits your session's model unless the script routes a stage elsewhere. That's a bill waiting to happen. Listing files does not need your biggest model. Neither does checking one scene for placeholder art. The final synthesis — the ranking, the judging, the report — does.</p>
+    <p>So check <code>/model</code> before you launch a big run, and when you describe the task, say which stages can use a smaller model. Judgment gets the expensive brain. Clerical work gets the cheap one.</p>
+
+    <h2>What this costs, honestly</h2>
+    <p>Fan-outs are opt-in, and they should be. A workflow run can use meaningfully more tokens than working the same task in conversation. Claude Code itself warns you when a run schedules more than 25 agents or projects past 1.5 million tokens. Those numbers should tell you something.</p>
+    <p>My rule: the graph is for jobs one context window genuinely can't hold. Repo-wide audits. Big migrations. Research that needs sources cross-checked. For everything else the queue is fine, and cheaper, and I still use it daily.</p>
+    <p>And notice what the graph is <em>not</em>: an excuse for a bigger roster. I run ten agents, and <a href="/blog/small-party-vs-mega-roster/">most days six do the work</a>. Topology beats headcount. I'd bet on a well-shaped diamond of five agents over an unshaped swarm of forty, and the diamond is the cheaper bet. That thinking is baked into <a href="/full-party/">Full Party</a> too: a small roster with real verdict roles, including a critic whose only job is to fail work that isn't ready.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Take the biggest multi-step job you gave Claude Code this week and write its steps as a plain list. Run the edge test: draw an arrow only where one step actually reads another's output. If arrows fall away, pick the smallest honest slice (one directory, one narrow question) and ask for it in plain words: <code>use a workflow to &lt;job&gt;</code>. Watch it under <code>/workflows</code>. If the run is good, press <code>s</code> to save the script to <code>.claude/workflows/</code>, and it becomes a slash command you can rerun whenever you want. And if you're still building the roster underneath all this, the <a href="/guides/claude-code-multi-agent-setup/">multi-agent practical guide</a> is the long version.</p>
+
+    <h2>TL;DR</h2>
+    <ul>
+      <li>Slow "multi-agent" setups are usually a queue: agents waiting on each other with no data flowing between them.</li>
+      <li>The edge test: an "and then" is a real dependency only if the next step reads the previous step's output. Otherwise, run them at the same time.</li>
+      <li>The default shape is a diamond: fan out independent workers, merge results with plain code (zero tokens), let one agent judge.</li>
+      <li>Findings must survive a skeptic before they count; loops must dedupe against everything seen and stop after dry rounds.</li>
+      <li>Fan-outs cost real tokens. Opt in when one context can't hold the job, and put cheap models on the boring nodes.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <p><strong>How do I make Claude Code run subagents in parallel?</strong><br>Ask for it in plain words ("use a workflow to…") or put the keyword <code>ultracode</code> in your prompt. Claude writes a JavaScript orchestration script and runs it in the background while your session stays free. Requires Claude Code v2.1.154 or later on a paid plan; on Pro you enable Dynamic workflows in <code>/config</code>.</p>
+    <p><strong>Do parallel fan-outs cost more tokens?</strong><br>Yes. A workflow run can use meaningfully more tokens than working the same task in conversation, and Claude Code flags runs that schedule more than 25 agents or project past 1.5 million tokens. Gauge the spend on a small slice first: one directory, one narrow question.</p>
+    <p><strong>What's the difference between a workflow and a subagent?</strong><br>A subagent is a worker the main session spawns turn by turn, and its results land back in the context window. A workflow is a script that holds the whole plan: intermediate results stay in script variables, and only the final answer reaches your session.</p>
+    <p><strong>When is a queue the right choice?</strong><br>When steps genuinely feed each other, when the whole job fits one context window, or when the token budget matters more than the clock. A graph earns its cost on breadth: repo-wide audits, big migrations, research that needs cross-checking. Not on everyday tasks.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Skip the setup. Install the party.</h2>
+    <p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p>
+    <a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
