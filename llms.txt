@@ -1,0 +1,32 @@
+# echov4ult
+
+> AI game studio kits for solo developers and small teams. echovault (EchoVault, LLC)
+> packages battle-tested multi-agent Claude Code setups — specialist agent rosters,
+> governance systems, workflows, and quality gates — into installable digital products.
+
+Flagship product: Full Party — The AI Game Studio Kit. 10 specialist agents
+(Studio Director, Game Director, Art Director, Lead Engineer, Code Reviewer,
+QA Director, Quality Critic, Player Advocate, Narrative Designer, Marketing
+Strategist), 5 governance documents, 30 documented workflows, 22 slash commands,
+27 templates. Two editions: Claude Code (full integration with installer) and
+Universal Prompt (any AI assistant). Works with any game engine: Godot, Unity,
+Unreal, custom, or none. Tiers: Demo Pack $0, Creator $49 (1 person), Studio
+$129 (up to 5 people). Installer verified by a 22/22-scenario acceptance suite.
+
+## Pages
+
+- [Home](https://echov4ult.com/): what echov4ult builds and why
+- [Full Party product page](https://echov4ult.com/full-party/): full contents, tiers, FAQ
+- [Multi-agent Claude Code: the practical guide](https://echov4ult.com/guides/claude-code-multi-agent-setup/): role design, governance, party size, acceptance testing
+- [The AI game development workflow](https://echov4ult.com/guides/ai-game-development-workflow/): concept → pillars → proposals → QA gates → release check
+- [Blog](https://echov4ult.com/blog/): build-in-public notes with real numbers
+
+## Purchase
+
+- [Full Party on Gumroad](https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit): all three tiers, free demo included
+
+## Contact
+
+- Email: echov4ult@gmail.com
+- X: https://x.com/echov4ultHQ
+- Newsletter: https://echov4ult.beehiiv.com
