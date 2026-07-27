@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /worker/
+
+Sitemap: https://echov4ult.com/sitemap.xml

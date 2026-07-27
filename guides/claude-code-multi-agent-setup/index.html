@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-Agent Claude Code: The Practical Guide | echov4ult</title>
+  <meta name="description" content="How to set up multiple agents in Claude Code that actually improve your work: role design, governance, decision logs, party size, and acceptance testing.">
+  <link rel="canonical" href="https://echov4ult.com/guides/claude-code-multi-agent-setup/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Multi-Agent Claude Code: The Practical Guide | echov4ult">
+  <meta property="og:description" content="How to set up multiple agents in Claude Code that actually improve your work: role design, governance, decision logs, party size, and acceptance testing.">
+  <meta property="og:url" content="https://echov4ult.com/guides/claude-code-multi-agent-setup/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Multi-Agent Claude Code: The Practical Guide | echov4ult">
+  <meta name="twitter:description" content="How to set up multiple agents in Claude Code that actually improve your work: role design, governance, decision logs, party size, and acceptance testing.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Multi-Agent Claude Code: The Practical Guide","description":"Role design, governance, party size, and acceptance testing for multi-agent Claude Code setups.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/guides/claude-code-multi-agent-setup/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Pillar guide</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Multi-agent Claude Code: the practical guide</h1><p class="post-meta">Updated 2026-07-26 &middot; echov4ult</p><p class="lede">A team of specialist agents beats one general assistant — but only if you build the team like a team: defined roles, defined authority, and checks that actually run.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <h2>Start with the unit: what a subagent is</h2>
+    <p>A Claude Code subagent is a markdown file — a name, a description of when it should be used, an optional tool allowlist, and a system prompt. Claude Code delegates work to it in a separate context window, and it reports back. That's the whole mechanism. (Longer explainer: <a href="/blog/what-are-claude-code-subagents/">What are Claude Code subagents?</a>)</p>
+    <p>The mechanism is trivial. The value is in the <em>design</em> — and most multi-agent setups fail at design, not configuration.</p>
+
+    <h2>Rule 1 — One agent, one question</h2>
+    <p>The failure mode of agent design is the do-everything agent with a personality bolted on. An agent earns its place by answering exactly one question:</p>
+    <ul>
+      <li><strong>Game Director:</strong> does this belong in the game?</li>
+      <li><strong>QA Director:</strong> does this actually work?</li>
+      <li><strong>Code Reviewer:</strong> is this safe to merge?</li>
+      <li><strong>Player Advocate:</strong> will a player enjoy or understand this?</li>
+    </ul>
+    <p>Each agent needs three things beyond its question: a <strong>verdict scale</strong> (e.g. Approved / Approved with Revisions / Major Revisions Required / Rejected), <strong>boundaries</strong> (what it must not do — the Art Director doesn't write code), and <strong>required context</strong> (what it reads before it speaks).</p>
+
+    <h2>Rule 2 — Small party, deep roles</h2>
+    <p>There are repositories with 50+ ready-made agents, and they demo beautifully. In practice, big rosters burn tokens re-explaining context to agents that add no verdict, and every added agent dilutes authority: when nine agents comment on everything, no agent's rejection means anything. Six well-designed roles cover a full concept-to-ship loop for a game project. Ten is a full house. (The full argument: <a href="/blog/small-party-vs-mega-roster/">Small party vs. mega-roster</a>.)</p>
+
+    <h2>Rule 3 — Governance is the product</h2>
+    <p>Agents disagreeing is a feature — <em>unresolved</em> disagreement is a bug. Before adding a fifth agent, write down:</p>
+    <ul>
+      <li><strong>Authority map</strong> — who decides what, and whose verdict wins per domain.</li>
+      <li><strong>Decision log</strong> — decisions get an ID and a date, in a file. A decision that isn't recorded will be re-litigated, by you or your agents, within a week.</li>
+      <li><strong>Escalation rules</strong> — what happens on deadlock (usually: it goes to you, with each side's one-paragraph case).</li>
+      <li><strong>Definition of Done</strong> — what "finished" requires: tests run, docs updated, decision logged.</li>
+    </ul>
+    <p>Plain markdown is enough. What matters is that the files exist and agents are told to read them.</p>
+
+    <h2>Rule 4 — Nothing ships checked once</h2>
+    <p>Every artifact gets a second, <em>adversarial</em> pass — same agent, new instruction: "find what's wrong with this." AI work fails silently more often than loudly; a stale test log looks exactly like a fresh one. The recheck is the cheapest insurance in the whole system. (War stories: <a href="/blog/recheck-rule/">The recheck rule</a>.)</p>
+
+    <h2>Rule 5 — Test the setup like software</h2>
+    <p>If your agent kit installs anything, write acceptance scenarios: clean install, re-install, upgrade, uninstall, weird paths, pre-existing files. Then <em>sabotage-test</em> the checks themselves — break something on purpose and confirm the check fails. A check that can't fail isn't a check. (How we do it: <a href="/blog/acceptance-testing-ai-kits/">Acceptance-testing an AI kit</a>.)</p>
+
+    <h2>Where to start</h2>
+    <p>Two honest options. Build it yourself: start with three agents (a director, an engineer, a QA), write the authority map first, add agents only when a question has no owner. Or install a pre-built structure and customize: that's what <a href="/full-party/">Full Party</a> is — 10 agents, the governance system, 30 workflows, and a tested installer, for game projects specifically. The free Demo Pack ships one real agent so you can feel the difference before paying anything.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

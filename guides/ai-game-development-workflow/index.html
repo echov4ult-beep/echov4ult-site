@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The AI Game Development Workflow: Concept to Release | echov4ult</title>
+  <meta name="description" content="A repeatable AI-assisted game development loop: vision, pillars, feature proposals, scope checks, QA gates, decision logs, and release checks — for solo devs working with AI agents.">
+  <link rel="canonical" href="https://echov4ult.com/guides/ai-game-development-workflow/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="The AI Game Development Workflow: Concept to Release | echov4ult">
+  <meta property="og:description" content="A repeatable AI-assisted game development loop: vision, pillars, feature proposals, scope checks, QA gates, decision logs, and release checks — for solo devs working with AI agents.">
+  <meta property="og:url" content="https://echov4ult.com/guides/ai-game-development-workflow/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The AI Game Development Workflow: Concept to Release | echov4ult">
+  <meta name="twitter:description" content="A repeatable AI-assisted game development loop: vision, pillars, feature proposals, scope checks, QA gates, decision logs, and release checks — for solo devs working with AI agents.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"The AI Game Development Workflow: Concept to Release","description":"Vision, pillars, feature proposals, scope checks, QA gates, decision logs, and release checks for AI-assisted solo game development.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/guides/ai-game-development-workflow/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Pillar guide</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">The AI game development workflow</h1><p class="post-meta">Updated 2026-07-26 &middot; echov4ult</p><p class="lede">A repeatable loop from first concept to release check — designed for one human developer working with an AI team that pushes back.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <h2>The core problem: an assistant that always says yes</h2>
+    <p>AI assistants are agreeable by default. Ask for a feature, get a feature — whether or not it breaks your game's pillars, your economy, or your schedule. A workflow fixes this by inserting <em>named checkpoints where "no" is a legal answer</em>. Here is the loop we run, stage by stage.</p>
+
+    <h2>Stage 1 — Vision and pillars (once)</h2>
+    <p>Before any feature work: a one-page vision (what the game is, who it's for, the core fantasy) and 3&ndash;5 pillars — the properties every feature must serve. Pillars are the cheapest scope-control tool that exists: "does this serve a pillar?" kills a bad feature in one sentence, weeks before it would have cost you a month.</p>
+
+    <h2>Stage 2 — Feature proposals, not feature requests</h2>
+    <p>Every non-trivial change starts as a written proposal: what it is, which pillar it serves, what it touches, what it costs. The design lead (human or agent) reviews it against the pillars; systems roles flag economy and balance impact. Most bad ideas die here, in a document, where dying is free.</p>
+
+    <h2>Stage 3 — Scope check</h2>
+    <p>A proposal that survives design review gets a scope pass: is this a day, a week, or a month? What's the smallest shippable version? What gets cut first if it overruns? Recording the answer turns "it's taking longer than I thought" from a crisis into a pre-made decision.</p>
+
+    <h2>Stage 4 — Specification and handoff</h2>
+    <p>Implementation starts from a written spec: acceptance criteria, edge cases, save/load implications, what "done" means. If you work with an AI engineer agent, the spec <em>is</em> the prompt — and the difference between a spec-driven session and a vibe-driven session shows up immediately in rework.</p>
+
+    <h2>Stage 5 — QA gates with teeth</h2>
+    <p>Two separate checks, run by different roles if possible:</p>
+    <ul>
+      <li><strong>QA review:</strong> does it work? Edge cases exercised, save/load verified, regressions checked.</li>
+      <li><strong>Quality critique:</strong> is it good? An adversarial pass with a verdict scale, empowered to say Major Revisions Required.</li>
+    </ul>
+    <p>The gate only works if failure is a real outcome. In Full Party's worked example — a fictional cozy game called Lanternfall Grove — the Quality Critic fails the crafting system on the first pass, and the loop (revision &rarr; re-review &rarr; approved) is shown in full, because that loop is the product working as intended, not an embarrassment to hide.</p>
+
+    <h2>Stage 6 — Decision log, always</h2>
+    <p>Every stage that reaches a verdict writes one line: ID, date, what was decided, who decided. This is what stops the most expensive failure in solo development — re-arguing settled questions every session because nobody remembers why the answer was no.</p>
+
+    <h2>Stage 7 — Release check</h2>
+    <p>A final checklist pass before anything ships: builds clean, saves migrate, store assets exist, known-issues list written, rollback plan named. Boring on purpose. Ship-day surprises are all the excitement you'll ever need.</p>
+
+    <h2>Run it with a party</h2>
+    <p>Every stage above maps to a role, a workflow, and a command in <a href="/full-party/">Full Party</a> — <code>/game-vision</code>, <code>/feature-proposal</code>, <code>/qa-plan</code>, <code>/release-check</code> — with templates for each document the loop produces. Or build your own from this outline; the loop works either way. The structure is the point. (Companion guide: <a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a>.)</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

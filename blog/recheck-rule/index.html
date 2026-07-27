@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Recheck Rule: Nothing Ships Checked Once | echov4ult</title>
+  <meta name="description" content="Every artifact gets a second, adversarial pass — the house law that catches silent AI failures: stale test logs, phantom features, unapproved claims. How to run it without doubling your work.">
+  <link rel="canonical" href="https://echov4ult.com/blog/recheck-rule/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="The Recheck Rule: Nothing Ships Checked Once | echov4ult">
+  <meta property="og:description" content="Every artifact gets a second, adversarial pass — the house law that catches silent AI failures: stale test logs, phantom features, unapproved claims. How to run it without doubling your work.">
+  <meta property="og:url" content="https://echov4ult.com/blog/recheck-rule/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Recheck Rule: Nothing Ships Checked Once | echov4ult">
+  <meta name="twitter:description" content="Every artifact gets a second, adversarial pass — the house law that catches silent AI failures: stale test logs, phantom features, unapproved claims. How to run it without doubling your work.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"The recheck rule: nothing ships checked once","description":"The house law that catches silent AI failures, with launch-week receipts.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/blog/recheck-rule/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Method</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">The recheck rule: nothing ships checked once</h1><p class="post-meta">2026-07-26 &middot; echov4ult</p><p class="lede">One house law, adopted after enough AI work failed silently: every artifact gets a second, adversarial pass before it counts as done.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>Here is the full text of the most valuable rule in our studio:</p>
+    <blockquote>Everything built gets rechecked more than once — and the second check tries to prove the work wrong, not confirm it right.</blockquote>
+    <p>That's it. No framework, no tooling. And in one launch week it caught three real problems that a single check had already missed.</p>
+    <h2>Why AI work needs this specifically</h2>
+    <p>Human mistakes tend to be loud — a crash, a typo, a missing file. AI mistakes are quiet and <em>plausible</em>: the confident summary of a file it misread, the test log from last Tuesday presented as today's, the claim that survives because it sounds like something that would be true. A first pass — by a human skimming or the same AI confirming itself — is tuned to accept plausible output. Only an adversarial pass is tuned to reject it.</p>
+    <h2>What it caught, concretely</h2>
+    <ul>
+      <li><strong>A stale test log.</strong> Product copy claimed the installer's acceptance suite passed — citing a log from an older, smaller suite. The recheck's question wasn't "does a log exist?" but "does a <em>fresh run</em> produce this result?" It did — 22/22 — but the claim was only true after re-running, and the log was refreshed.</li>
+      <li><strong>A phantom feature.</strong> Marketing copy referenced a free bonus pack that appeared in early drafts and nowhere in the actual product. Confirmation reads that sentence and nods; adversarial reading asks "show me this in the shipped zip" and can't.</li>
+      <li><strong>A pricing ghost.</strong> Draft posts mentioned a launch discount that no one had actually approved. The recheck rule's framing — every claim needs an owner — killed it in minutes.</li>
+    </ul>
+    <h2>How to run it without doubling your work</h2>
+    <ul>
+      <li><strong>Change the instruction, not just the runner.</strong> "Review this" produces agreement. "Find what's wrong with this — assume something is" produces findings. Same model, opposite posture.</li>
+      <li><strong>Recheck claims against sources, not summaries.</strong> The second pass re-opens the file, re-runs the command, re-reads the listing. Never let it check the first pass's notes.</li>
+      <li><strong>Log it.</strong> Ours writes a RECHECK line with what was checked and what changed. The log is what makes the habit auditable — and skippable-proof.</li>
+      <li><strong>Scale it to stakes.</strong> A one-line fix gets a glance. Anything customer-facing gets the full adversarial pass. Public claims get sources.</li>
+    </ul>
+    <p>We liked the rule enough to build it into the product: <a href="/full-party/">Full Party</a>'s Quality Critic is the recheck rule with a job title — a role whose only function is to fail work that isn't ready, on a verdict scale, in writing. The worked example ships with a failure on purpose. That's not a bug in the demo; it's the entire point.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

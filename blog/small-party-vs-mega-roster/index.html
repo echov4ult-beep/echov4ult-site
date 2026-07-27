@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Small Party vs. Mega-Roster: Why 10 Agents Beat 50 | echov4ult</title>
+  <meta name="description" content="Big Claude Code agent collections demo well and work badly: the token overhead, the authority dilution, and the maintenance rot — and what a right-sized agent roster looks like.">
+  <link rel="canonical" href="https://echov4ult.com/blog/small-party-vs-mega-roster/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Small Party vs. Mega-Roster: Why 10 Agents Beat 50 | echov4ult">
+  <meta property="og:description" content="Big Claude Code agent collections demo well and work badly: the token overhead, the authority dilution, and the maintenance rot — and what a right-sized agent roster looks like.">
+  <meta property="og:url" content="https://echov4ult.com/blog/small-party-vs-mega-roster/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Small Party vs. Mega-Roster: Why 10 Agents Beat 50 | echov4ult">
+  <meta name="twitter:description" content="Big Claude Code agent collections demo well and work badly: the token overhead, the authority dilution, and the maintenance rot — and what a right-sized agent roster looks like.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Small party vs. mega-roster: why 10 agents beat 50","description":"Token overhead, authority dilution, and maintenance rot in oversized agent rosters.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/blog/small-party-vs-mega-roster/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Method</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Small party vs. mega-roster: why 10 agents beat 50</h1><p class="post-meta">2026-07-26 &middot; echov4ult</p><p class="lede">Giant agent collections demo beautifully. Then you run one on a real project and watch your token budget evaporate into introductions.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>There are wildly popular repositories offering 50+ ready-made agents for Claude Code — a specialist for everything, stars in the tens of thousands. We built <a href="/full-party/">Full Party</a> with ten. On game projects, we'd argue ten is closer to the ceiling than the floor. Here's the actual argument, not the vibes.</p>
+    <h2>The token math nobody demos</h2>
+    <p>Every agent you invoke pays a fixed overhead: its system prompt, its share of project context, and the cost of re-establishing what's going on. Invoke five agents on a task that needed two, and the extra three don't just add latency — they add full context loads that produce commentary, not verdicts. On a real project with a real budget, a mega-roster turns into a token bonfire with a personality.</p>
+    <h2>The authority problem</h2>
+    <p>An agent's opinion matters only if its verdict is load-bearing — if a "no" from QA actually stops the merge. With 50 agents, verdicts overlap: three roles all sort-of own performance, two sort-of own UX, and when everyone owns something, a rejection is just a comment with formatting. Authority requires scarcity. Ten agents can each own one question outright; fifty cannot.</p>
+    <h2>The maintenance problem</h2>
+    <p>Agents are prompts, and prompts rot: the platform changes, your project changes, your standards change. A roster you can read end-to-end in one sitting gets maintained. A roster the size of a phone book gets abandoned — you'll use four of the fifty forever and the rest are dead weight you paid context for.</p>
+    <h2>What "small" actually means</h2>
+    <p>Our rule from running this on real game projects: <strong>six roles cover a full concept-to-ship loop</strong> — direction, design, engineering, review, QA, and an adversarial critic. The remaining four in Full Party (Player Advocate, Narrative Designer, Art Director, Marketing Strategist) add depth <em>when the project calls for it</em>, and stay uninvoked when it doesn't. The kit's Single Specialist mode exists precisely so you can use one agent without waking the other nine.</p>
+    <h2>When a big roster is right</h2>
+    <p>Fairness requires the counter-case: if you're exploring what agents can even do, a big collection is a fine museum — browse it, steal role ideas, learn patterns. The failure is running the museum as your team. Curate down to the roles whose verdicts you'd actually obey, give them authority in writing (<a href="/guides/claude-code-multi-agent-setup/">the practical guide</a> covers how), and let the rest go.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

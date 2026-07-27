@@ -1,537 +1,307 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EchoV4ult — AI agents & automation, set up for your business</title>
-<meta name="description" content="EchoV4ult helps small businesses put AI to work: done-for-you Hermes & OpenClaw agent setup, custom Claude Skills, and ongoing management. Practical AI, no jargon.">
-<meta property="og:title" content="EchoV4ult — AI, set up for your business">
-<meta property="og:description" content="Done-for-you AI agents, custom Claude Skills, and ongoing management for small businesses. Practical, plain-English, no jargon.">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#03070c; --bg2:#060c14; --panel:#0a121d; --panel2:#0c1626;
-    --cyan:#2dd4ff; --cyan2:#7fe9ff; --deep:#0a96d6; --ink:#e6f2fb; --mut:#8aa3bd;
-    --line:rgba(45,212,255,.18); --glow:0 0 30px rgba(45,212,255,.28);
-    --warm:#ffd9a0;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>echov4ult — AI Game Studio Kits for Solo Developers</title>
+  <meta name="description" content="echov4ult builds AI game studio kits: multi-agent Claude Code setups with governance, workflows, and quality gates that turn one developer into a full party. Home of Full Party — 10 specialist agents for AI-assisted game development.">
+  <link rel="canonical" href="https://echov4ult.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="echov4ult — AI Game Studio Kits for Solo Developers">
+  <meta property="og:description" content="Multi-agent Claude Code kits with governance, workflows, and quality gates. Home of Full Party: 10 specialist agents for AI-assisted game development.">
+  <meta property="og:url" content="https://echov4ult.com/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="echov4ult — AI Game Studio Kits for Solo Developers">
+  <meta name="twitter:description" content="Multi-agent Claude Code kits with governance, workflows, and quality gates. Home of Full Party.">
+  <meta name="twitter:image" content="https://echov4ult.com/assets/v-shield.png">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://echov4ult.com/#org",
+        "name": "EchoVault, LLC",
+        "alternateName": "echov4ult",
+        "url": "https://echov4ult.com/",
+        "logo": "https://echov4ult.com/assets/v-shield.png",
+        "email": "echov4ult@gmail.com",
+        "sameAs": [
+          "https://echov4ult.gumroad.com",
+          "https://echov4ult.beehiiv.com"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://echov4ult.com/#website",
+        "url": "https://echov4ult.com/",
+        "name": "echov4ult",
+        "publisher": { "@id": "https://echov4ult.com/#org" }
+      }
+    ]
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:
-      radial-gradient(1200px 700px at 70% -10%, rgba(45,212,255,.12), transparent 60%),
-      radial-gradient(1000px 600px at -10% 10%, rgba(10,150,214,.10), transparent 55%),
-      var(--bg);
-    color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    min-height:100vh;-webkit-font-smoothing:antialiased}
-  a{color:var(--cyan);text-decoration:none}
-  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
-
-  /* nav */
-  nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
-    background:rgba(3,7,12,.72);border-bottom:1px solid var(--line)}
-  .nav-in{max-width:960px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;font-size:16px}
-  .brand img{width:30px;height:30px;mix-blend-mode:screen}
-  .brand b{color:var(--cyan)}
-  .wordmark{font-family:"Orbitron",-apple-system,sans-serif;font-weight:800;letter-spacing:1px}
-  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center}
-  .nav-links a{color:var(--mut);font-size:14px;font-weight:600}
-  .nav-links a:hover{color:var(--ink)}
-  .nav-cta{background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c !important;
-    padding:8px 15px;border-radius:10px;font-weight:700}
-  @media(max-width:680px){.nav-links a:not(.nav-cta){display:none}}
-
-  /* hero */
-  header{text-align:center;padding:72px 0 24px}
-  .logo{width:118px;height:118px;mix-blend-mode:screen}
-  .eyebrow{color:var(--cyan);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-top:16px}
-  h1{font-size:48px;line-height:1.1;letter-spacing:.5px;margin:14px 0 12px}
-  h1 b{color:var(--cyan)}
-  .tag{color:#cfe2f2;font-size:19px;max-width:600px;margin:0 auto 8px}
-  .subtag{color:var(--mut);font-size:16px;max-width:560px;margin:0 auto}
-  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-  .btn{display:inline-block;background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c;font-weight:700;
-    border:0;border-radius:11px;padding:14px 24px;cursor:pointer;font-size:15px;transition:.15s}
-  .btn:hover{transform:translateY(-1px);box-shadow:var(--glow)}
-  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
-  .btn.ghost:hover{border-color:var(--cyan)}
-  .trust{color:var(--mut);font-size:13px;margin-top:18px}
-
-  /* sections */
-  section{margin:60px 0;scroll-margin-top:70px}
-  h2.sec{font-size:30px;text-align:center;margin-bottom:8px}
-  .sec-sub{color:var(--mut);text-align:center;max-width:560px;margin:0 auto 30px}
-  h3.k{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:var(--cyan);
-    display:flex;align-items:center;gap:12px;margin-bottom:18px}
-  h3.k::after{content:"";flex:1;height:1px;background:var(--line)}
-
-  /* problem strip */
-  .strip{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:18px;padding:30px 28px}
-  .strip p{color:#cfe2f2;font-size:17.5px}
-  .strip p + p{margin-top:12px;color:var(--mut);font-size:16px}
-
-  /* services */
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  @media(max-width:780px){.cards{grid-template-columns:1fr}}
-  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:16px;padding:24px;display:flex;flex-direction:column;position:relative}
-  .card.feat{border-color:rgba(45,212,255,.5);box-shadow:inset 0 0 60px rgba(45,212,255,.06)}
-  .ribbon{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#19c3ff,#0a78c0);
-    color:#03121c;font-size:11px;font-weight:800;letter-spacing:.5px;padding:4px 12px;border-radius:999px;text-transform:uppercase}
-  .card .ico{font-size:26px;margin-bottom:10px}
-  .card h4{font-size:19px;margin-bottom:6px}
-  .card .price{color:var(--cyan2);font-weight:700;font-size:15px;margin-bottom:12px}
-  .card p.desc{color:var(--mut);font-size:14.5px;margin-bottom:14px}
-  .card ul{list-style:none;margin:0 0 18px;padding:0;flex:1}
-  .card li{color:#cfe2f2;font-size:14px;padding:6px 0 6px 24px;position:relative;border-top:1px solid rgba(45,212,255,.08)}
-  .card li:first-child{border-top:0}
-  .card li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:700}
-  .card .btn{text-align:center;margin-top:auto}
-
-  /* how it works */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  @media(max-width:780px){.steps{grid-template-columns:1fr 1fr}}
-  .step{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:14px;padding:20px}
-  .step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
-    background:rgba(45,212,255,.12);border:1px solid var(--line);color:var(--cyan);font-weight:800;margin-bottom:10px}
-  .step h4{font-size:15px;margin-bottom:5px}
-  .step p{color:var(--mut);font-size:13.5px}
-
-  /* about */
-  .about-grid{display:grid;grid-template-columns:1fr;gap:14px}
-  .about p{color:#cfe2f2;font-size:16.5px;margin-bottom:12px}
-  .about .me{color:var(--mut)}
-  .pill{display:inline-block;font-size:11px;color:var(--cyan2);border:1px solid var(--line);
-    border-radius:999px;padding:3px 10px;margin:8px 6px 0 0}
-
-  /* newsletter */
-  .sub{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:18px;padding:30px;text-align:center;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
-  .sub h3{font-size:22px;margin-bottom:6px}
-  .sub p{color:var(--mut);margin-bottom:18px}
-  .form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
-  .form input{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;
-    padding:13px 14px;color:var(--ink);font:inherit}
-  .form input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
-  .embed-note{font-size:12px;color:var(--mut);margin-top:12px}
-
-  /* examples */
-  .examples{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:780px){.examples{grid-template-columns:1fr}}
-  .ex{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:16px;padding:22px 24px}
-  .ex .who{font-size:13px;color:var(--cyan);font-weight:700;letter-spacing:.4px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-  .ex .ba{display:grid;grid-template-columns:1fr;gap:10px}
-  .ex .row{display:flex;gap:10px;align-items:flex-start}
-  .ex .lab{flex:0 0 58px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-    padding:3px 0;color:var(--mut)}
-  .ex .row.after .lab{color:var(--cyan2)}
-  .ex .txt{font-size:14.5px;color:#cfe2f2;line-height:1.5}
-  .ex .row.before .txt{color:var(--mut)}
-  .ex .arrow{color:var(--cyan);font-size:13px;text-align:center;margin:-2px 0}
-
-  /* booking form */
-  .book{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:20px;padding:36px 30px;box-shadow:inset 0 0 70px rgba(45,212,255,.04)}
-  .book .bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
-  @media(max-width:680px){.book .bf-grid{grid-template-columns:1fr}}
-  .field{display:flex;flex-direction:column;gap:6px}
-  .field.full{grid-column:1 / -1}
-  .field label{font-size:13px;color:var(--mut);font-weight:600;letter-spacing:.3px}
-  .field input,.field select,.field textarea{background:var(--bg2);border:1px solid var(--line);border-radius:11px;
-    padding:13px 14px;color:var(--ink);font:inherit;width:100%}
-  .field textarea{resize:vertical;min-height:96px}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
-  .book .btn{margin-top:6px;width:100%;padding:15px}
-  .book-note{font-size:12.5px;color:var(--mut);text-align:center;margin-top:14px}
-  .book-ok{display:none;text-align:center;padding:24px 10px}
-  .book-ok h3{font-size:22px;margin-bottom:8px}
-  .book-ok p{color:var(--mut)}
-  .book-ok .big{font-size:40px;margin-bottom:10px}
-
-  /* final cta */
-  .final{text-align:center;background:
-      radial-gradient(600px 300px at 50% 0%, rgba(45,212,255,.10), transparent 70%);
-    border:1px solid var(--line);border-radius:20px;padding:46px 28px}
-  .final h2{font-size:30px;margin-bottom:10px}
-  .final p{color:var(--mut);max-width:520px;margin:0 auto 22px;font-size:17px}
-
-  footer{text-align:center;color:var(--mut);font-size:13px;padding:42px 0 60px;border-top:1px solid var(--line);margin-top:60px}
-  footer a{margin:0 8px}
-
-  /* chat widget */
-  #chat-bubble{position:fixed;right:20px;bottom:20px;z-index:50;background:linear-gradient(180deg,#19c3ff,#0a78c0);
-    color:#03121c;border:0;border-radius:999px;padding:13px 18px;font:600 14px/1 inherit;cursor:pointer;
-    box-shadow:0 6px 24px rgba(45,212,255,.35);display:none;align-items:center;gap:8px}
-  #chat-bubble:hover{transform:translateY(-1px)}
-  #chat-panel{position:fixed;right:20px;bottom:20px;z-index:51;width:360px;max-width:calc(100vw - 32px);
-    height:520px;max-height:calc(100vh - 40px);background:var(--panel);border:1px solid var(--line);
-    border-radius:18px;box-shadow:0 18px 60px rgba(0,0,0,.55);display:none;flex-direction:column;overflow:hidden}
-  #chat-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,var(--panel2),var(--panel))}
-  #chat-head .dot{width:9px;height:9px;border-radius:50%;background:#36e08e;box-shadow:0 0 8px #36e08e}
-  #chat-head h4{font-size:14px;margin:0}
-  #chat-head .sub{font-size:11px;color:var(--mut)}
-  #chat-close{margin-left:auto;background:transparent;border:0;color:var(--mut);font-size:20px;cursor:pointer;line-height:1}
-  #chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:84%;padding:10px 13px;border-radius:13px;font-size:14px;line-height:1.45;white-space:pre-wrap}
-  .msg.bot{background:var(--panel2);border:1px solid var(--line);color:#e6f2fb;align-self:flex-start;border-bottom-left-radius:4px}
-  .msg.me{background:linear-gradient(180deg,#0e2a3c,#0a2030);border:1px solid var(--line);color:#e6f2fb;align-self:flex-end;border-bottom-right-radius:4px}
-  .msg.typing{color:var(--mut)}
-  #chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
-  #chat-input{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:11px 12px;color:var(--ink);font:inherit}
-  #chat-input:focus{outline:none;border-color:var(--cyan)}
-  #chat-send{background:linear-gradient(180deg,#19c3ff,#0a78c0);color:#03121c;border:0;border-radius:11px;padding:0 16px;font-weight:700;cursor:pointer}
-  #chat-send:disabled{opacity:.5;cursor:default}
-</style>
+  </script>
 </head>
 <body>
 
-<nav>
-  <div class="nav-in">
-    <a href="#top" class="brand">
-      <img src="assets/v-shield.png?v=3" alt="" onerror="this.style.display='none'">
-      <span class="wordmark">ECHOV<b>4</b>ULT</span>
-    </a>
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
     <div class="nav-links">
-      <a href="#services">Services</a>
-      <a href="#how">How it works</a>
-      <a href="#examples">Examples</a>
-      <a href="#about">About</a>
-      <a href="#contact" class="nav-cta">Book a call</a>
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>
 
-<div class="wrap" id="top">
+<main>
 
-  <header>
-    <img src="assets/v-shield.png?v=3" alt="EchoV4ult logo" class="logo" id="logoimg"
-      onerror="document.getElementById('logoimg').style.display='none';document.getElementById('logosvg').style.display='block'">
-    <svg id="logosvg" class="logo" viewBox="0 0 100 110" style="display:none;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="vg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#7fe9ff"/><stop offset=".5" stop-color="#2dd4ff"/><stop offset="1" stop-color="#0a96d6"/>
-        </linearGradient>
-        <filter id="g" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <g filter="url(#g)" fill="none" stroke="url(#vg)" stroke-linejoin="round">
-        <path d="M50 6 C30 14 14 16 10 16 C10 50 18 84 50 104 C82 84 90 50 90 16 C86 16 70 14 50 6 Z" stroke-width="3.2"/>
-        <path d="M50 16 C36 21 24 22 20 22 C20 49 27 76 50 92 C73 76 80 49 80 22 C76 22 64 21 50 16 Z" stroke-width="1.4" opacity=".55"/>
-        <path d="M31 30 L50 82 L69 30" stroke-width="9" stroke-linecap="round"/>
-      </g>
-    </svg>
-    <div class="eyebrow">AI Implementation for Small Business</div>
-    <h1>Put AI agents to work<br>in your business</h1>
-    <p class="tag">Done-for-you AI agents, custom Claude Skills, and ongoing management — so your team gets the time-saving power of AI without the technical headache.</p>
-    <p class="subtag">Practical, plain-English, and built around how you actually work.</p>
-    <div class="cta-row">
-      <a href="#contact" class="btn">Book a free intro call</a>
-      <a href="#services" class="btn ghost">See what I offer</a>
-    </div>
-    <p class="trust">No jargon · No long-term lock-in · You stay in control of your data</p>
-  </header>
-
-  <section id="problem">
-    <div class="strip">
-      <p>Everyone says “use AI” — nobody tells you <em>how</em>, or does it <em>for</em> you.</p>
-      <p>I set up real, working AI agents that handle the busywork — drafting, research, replies, reporting, content — tailored to your business. You get the results without learning a single tool or writing a line of code.</p>
-    </div>
-  </section>
-
-  <section id="services">
-    <h2 class="sec">Ways to work together</h2>
-    <p class="sec-sub">Start small or go full done-for-you. Every engagement begins with a free intro call.</p>
-    <div class="cards">
-
-      <div class="card">
-        <div class="ico">🧩</div>
-        <h4>Claude Skills</h4>
-        <div class="price">From $99 · packs &amp; custom builds</div>
-        <p class="desc">Ready-to-use and bespoke AI “skills” that teach Claude to do a specific job for your business — exactly your way.</p>
-        <ul>
-          <li>Pre-built skill packs you can use today</li>
-          <li>Custom skills for your workflows</li>
-          <li>Your tone, templates &amp; rules baked in</li>
-          <li>Quick to deploy, easy to update</li>
-        </ul>
-        <a href="mailto:echov4ult@gmail.com?subject=Claude%20Skills%20inquiry" class="btn ghost">Ask about Skills</a>
-      </div>
-
-      <div class="card feat">
-        <div class="ribbon">Most popular</div>
-        <div class="ico">🤖</div>
-        <h4>Hermes / OpenClaw Setup</h4>
-        <div class="price">From $1,500 · one-time setup</div>
-        <p class="desc">A complete AI agent workspace, installed and tuned for your business — a crew of agents you can actually talk to and put to work.</p>
-        <ul>
-          <li>Full install &amp; configuration</li>
-          <li>Agents tailored to your tasks</li>
-          <li>Connected to your tools &amp; data</li>
-          <li>Hands-on training for your team</li>
-        </ul>
-        <a href="mailto:echov4ult@gmail.com?subject=Hermes%20%2F%20OpenClaw%20setup%20inquiry" class="btn">Get set up</a>
-      </div>
-
-      <div class="card">
-        <div class="ico">🛠️</div>
-        <h4>Ongoing Management</h4>
-        <div class="price">Monthly retainer · custom quote</div>
-        <p class="desc">Keep your AI stack sharp. I monitor, tune, and expand your agents as your business grows — so it keeps paying off.</p>
-        <ul>
-          <li>Monitoring &amp; maintenance</li>
-          <li>Tuning &amp; new automations</li>
-          <li>Priority support</li>
-          <li>Monthly “what’s new in AI for you” check-in</li>
-        </ul>
-        <a href="mailto:echov4ult@gmail.com?subject=Ongoing%20management%20inquiry" class="btn ghost">Talk retainers</a>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="how">
-    <h2 class="sec">How it works</h2>
-    <p class="sec-sub">Simple, low-risk, and built so you’re never left guessing.</p>
-    <div class="steps">
-      <div class="step"><div class="n">1</div><h4>Free intro call</h4><p>We talk through your day-to-day and find where AI saves the most time.</p></div>
-      <div class="step"><div class="n">2</div><h4>Plan &amp; quote</h4><p>You get a clear, plain-English plan and a fixed price — no surprises.</p></div>
-      <div class="step"><div class="n">3</div><h4>I build it</h4><p>I set everything up and tune it to fit how your business actually runs.</p></div>
-      <div class="step"><div class="n">4</div><h4>Handoff &amp; support</h4><p>Your team gets trained, and I’m there to keep it running and improving.</p></div>
-    </div>
-  </section>
-
-  <section id="examples">
-    <h2 class="sec">What it looks like in practice</h2>
-    <p class="sec-sub">Real, everyday busywork — handled by AI that works the way you do. Here’s the kind of before &amp; after I build.</p>
-    <div class="examples">
-
-      <div class="ex">
-        <div class="who">🥐 The bakery owner</div>
-        <div class="ba">
-          <div class="row before"><div class="lab">Before</div><div class="txt">Spends 5+ hours a week answering the same emails about orders, hours, and custom-cake questions.</div></div>
-          <div class="arrow">↓</div>
-          <div class="row after"><div class="lab">After</div><div class="txt">An agent drafts every reply in her voice the moment an email lands. She skims and clicks send — minutes a day.</div></div>
-        </div>
-      </div>
-
-      <div class="ex">
-        <div class="who">🛒 The online shop</div>
-        <div class="ba">
-          <div class="row before"><div class="lab">Before</div><div class="txt">Writing product descriptions and titles by hand for every new item — slow, inconsistent, and never SEO-friendly.</div></div>
-          <div class="arrow">↓</div>
-          <div class="row after"><div class="lab">After</div><div class="txt">A custom Skill turns a few bullet points into on-brand titles, descriptions, and tags in seconds — same voice every time.</div></div>
-        </div>
-      </div>
-
-      <div class="ex">
-        <div class="who">📅 The service business</div>
-        <div class="ba">
-          <div class="row before"><div class="lab">Before</div><div class="txt">New leads sit in the inbox for hours; some go cold before anyone replies.</div></div>
-          <div class="arrow">↓</div>
-          <div class="row after"><div class="lab">After</div><div class="txt">Every inquiry gets an instant, personal first response and a suggested booking time — drafted for approval, so nothing falls through.</div></div>
-        </div>
-      </div>
-
-      <div class="ex">
-        <div class="who">📊 The busy founder</div>
-        <div class="ba">
-          <div class="row before"><div class="lab">Before</div><div class="txt">No time to track competitors, trends, or what’s working — decisions made on gut feel.</div></div>
-          <div class="arrow">↓</div>
-          <div class="row after"><div class="lab">After</div><div class="txt">A morning briefing agent scans the sources that matter and drops a 5-minute summary in their inbox before coffee.</div></div>
-        </div>
-      </div>
-
-    </div>
-    <p class="sec-sub" style="margin:26px auto 0">These are the patterns I run in my own business every day — yours would be built around your work.</p>
-  </section>
-
-  <section id="about" class="about">
-    <h3 class="k">About</h3>
-    <div class="about-grid">
-      <p>I’m <strong>Chris Retherford</strong> — a data professional who builds production AI automation for a living, and runs a fleet of AI agents every day. EchoV4ult is how I bring that same setup to other businesses.</p>
-      <p class="me">I’ve built multi-agent systems, automated content pipelines, live data dashboards, and real API integrations — the same kind of practical, working AI I’ll set up for you. No hype, no lock-in: just tools that earn their keep.</p>
+  <section class="hero">
+    <div class="wrap hero-grid">
       <div>
-        <span class="pill">Multi-agent systems</span><span class="pill">Claude Skills</span><span class="pill">Automation pipelines</span>
-        <span class="pill">Data engineering</span><span class="pill">API integrations</span><span class="pill">Local + cloud LLMs</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="newsletter">
-    <div class="sub">
-      <h3>📬 Echov4ult AI Updates</h3>
-      <p>What just happened in AI, and why it matters to your business — in 5 minutes. No PhD required.</p>
-      <a class="btn" href="https://echov4ult.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe free →</a>
-      <p class="embed-note">Free · Unsubscribe anytime · A no-pressure way to see how I think.</p>
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2 class="sec">Book a free intro call</h2>
-    <p class="sec-sub">Tell me what eats your time and I’ll show you what AI can take off your plate. No obligation — you’ll get a real, plain-English reply within one business day.</p>
-    <div class="book">
-      <form id="bookform" class="bf" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <!-- Helps Aura recognize & route booking emails in Gmail -->
-        <input type="hidden" name="_subject" value="New booking request — EchoV4ult">
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-        <div class="bf-grid">
-          <div class="field">
-            <label for="bf-name">Your name</label>
-            <input id="bf-name" type="text" name="name" required placeholder="Jane Smith">
-          </div>
-          <div class="field">
-            <label for="bf-email">Email</label>
-            <input id="bf-email" type="email" name="email" required placeholder="you@business.com">
-          </div>
-          <div class="field">
-            <label for="bf-biz">Business / website</label>
-            <input id="bf-biz" type="text" name="business" placeholder="Acme Co. — acme.com">
-          </div>
-          <div class="field">
-            <label for="bf-service">What you’re interested in</label>
-            <select id="bf-service" name="service">
-              <option>Not sure yet — let’s talk</option>
-              <option>Claude Skills</option>
-              <option>Hermes / OpenClaw setup</option>
-              <option>Ongoing management</option>
-              <option>Custom automation</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label for="bf-msg">What eats your time? (the more detail, the better the call)</label>
-            <textarea id="bf-msg" name="message" required placeholder="e.g. I spend hours every week answering the same customer emails and writing product descriptions…"></textarea>
-          </div>
+        <span class="kicker">AI game studio kits</span>
+        <h1 class="grad">Stop being a solo dev. Stay a solo team of&nbsp;one.</h1>
+        <p class="lede">Your AI assistant will happily do whatever you ask — which is exactly the problem. Full Party installs a virtual game studio into Claude Code: ten specialist agents, a governance system, and quality gates that push back before your game breaks.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get the free Demo Pack</a>
+          <a class="btn btn-ghost" href="/full-party/">See what's inside</a>
         </div>
-        <button class="btn" type="submit" id="bf-submit">Request my free call</button>
-        <p class="book-note">🔒 Your details go straight to my inbox — never shared or sold. Prefer email? <a href="mailto:echov4ult@gmail.com?subject=AI%20setup%20inquiry">echov4ult@gmail.com</a></p>
-      </form>
-      <div class="book-ok" id="bookok">
-        <div class="big">✅</div>
-        <h3>Got it — thank you!</h3>
-        <p>Your request landed in my inbox. You’ll hear back from me personally within one business day.</p>
+        <p class="hero-note">$0 demo · Claude Code + Universal editions · works with any engine</p>
+      </div>
+      <div class="term reveal" aria-hidden="true">
+        <div class="term-bar"><i></i><i></i><i></i><span>claude — /studio-start</span></div>
+        <div class="term-body">
+<span class="p">&gt; /feature-proposal</span> crafting-system-v2<br>
+<span class="dim">Game Director:</span> reviewing against pillars…<br>
+<span class="dim">QA Director:</span> edge cases untested<br>
+<span class="dim">Quality Critic:</span> <span class="warn">MAJOR REVISIONS REQUIRED</span><br>
+<span class="c">— save/load unverified, economy impact unpriced</span><br>
+<span class="p">&gt; revision submitted</span><br>
+<span class="dim">Quality Critic:</span> <span class="ok">APPROVED WITH REVISIONS</span><br>
+<span class="dim">Decision log:</span> DR-005 recorded ✓<br>
+<span class="c"># the review loop most demos hide — failure included</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <div>
-      <a href="#services">Services</a>·
-      <a href="#how">How it works</a>·
-      <a href="mailto:echov4ult@gmail.com">Email</a>·
-      <a href="https://echov4ult.beehiiv.com" target="_blank">Newsletter</a>·
-      <a href="/game.html">Arcade</a>
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><b>10</b><span>specialist agents</span></div>
+        <div class="stat"><b>30</b><span>documented workflows</span></div>
+        <div class="stat"><b>22</b><span>slash commands</span></div>
+        <div class="stat"><b>27</b><span>document templates</span></div>
+      </div>
     </div>
-    <p style="margin-top:12px">© <span id="yr"></span> EchoV4ult · Chris Retherford · AI implementation for small business</p>
-  </footer>
+  </section>
 
-</div>
-<!-- AI qualifier chat widget -->
-<button id="chat-bubble" aria-label="Chat with the AI assistant">💬 Ask AI what you need</button>
-<div id="chat-panel" role="dialog" aria-label="EchoV4ult AI assistant">
-  <div id="chat-head">
-    <span class="dot"></span>
-    <div><h4>EchoV4ult Assistant</h4><div class="sub">Figure out what AI can do for you</div></div>
-    <button id="chat-close" aria-label="Close chat">×</button>
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">What it is</span>
+        <h2>A decision-making layer on top of the tools you already use</h2>
+        <p>Not a game engine, not a framework, not a prompt pack. Full Party structures how your AI assistant works on your game — Godot, Unity, Unreal, custom, or no engine at all.</p>
+      </div>
+      <div class="cards cards-3">
+        <div class="card reveal">
+          <span class="mono-tag">Roles</span>
+          <h3>Ten specialists, one question each</h3>
+          <p>Studio Director, Game Director, Art Director, Lead Engineer, Code Reviewer, QA Director, Quality Critic, Player Advocate, Narrative Designer, Marketing Strategist — each with a verdict scale and hard boundaries.</p>
+        </div>
+        <div class="card reveal">
+          <span class="mono-tag">Governance</span>
+          <h3>Who decides what, in writing</h3>
+          <p>Five governance documents: an authority map, a decision protocol, handoff rules, escalation playbooks, and a Definition of Done. Decisions get recorded, not re-litigated every session.</p>
+        </div>
+        <div class="card reveal">
+          <span class="mono-tag">Workflows</span>
+          <h3>Concept to release-check</h3>
+          <p>30 documented workflows and 22 slash commands — <code>/game-vision</code>, <code>/feature-proposal</code>, <code>/qa-plan</code>, <code>/release-check</code> — plus 27 pre-structured templates for every document the studio produces.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">The honest part</span>
+        <h2>Receipts, not vibes</h2>
+      </div>
+      <div class="cards cards-2">
+        <div class="card reveal">
+          <span class="mono-tag">Worked example</span>
+          <h3>You see the governance loop fail, then work</h3>
+          <p>The included fictional project, Lanternfall Grove, runs 11 scenarios from onboarding to weekly review — including the part most demos hide: the Quality Critic rejecting a crafting system (Major Revisions Required), the revision, and the re-review to approval.</p>
+        </div>
+        <div class="card reveal">
+          <span class="mono-tag">Tested installer</span>
+          <h3>22/22 acceptance scenarios passing</h3>
+          <p>Clean installs, paths with spaces, pre-existing agent files, upgrades with backup, uninstall, reinstall. If a same-named file already exists in your project, the installer lists the conflict and stops without changing anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Pricing</span>
+        <h2>Try the whole idea free, then license the full roster</h2>
+        <p>Creator and Studio contain the identical product — the only difference is the license.</p>
+      </div>
+      <div class="tiers">
+        <div class="tier reveal">
+          <h3>Demo Pack</h3>
+          <div class="price">$0</div>
+          <ul>
+            <li>1 agent (Game Director)</li>
+            <li>1 workflow + 1 command + 1 template</li>
+            <li>1 worked example</li>
+            <li>Claude Code + Universal demo prompt</li>
+            <li>Manifest of what Complete adds</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Download free</a>
+        </div>
+        <div class="tier featured reveal">
+          <h3>Creator</h3>
+          <div class="price">$49 <small>· 1 person</small></div>
+          <ul>
+            <li>All 10 agents + full governance</li>
+            <li>All 30 workflows, 22 commands, 27 templates</li>
+            <li>Claude Code + Universal editions</li>
+            <li>All worked examples incl. Lanternfall Grove</li>
+            <li>Free v1.x updates</li>
+          </ul>
+          <a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Creator</a>
+        </div>
+        <div class="tier reveal">
+          <h3>Studio</h3>
+          <div class="price">$129 <small>· up to 5 people</small></div>
+          <ul>
+            <li>Everything in Creator</li>
+            <li>License for one company or team</li>
+            <li>Up to 5 seats</li>
+            <li>Cheaper than 3 Creator licenses</li>
+            <li>Free v1.x updates</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Studio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Learn the method</span>
+        <h2>The guides behind the kit</h2>
+        <p>Everything in Full Party comes from running a real multi-agent studio on real projects. The method is documented free.</p>
+      </div>
+      <div class="cards cards-2">
+        <a class="card reveal" href="/guides/claude-code-multi-agent-setup/" style="display:block">
+          <span class="mono-tag">Pillar guide</span>
+          <h3 style="color:var(--ice)">Multi-agent Claude Code: the practical guide</h3>
+          <p>Subagents, role design, governance, and why a small curated party beats a 50-agent mega-roster.</p>
+        </a>
+        <a class="card reveal" href="/guides/ai-game-development-workflow/" style="display:block">
+          <span class="mono-tag">Pillar guide</span>
+          <h3 style="color:var(--ice)">The AI game development workflow</h3>
+          <p>Concept → pillars → feature proposals → QA gates → release check, with an AI team at every step.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog-teaser">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">From the blog</span>
+        <h2>Build-in-public notes</h2>
+      </div>
+      <div class="post-list">
+        <a class="post-item reveal" href="/blog/full-party-launch/">
+          <div class="post-meta">2026-07-26 · launch</div>
+          <h3>We shipped Full Party five days early. Here's the receipt trail.</h3>
+          <p>From "finished but never launched" to live listing — what a governance loop does when you point it at your own product.</p>
+        </a>
+        <a class="post-item reveal" href="/blog/recheck-rule/">
+          <div class="post-meta">2026-07-26 · method</div>
+          <h3>The recheck rule: nothing ships checked once</h3>
+          <p>The single house law that catches more AI mistakes than any prompt trick.</p>
+        </a>
+        <a class="post-item reveal" href="/blog/what-are-claude-code-subagents/">
+          <div class="post-meta">2026-07-26 · explainer</div>
+          <h3>What are Claude Code subagents?</h3>
+          <p>A plain-English explainer: what they are, when to use them, when not to.</p>
+        </a>
+      </div>
+      <p class="reveal" style="margin-top:24px"><a href="/blog/">All posts →</a></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="callout reveal">
+        <h2 class="grad">Watch the studio get built</h2>
+        <p>The AI Onramp newsletter documents this whole experiment — building products with an AI agent team, receipts included. Plus: we make small games too. Try <a href="/game.html">V4ULT RUN</a>, our neon dodge game, right in your browser.</p>
+        <a class="btn btn-primary" href="https://echov4ult.beehiiv.com/subscribe" rel="noopener">Subscribe free</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
   </div>
-  <div id="chat-log"></div>
-  <form id="chat-form">
-    <input id="chat-input" type="text" autocomplete="off" placeholder="Tell me about your business…" maxlength="500">
-    <button id="chat-send" type="submit" aria-label="Send">→</button>
-  </form>
-</div>
+</footer>
 
-<script>
-document.getElementById('yr').textContent=new Date().getFullYear();
-
-/* ── AI qualifier chat ──
-   The widget POSTs {messages:[...]} and expects {reply:"..."} back.
-   Two backends work — set CHAT_ENDPOINT to whichever you're using:
-   • FREE stopgap (local Ollama): your Cloudflare tunnel URL + "/api/site-chat"
-     e.g. 'https://something.trycloudflare.com/api/site-chat'  (see worker/README.md → "Free stopgap")
-   • Paid, always-on (Claude API): the deployed Worker URL (see worker/README.md)
-   The chat bubble stays hidden until this is a real URL. */
-var CHAT_ENDPOINT='https://YOUR_ENDPOINT_URL';
-(function(){
-  if(CHAT_ENDPOINT.indexOf('YOUR_ENDPOINT')!==-1)return; // not configured → no bubble
-  var bubble=document.getElementById('chat-bubble'),
-      panel=document.getElementById('chat-panel'),
-      log=document.getElementById('chat-log'),
-      form=document.getElementById('chat-form'),
-      input=document.getElementById('chat-input'),
-      send=document.getElementById('chat-send');
-  bubble.style.display='inline-flex';
-  var history=[], greeted=false;
-
-  function add(role,text){
-    var d=document.createElement('div');
-    d.className='msg '+(role==='assistant'?'bot':'me');
-    d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
-  }
-  function open(){
-    panel.style.display='flex';bubble.style.display='none';input.focus();
-    if(!greeted){greeted=true;
-      var g="Hi! I can help you figure out what AI could do for your business. To start — what kind of business do you run, and what eats up most of your time?";
-      add('assistant',g);history.push({role:'assistant',content:g});
-    }
-  }
-  function close(){panel.style.display='none';bubble.style.display='inline-flex';}
-  bubble.addEventListener('click',open);
-  document.getElementById('chat-close').addEventListener('click',close);
-
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var text=input.value.trim();if(!text)return;
-    add('me',text);history.push({role:'user',content:text});
-    input.value='';send.disabled=true;
-    var typing=add('assistant','…');typing.classList.add('typing');
-    fetch(CHAT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:history})})
-      .then(function(r){return r.json();})
-      .then(function(d){
-        typing.remove();
-        var reply=d.reply||"Sorry — something went wrong. You can email echov4ult@gmail.com and Chris will jump in.";
-        add('assistant',reply);history.push({role:'assistant',content:reply});
-      })
-      .catch(function(){
-        typing.remove();
-        add('assistant',"I can't reach the server right now. Please use the booking form below, or email echov4ult@gmail.com.");
-      })
-      .finally(function(){send.disabled=false;input.focus();});
-  });
-})();
-(function(){
-  var f=document.getElementById('bookform');
-  if(!f)return;
-  f.addEventListener('submit',function(e){
-    // Until Formspree is configured, fall back to a pre-filled email so the form still works.
-    if(f.action.indexOf('YOUR_FORM_ID')!==-1){
-      e.preventDefault();
-      var g=function(n){var el=f.elements[n];return el?el.value:'';};
-      var body='Name: '+g('name')+'\nEmail: '+g('email')+'\nBusiness: '+g('business')
-        +'\nInterested in: '+g('service')+'\n\n'+g('message');
-      window.location.href='mailto:echov4ult@gmail.com?subject='
-        +encodeURIComponent('New booking request — EchoV4ult')+'&body='+encodeURIComponent(body);
-      return;
-    }
-    e.preventDefault();
-    var btn=document.getElementById('bf-submit');
-    btn.textContent='Sending…';btn.disabled=true;
-    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
-      .then(function(r){
-        if(r.ok){f.style.display='none';document.getElementById('bookok').style.display='block';}
-        else{btn.textContent='Something went wrong — try email';btn.disabled=false;}
-      })
-      .catch(function(){btn.textContent='Something went wrong — try email';btn.disabled=false;});
-  });
-})();
-</script>
+<script src="/assets/js/site.js" defer></script>
 </body>
 </html>

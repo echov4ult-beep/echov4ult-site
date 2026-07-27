@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Are Claude Code Subagents? A Plain-English Explainer | echov4ult</title>
+  <meta name="description" content="Claude Code subagents explained: markdown-defined AI specialists with their own context windows and tool permissions. How they work, when they earn their overhead, and when they don't.">
+  <link rel="canonical" href="https://echov4ult.com/blog/what-are-claude-code-subagents/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="What Are Claude Code Subagents? A Plain-English Explainer | echov4ult">
+  <meta property="og:description" content="Claude Code subagents explained: markdown-defined AI specialists with their own context windows and tool permissions. How they work, when they earn their overhead, and when they don't.">
+  <meta property="og:url" content="https://echov4ult.com/blog/what-are-claude-code-subagents/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What Are Claude Code Subagents? A Plain-English Explainer | echov4ult">
+  <meta name="twitter:description" content="Claude Code subagents explained: markdown-defined AI specialists with their own context windows and tool permissions. How they work, when they earn their overhead, and when they don't.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"What are Claude Code subagents?","description":"Markdown-defined AI specialists with isolated context and scoped tools — how they work and when to use them.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/blog/what-are-claude-code-subagents/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Explainer</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">What are Claude Code subagents?</h1><p class="post-meta">2026-07-26 &middot; echov4ult</p><p class="lede">The thirty-second answer, the five-minute answer, and the judgment call the docs won't make for you.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p><strong>Claude Code subagents are specialized AI assistants defined as markdown files — each with its own system prompt, its own context window, and optionally its own restricted tool set — that the main Claude Code session can delegate tasks to.</strong> You describe when each subagent should be used; Claude Code routes matching work to it and gets the result back.</p>
+    <h2>How they work, mechanically</h2>
+    <p>A subagent lives in <code>.claude/agents/</code> in your project (or user-level for all projects). The file has frontmatter — a name, a description of when to use it, optional tool permissions — followed by a system prompt that defines its role. When the main session decides a task matches, it hands the task over; the subagent works in a <em>separate context window</em> and reports back a result.</p>
+    <p>Two properties do most of the work:</p>
+    <ul>
+      <li><strong>Context isolation.</strong> The subagent doesn't inherit the main conversation's clutter, and its own exploration doesn't pollute yours. A research subagent can read thirty files and return three sentences.</li>
+      <li><strong>Scoped permissions.</strong> A reviewer that can read but not edit. A test-runner that can execute but not install. Restriction is a design tool, not a limitation.</li>
+    </ul>
+    <h2>When subagents earn their overhead</h2>
+    <ul>
+      <li><strong>Verdict roles</strong> — reviewer, QA, critic — where independence from the main session's assumptions is the entire value.</li>
+      <li><strong>High-volume reading</strong> — sweep tasks whose intermediate output would drown your main context.</li>
+      <li><strong>Repeatable specialist work</strong> — the same role, invoked the same way, across sessions and projects.</li>
+    </ul>
+    <h2>When they don't</h2>
+    <p>Delegation costs tokens and adds a hop: the subagent starts cold and must be briefed by prompt. For quick, deeply contextual work — a small fix in a file you've been discussing for an hour — the main session already holds the context, and a subagent is overhead cosplaying as architecture. One well-placed agent beats five decorative ones. (More on right-sizing: <a href="/blog/small-party-vs-mega-roster/">small party vs. mega-roster</a>.)</p>
+    <h2>From subagents to a team</h2>
+    <p>A subagent is a mechanism. A <em>team</em> is mechanism plus design: one question per role, verdict scales, boundaries, and governance that says whose "no" sticks. That design layer is what our <a href="/guides/claude-code-multi-agent-setup/">practical guide</a> covers — and what <a href="/full-party/">Full Party</a> ships pre-built for game projects, ten roles and the rulebook included.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

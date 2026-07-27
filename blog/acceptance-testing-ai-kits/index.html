@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceptance-Testing an AI Kit: 22 Scenarios Before Sale | echov4ult</title>
+  <meta name="description" content="Why a digital product's installer needs acceptance scenarios — clean installs, hostile paths, collisions, upgrades — and why you should sabotage your own checks before trusting them.">
+  <link rel="canonical" href="https://echov4ult.com/blog/acceptance-testing-ai-kits/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Acceptance-Testing an AI Kit: 22 Scenarios Before Sale | echov4ult">
+  <meta property="og:description" content="Why a digital product's installer needs acceptance scenarios — clean installs, hostile paths, collisions, upgrades — and why you should sabotage your own checks before trusting them.">
+  <meta property="og:url" content="https://echov4ult.com/blog/acceptance-testing-ai-kits/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Acceptance-Testing an AI Kit: 22 Scenarios Before Sale | echov4ult">
+  <meta name="twitter:description" content="Why a digital product's installer needs acceptance scenarios — clean installs, hostile paths, collisions, upgrades — and why you should sabotage your own checks before trusting them.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Acceptance-testing an AI kit: 22 scenarios before we'd sell it","description":"Installer acceptance scenarios and sabotage-testing for AI-built digital products.","datePublished":"2026-07-26","dateModified":"2026-07-26","url":"https://echov4ult.com/blog/acceptance-testing-ai-kits/","image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Method</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Acceptance-testing an AI kit: 22 scenarios before we'd sell it</h1><p class="post-meta">2026-07-26 &middot; echov4ult</p><p class="lede">If your product installs files into someone's project, 'it worked on my machine' is not a QA strategy.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p><a href="/full-party/">Full Party</a> is mostly markdown — agents, workflows, templates. The one piece of real software in the box is the installer, and that's exactly where a digital product earns refunds or trust. Before listing it, we wrote an acceptance suite: 22 scenarios that must pass on a fresh build, every time anything changes.</p>
+    <h2>What the 22 scenarios cover</h2>
+    <ul>
+      <li><strong>Clean installs</strong> — into an empty project, a populated project, and a project that already uses Claude Code.</li>
+      <li><strong>Hostile paths</strong> — directories with spaces and unusual names, because customer machines are not demo machines.</li>
+      <li><strong>Collisions</strong> — a same-named agent file already exists. Required behavior: list the conflict and stop, changing <em>nothing</em>. An installer that overwrites customer files is a lawsuit with a progress bar.</li>
+      <li><strong>Lifecycle</strong> — upgrade with backup, uninstall, reinstall. If you sell v1.x updates, the upgrade path is a feature and gets tested like one.</li>
+      <li><strong>Verification</strong> — a verify script the customer can run to confirm their install matches the manifest.</li>
+    </ul>
+    <h2>The part most people skip: sabotage the checks</h2>
+    <p>A test suite that has never failed is unproven — maybe the checks work, maybe they're checking nothing. So we break things on purpose: delete a file the verifier should catch, corrupt a path, plant a collision. If the check still passes, the check was theater. Every gate in the suite has been made to fail at least once on purpose. That's what makes its passes meaningful.</p>
+    <h2>Why this matters for AI-built products specifically</h2>
+    <p>AI assistants write installers quickly and confidently — and confidently is the problem. Generated code fails in the gap between what you asked for and what you'd have asked for if you'd thought of it: the space in the path, the pre-existing file, the second run. Acceptance scenarios are how you think of it <em>before</em> a customer does. The suite runs on every build; the count in our listing — 22/22 — is re-generated, not remembered. (See also: <a href="/blog/recheck-rule/">the recheck rule</a>, which is how a stale version of that very claim got caught.)</p>
+    <h2>Steal this</h2>
+    <p>Whatever you're shipping — a prompt pack with an install script, a plugin, a template repo — write the scenario list first: every way installation can start, collide, upgrade, and end. Automate what you can, script the rest, sabotage each check once. It's a day of work that upgrades "I think it works" to a number you can print on the listing.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

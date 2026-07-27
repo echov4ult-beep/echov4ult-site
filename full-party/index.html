@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full Party — The AI Game Studio Kit for Claude Code | echov4ult</title>
+  <meta name="description" content="Full Party installs a virtual game studio into Claude Code: 10 specialist agents, 5 governance documents, 30 workflows, 22 slash commands, 27 templates. Free demo, $49 Creator, $129 Studio. Works with Godot, Unity, Unreal, or no engine.">
+  <link rel="canonical" href="https://echov4ult.com/full-party/">
+  <meta property="og:type" content="product">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Full Party — The AI Game Studio Kit">
+  <meta property="og:description" content="10 specialist agents, a governance system, 30 workflows, 22 commands, 27 templates — installed into the AI assistant you already use.">
+  <meta property="og:url" content="https://echov4ult.com/full-party/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Full Party — The AI Game Studio Kit">
+  <meta name="twitter:description" content="Stop being a solo dev. Stay a solo team of one.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Full Party — The AI Game Studio Kit",
+    "description": "A virtual game studio for your AI assistant: 10 specialist agents, a governance system, 30 workflows, 22 commands, 27 templates. Claude Code + Universal editions.",
+    "image": "https://echov4ult.com/assets/v-shield.png",
+    "url": "https://echov4ult.com/full-party/",
+    "brand": { "@type": "Brand", "name": "echov4ult" },
+    "offers": [
+      { "@type": "Offer", "name": "Demo Pack", "price": "0", "priceCurrency": "USD", "url": "https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Creator (1 person)", "price": "49", "priceCurrency": "USD", "url": "https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Studio (up to 5 people)", "price": "129", "priceCurrency": "USD", "url": "https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit", "availability": "https://schema.org/InStock" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Does Full Party work with my game engine?", "acceptedAnswer": { "@type": "Answer", "text": "Any engine — Godot, Unity, Unreal, custom, or none (board games and design-only projects count). Onboarding asks about your engine and language so agents tailor their advice." } },
+      { "@type": "Question", "name": "Do I need Claude Code to use Full Party?", "acceptedAnswer": { "@type": "Answer", "text": "No, but it's the best experience. The Universal Prompt edition works with any AI assistant that accepts text prompts, including ChatGPT, Gemini, and local models." } },
+      { "@type": "Question", "name": "Do I have to use all 10 agents?", "acceptedAnswer": { "@type": "Answer", "text": "No. Six agents cover a full concept-to-ship loop; Single Specialist mode lets you use one agent for one task without the governance pipeline." } },
+      { "@type": "Question", "name": "Is Full Party just prompts?", "acceptedAnswer": { "@type": "Answer", "text": "It's agent role definitions plus a governance system: authority map, decision log protocol, handoff rules, escalation playbooks, and a Definition of Done. The prompts are the smallest part." } },
+      { "@type": "Question", "name": "What support do I get?", "acceptedAnswer": { "@type": "Answer", "text": "Installation assistance and product-defect support. Personalized game-dev consulting is not included." } },
+      { "@type": "Question", "name": "What about updates?", "acceptedAnswer": { "@type": "Answer", "text": "Free v1.x bug fixes, documentation improvements, and compatibility updates. Major v2+ releases may be paid upgrades, possibly with an existing-customer discount." } },
+      { "@type": "Question", "name": "Can I customize the agents?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — rename agents, add your own, remove ones you don't need, or rewrite the governance rules. They're markdown files you own; changes take effect immediately." } },
+      { "@type": "Question", "name": "How do I try Full Party before buying?", "acceptedAnswer": { "@type": "Answer", "text": "The free Demo Pack: one agent, one workflow, one command, one template, one worked example, plus a manifest of exactly what the complete kit adds." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo">echo<span class="v4">v4</span>ult</a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero" style="padding-bottom:48px">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker">Full Party · v1.0</span>
+        <h1 class="grad">The AI game studio kit</h1>
+        <p class="lede">Ten specialist agents, one governance system, 30 workflows — installed into the AI assistant you already use. The difference between an AI assistant and an AI studio is structure. This is the structure.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get it on Gumroad</a>
+          <a class="btn btn-ghost" href="#tiers">Compare tiers</a>
+        </div>
+        <p class="hero-note">$0 / $49 / $129 · one-time purchase · free v1.x updates on paid tiers</p>
+      </div>
+      <div class="term reveal" aria-hidden="true">
+        <div class="term-bar"><i></i><i></i><i></i><span>full-party — install</span></div>
+        <div class="term-body">
+<span class="p">$ ./install.sh</span><br>
+<span class="dim">checking project…</span> <span class="ok">clean</span><br>
+<span class="dim">agents</span> 10/10 · <span class="dim">commands</span> 22/22<br>
+<span class="dim">workflows</span> 30/30 · <span class="dim">templates</span> 27/27<br>
+<span class="dim">governance</span> 5 documents linked<br>
+<span class="p">$ ./verify.sh</span><br>
+<span class="ok">acceptance: 22/22 scenarios passed</span><br>
+<span class="p">&gt; /studio-start</span><br>
+<span class="dim">Studio Director:</span> party assembled. what are we making?
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:36px">
+    <div class="wrap prose reveal" style="max-width:780px">
+      <h2>You don't need more prompts. You need a team structure.</h2>
+      <p>You're building a game alone, with an AI assistant that will happily do whatever you ask — which is exactly the problem. Nobody pushes back on the feature that breaks your pillars. Nobody re-reviews the crafting system after you "fixed" it at 1&nbsp;a.m. Nobody remembers the decision you locked three weeks ago, so you re-litigate it every session.</p>
+      <p>Full Party installs the missing structure: defined roles, defined authority, and a paper trail. Ten specialist agents — Studio Director, Game Director, Art Director, Lead Engineer, Code Reviewer, QA Director, Quality Critic, Player Advocate, Narrative Designer, Marketing Strategist — each answering one question, each with defined boundaries, wired together by a governance system that says who decides what, how decisions get recorded, and what happens when they disagree.</p>
+      <p>It is <strong>not</strong> a game engine, not a framework, and not a prompt pack. It's a decision-making and quality-assurance layer that sits on top of whatever engine and tools you already use — Godot, Unity, Unreal, custom, or no engine at all.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">In the box</span>
+        <h2>What you get in Full Party Complete</h2>
+      </div>
+      <div class="cards cards-3">
+        <div class="card reveal"><span class="mono-tag">10 agents</span><h3>One question each</h3><p>Each agent has a single question it answers, a verdict scale, and boundaries. Six cover a full concept-to-ship loop on their own; four add depth when the project calls for it.</p></div>
+        <div class="card reveal"><span class="mono-tag">5 governance docs</span><h3>The rules of the studio</h3><p>Studio Authority, Decision Protocol, Handoff Protocol, Escalation Rules, and a Definition of Done — who decides what, and what happens when agents disagree.</p></div>
+        <div class="card reveal"><span class="mono-tag">30 workflows</span><h3>First concept → release readiness</h3><p>Documented step-by-step processes. 21 trigger from slash commands; the other 9 run by naming the agent directly.</p></div>
+        <div class="card reveal"><span class="mono-tag">22 commands</span><h3>Muscle-memory operations</h3><p><code>/studio-start</code>, <code>/game-vision</code>, <code>/feature-proposal</code>, <code>/qa-plan</code>, <code>/release-check</code> and more.</p></div>
+        <div class="card reveal"><span class="mono-tag">27 templates</span><h3>Every studio document, pre-structured</h3><p>Design docs, feature specs, QA plans, decision records, release checklists — with instructions and examples, not empty headings.</p></div>
+        <div class="card reveal"><span class="mono-tag">2 editions</span><h3>Claude Code + Universal</h3><p>Full integration for Claude Code (auto-loading agents, slash commands, installer, verify script) plus self-contained prompts for ChatGPT, Gemini, or local models.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cards cards-2">
+        <div class="card reveal">
+          <span class="mono-tag">Lanternfall Grove</span>
+          <h3>A complete worked example — failure included</h3>
+          <p>A fictional cozy game taken through 11 scenarios from onboarding to weekly review. It includes the part most demos hide: the Quality Critic failing the crafting system (Major Revisions Required), the revision, and the re-review to Approved with Revisions. You see the governance loop actually working.</p>
+        </div>
+        <div class="card reveal">
+          <span class="mono-tag">Tested installer</span>
+          <h3>22/22 acceptance scenarios passing</h3>
+          <p>Clean installs, paths with spaces, pre-existing agent files, upgrades with backup, uninstall, and reinstall. If a same-named file already exists in your project, it lists the conflict and stops without changing anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap prose reveal" style="max-width:780px">
+      <h2>The honest part</h2>
+      <ul>
+        <li>It doesn't write your game for you. It structures how your AI assistant works on your game. Provided as-is — no guarantee of functional code or commercial outcomes.</li>
+        <li>The Universal edition is real but less capable than the Claude Code edition: no file-system access, no slash commands. Same roles and governance, adapted for paste-in use.</li>
+        <li>If your project is a weekend jam and formal process would slow you down, skip the workflows for trivial changes. This kit exists to prevent expensive mistakes on consequential work.</li>
+      </ul>
+      <h3>Who this is NOT for</h3>
+      <p>If you want an AI to generate a finished game from a one-line prompt, or you've never shipped past the prototype stage and don't want any process at all yet — this will feel like overhead, not help. Start with the free Demo Pack and see.</p>
+    </div>
+  </section>
+
+  <section id="tiers">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Tiers</span>
+        <h2>Same product, three licenses</h2>
+        <p>Creator and Studio contain the identical kit — the only difference is the license. One person: Creator. More than one person in the same company or organized team: Studio.</p>
+      </div>
+      <div class="tiers">
+        <div class="tier reveal">
+          <h3>Demo Pack</h3>
+          <div class="price">$0</div>
+          <ul>
+            <li>1 agent (Game Director)</li>
+            <li>1 workflow (Feature Proposal)</li>
+            <li>1 command (<code style="font-family:var(--font-mono);font-size:0.85em">/feature-proposal</code>)</li>
+            <li>1 template + 1 worked example</li>
+            <li>Manifest of what Complete adds</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Download free</a>
+        </div>
+        <div class="tier featured reveal">
+          <h3>Creator</h3>
+          <div class="price">$49 <small>· 1 person</small></div>
+          <ul>
+            <li>All 10 agents + full governance system</li>
+            <li>All 30 workflows, 22 commands, 27 templates</li>
+            <li>Claude Code + Universal editions</li>
+            <li>All examples incl. Lanternfall Grove</li>
+            <li>Free v1.x updates</li>
+          </ul>
+          <a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Creator — $49</a>
+        </div>
+        <div class="tier reveal">
+          <h3>Studio</h3>
+          <div class="price">$129 <small>· up to 5 people</small></div>
+          <ul>
+            <li>Everything in Creator</li>
+            <li>One company or organized team</li>
+            <li>Up to 5 license seats</li>
+            <li>Cheaper than 3 Creator licenses</li>
+            <li>Free v1.x updates</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Studio — $129</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap" style="max-width:780px">
+      <div class="section-head reveal">
+        <span class="kicker">FAQ</span>
+        <h2>Questions, answered straight</h2>
+      </div>
+      <div class="faq reveal">
+        <details><summary>Does this work with my engine?</summary><p>Any engine — Godot, Unity, Unreal, custom, or none (board games and design-only projects count). Onboarding asks about your engine and language so agents tailor their advice.</p></details>
+        <details><summary>Do I need Claude Code?</summary><p>No, but it's the best experience. The Universal Prompt edition works with any AI assistant that accepts text prompts.</p></details>
+        <details><summary>Do I have to use all 10 agents?</summary><p>No. Six cover a full concept-to-ship loop; "Single Specialist" mode lets you use one agent for one task without the governance pipeline.</p></details>
+        <details><summary>Is this just prompts?</summary><p>It's agent role definitions plus a governance system: authority map, decision log protocol, handoff rules, escalation playbooks, and a Definition of Done. The prompts are the smallest part.</p></details>
+        <details><summary>What support do I get?</summary><p>Installation assistance and product-defect support. Personalized game-dev consulting is not included. Full breakdown ships in the kit's SUPPORT_POLICY.md.</p></details>
+        <details><summary>What about updates?</summary><p>Free v1.x bug fixes, documentation improvements, and compatibility updates. Major v2+ releases may be paid upgrades, possibly with an existing-customer discount.</p></details>
+        <details><summary>Can I customize it?</summary><p>Yes — rename agents, add your own, remove ones you don't need, or rewrite the governance rules. They're markdown files you own; changes take effect immediately.</p></details>
+        <details><summary>How do I try before buying?</summary><p>The free Demo Pack: one agent, one workflow, one command, one template, one worked example, plus a manifest of exactly what Complete adds.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="callout reveal">
+        <h2 class="grad">Assemble your party</h2>
+        <p>Start with the free Demo Pack — one real agent, one real workflow, zero risk. Upgrade when the structure clicks.</p>
+        <a class="btn btn-primary" href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party on Gumroad</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="">echo<span class="v4">v4</span>ult</a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echov4ult.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echov4ult.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
