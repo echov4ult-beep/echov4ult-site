@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code: Skills vs. Subagents vs. Commands — Which Do You Need? | echov4ult</title>
+  <meta name="description" content="Skills teach Claude Code a repeatable job, subagents are independent specialists with their own context, commands are shortcuts. Which to use when — plainly.">
+  <link rel="canonical" href="https://echov4ult.com/blog/skills-vs-subagents-vs-commands/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Claude Code: Skills vs. Subagents vs. Commands">
+  <meta property="og:description" content="A skill is a recipe, a subagent is a coworker, a command is a doorbell. Which one you actually need, explained plainly.">
+  <meta property="og:url" content="https://echov4ult.com/blog/skills-vs-subagents-vs-commands/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Claude Code: Skills vs. Subagents vs. Commands">
+  <meta name="twitter:description" content="A skill is a recipe, a subagent is a coworker, a command is a doorbell.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Claude Code: skills vs. subagents vs. commands — which one do you actually need?","description":"Skills teach Claude Code a repeatable job, subagents are independent specialists with their own context, commands are shortcuts. Which to use when.","datePublished":"2026-07-27","dateModified":"2026-07-27","url":"https://echov4ult.com/blog/skills-vs-subagents-vs-commands/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/skills-vs-subagents-vs-commands/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Do subagents cost more tokens than skills?","acceptedAnswer":{"@type":"Answer","text":"Generally yes — a subagent starts cold and must be briefed, and its system prompt and context load are overhead a skill doesn't have. Skills are instructions in the current session; subagents are separate sessions."}},
+    {"@type":"Question","name":"Can a skill call a subagent?","acceptedAnswer":{"@type":"Answer","text":"Yes — a skill's instructions can tell Claude Code to delegate work to a named subagent. That's how workflow-style skills coordinate specialists."}},
+    {"@type":"Question","name":"Where do skills and subagents live?","acceptedAnswer":{"@type":"Answer","text":"Project-level: .claude/skills/ and .claude/agents/ in your repo. User-level versions apply across all your projects."}},
+    {"@type":"Question","name":"How many agents should I run?","acceptedAnswer":{"@type":"Answer","text":"Fewer than you think. Six well-designed roles cover a full build loop; add more only when a recurring question has no owner. If two agents could both own a task, your roster is too big."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">Explainer</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Claude Code: skills vs. subagents vs. commands — which one do you actually need?</h1>
+    <p class="post-meta">2026-07-27 · echov4ult</p>
+    <p class="lede"><strong>Quick answer: a <em>skill</em> teaches Claude how to do a repeatable job (it's instructions, loaded when relevant), a <em>subagent</em> is a separate specialist with its own context window and permissions (it's a coworker), and a <em>command</em> is just a shortcut that kicks one of those off (it's a doorbell). Most people who ask this question want a skill.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>I got this wrong for weeks, so here's the explanation I wish someone had given me.</p>
+
+    <h2>The kitchen version</h2>
+    <p>Think of Claude Code as a very capable cook in your kitchen.</p>
+    <ul>
+      <li>A <strong>skill</strong> is a recipe card taped inside the cabinet. The cook grabs it when the dish comes up. Same cook, same kitchen — just a proven procedure so they don't improvise your grandmother's sauce from vibes.</li>
+      <li>A <strong>subagent</strong> is calling in a second cook who only does desserts. They work at their own station (separate context window), they only touch the tools you hand them (scoped permissions), and when they're done they bring you the plate — not their whole mess.</li>
+      <li>A <strong>command</strong> is the bell you ring to order a dish. <code>/make-dessert</code> doesn't cook anything; it just starts the process with one word instead of a paragraph.</li>
+    </ul>
+
+    <h2>When each one earns its place</h2>
+    <p><strong>Reach for a skill when</strong> you've explained the same process to Claude twice. That's the tell. My rule — typed it twice, encode it. Skills live as markdown files (<code>SKILL.md</code>), so they're versionable, editable, and honestly kind of addictive to write once you start.</p>
+    <p><strong>Reach for a subagent when</strong> the job needs <em>independence</em> rather than instructions. The whole value of my QA agent is that it doesn't share my main session's assumptions — it reads the work cold and says "this fails" without knowing how attached I am to it. Verdict roles (reviewer, critic, tester) and big read-heavy research jobs are subagent territory. A quick fix in a file you've been discussing for an hour is not — the main session already has the context, and spinning up a specialist just adds cost and a briefing step.</p>
+    <p><strong>Reach for a command when</strong> a skill or workflow deserves muscle memory. Commands are the smallest of the three — a named trigger. In my own setup nearly every command just launches a skill.</p>
+
+    <h2>The mistake everyone makes (I made it too)</h2>
+    <p>Building a 40-agent roster because it demos well. It burns tokens re-briefing specialists who add no verdict, and when nine agents comment on everything, nobody's "no" means anything. I run ten agents for a full game-studio setup and most days six do the work. Small party, deep roles, real authority — that's the pattern that held up. (Longer version: <a href="/blog/small-party-vs-mega-roster/">small party vs. mega-roster</a>.)</p>
+
+    <h2>Try it yourself</h2>
+    <p>Take one thing you've explained to Claude Code twice this week and turn it into a skill: a folder in <code>.claude/skills/</code> with a <code>SKILL.md</code> describing when to use it and the steps that worked. That single file will save you more time than any subagent this month. If you want to see a full working system — ten specialists, governance, the works — the <a href="/full-party/">free Full Party demo</a> is one real agent, one real workflow, zero dollars: run it and see how the pieces click. (And if you're going deeper on rosters, the <a href="/guides/claude-code-multi-agent-setup/">multi-agent practical guide</a> is the long-form version of all of this.)</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Do subagents cost more tokens than skills?</strong><br>Generally yes — a subagent starts cold and must be briefed, and its system prompt + context load are overhead a skill doesn't have. Skills are instructions in the current session; subagents are separate sessions.</p>
+    <p><strong>Can a skill call a subagent?</strong><br>Yes — a skill's instructions can tell Claude Code to delegate work to a named subagent. That's how workflow-style skills coordinate specialists.</p>
+    <p><strong>Where do skills and subagents live?</strong><br>Project-level: <code>.claude/skills/</code> and <code>.claude/agents/</code> in your repo. User-level versions apply across all your projects.</p>
+    <p><strong>How many agents should I run?</strong><br>Fewer than you think. Six well-designed roles cover a full build loop; add more only when a recurring question has no owner. If two agents could both "own" a task, your roster is too big.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Skip the setup. Install the party.</h2>
+    <p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p>
+    <a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved.</span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
