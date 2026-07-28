@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://echov4ult.com/</loc><lastmod>2026-07-26</lastmod><priority>1.0</priority></url>
+  <url><loc>https://echov4ult.com/</loc><lastmod>2026-07-28</lastmod><priority>1.0</priority></url>
   <url><loc>https://echov4ult.com/full-party/</loc><lastmod>2026-07-26</lastmod><priority>0.9</priority></url>
   <url><loc>https://echov4ult.com/operators-kit/</loc><lastmod>2026-07-27</lastmod><priority>0.9</priority></url>
+  <url><loc>https://echov4ult.com/launch-crew/</loc><lastmod>2026-07-28</lastmod><priority>0.9</priority></url>
   <url><loc>https://echov4ult.com/guides/</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
   <url><loc>https://echov4ult.com/guides/claude-code-multi-agent-setup/</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
   <url><loc>https://echov4ult.com/guides/ai-game-development-workflow/</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
-  <url><loc>https://echov4ult.com/blog/</loc><lastmod>2026-07-26</lastmod><priority>0.6</priority></url>
+  <url><loc>https://echov4ult.com/blog/</loc><lastmod>2026-07-27</lastmod><priority>0.6</priority></url>
+  <url><loc>https://echov4ult.com/blog/semantic-layers-ai-agents/</loc><lastmod>2026-07-27</lastmod><priority>0.7</priority></url>
   <url><loc>https://echov4ult.com/blog/skills-vs-subagents-vs-commands/</loc><lastmod>2026-07-27</lastmod><priority>0.7</priority></url>
   <url><loc>https://echov4ult.com/blog/index-first-second-brain/</loc><lastmod>2026-07-27</lastmod><priority>0.7</priority></url>
   <url><loc>https://echov4ult.com/blog/multi-agent-queue-vs-graph/</loc><lastmod>2026-07-27</lastmod><priority>0.7</priority></url>

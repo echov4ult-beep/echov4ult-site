@@ -17,6 +17,8 @@ $129 (up to 5 people). Installer verified by a 22/22-scenario acceptance suite.
 
 - [Home](https://echov4ult.com/): what echov4ult builds and why
 - [Full Party product page](https://echov4ult.com/full-party/): full contents, tiers, FAQ
+- [Operator's Kit product page](https://echov4ult.com/operators-kit/): 8 session-discipline skills for Claude Code, tiers, FAQ
+- [Launch Crew product page](https://echov4ult.com/launch-crew/): an AI marketing department for Claude Code (unofficial) — 6 agents + 4 playbooks, drafts-only by design, tiers, FAQ
 - [Multi-agent Claude Code: the practical guide](https://echov4ult.com/guides/claude-code-multi-agent-setup/): role design, governance, party size, acceptance testing
 - [The AI game development workflow](https://echov4ult.com/guides/ai-game-development-workflow/): concept → pillars → proposals → QA gates → release check
 - [Blog](https://echov4ult.com/blog/): build-in-public notes with real numbers
@@ -24,6 +26,8 @@ $129 (up to 5 people). Installer verified by a 22/22-scenario acceptance suite.
 ## Purchase
 
 - [Full Party on Gumroad](https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit): all three tiers, free demo included
+- [Operator's Kit on Gumroad](https://echovault7.gumroad.com/l/OperatorsKit): $0 / $19 / $29, free demo included
+- [Launch Crew on Gumroad](https://echovault7.gumroad.com/l/LaunchCrewMarketing): $0 Demo (CMO agent) / $39 Core / $79 Pro
 
 ## Contact
 
