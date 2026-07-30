@@ -26,3 +26,13 @@
     if (href === "/" ? path === "/" : path.indexOf(href) === 0) a.classList.add("active");
   });
 })();
+
+// GoatCounter analytics — cookie-free, no personal data collected.
+// count.js skips localhost automatically, so dev previews don't pollute counts.
+(function () {
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://gc.zgo.at/count.js";
+  s.dataset.goatcounter = "https://echov4ult.goatcounter.com/count";
+  document.body.appendChild(s);
+})();
