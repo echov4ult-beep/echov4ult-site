@@ -46,7 +46,10 @@ LIVE / WIRED:
   method still unset (Owner). ToS skimmed: no redirect ban in public terms.
 
 Tier 1 (apply first — recurring, small-site friendly):
-- n8n — 30% x 12mo — n8n.io/affiliates (EUR 100 payout floor, no paid ads)
+- n8n — 30% x 12mo — APPLIED 2026-08-05, pending n8n GmbH review (email lands at
+  echov4ult@gmail.com). Runs on PartnerStack — Owner should create the PartnerStack
+  account + payment setup while waiting; same PartnerStack account also covers
+  ElevenLabs (Tier 2) later.
 - Readwise — 33%/sub — docs.readwise.io/affiliates
 - DigitalOcean — $25 CPA, 90-day cookie — digitalocean.com/affiliates
 
