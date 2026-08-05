@@ -40,8 +40,12 @@ cost to you. We only link tools we actually use.
 
 ## Program shortlist (RADAR briefing 2026-08-05)
 
+LIVE / WIRED:
+- Taskade — **20% recurring** (dashboard-verified 2026-08-05; RADAR's "50% lifetime"
+  source was wrong) — /go/taskade/ → taskade.com/?via=boj9l1 — signed up, payout
+  method still unset (Owner). ToS skimmed: no redirect ban in public terms.
+
 Tier 1 (apply first — recurring, small-site friendly):
-- Taskade — 50% lifetime recurring — partners.taskade.com
 - n8n — 30% x 12mo — n8n.io/affiliates (EUR 100 payout floor, no paid ads)
 - Readwise — 33%/sub — docs.readwise.io/affiliates
 - DigitalOcean — $25 CPA, 90-day cookie — digitalocean.com/affiliates
