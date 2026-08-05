@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Death of the Click: Your Next Customer Might Be an AI Agent | echov4ult</title>
+  <meta name="description" content="AI agents are starting to research and buy on users' behalf. What that means for a small product site, and the llms.txt and schema fixes I shipped.">
+  <link rel="canonical" href="https://echov4ult.com/blog/ai-agents-buying-death-of-the-click/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="The Death of the Click: Your Next Customer Might Be an AI Agent">
+  <meta property="og:description" content="AI agents are starting to research and buy on users' behalf. What that means for a small product site, and the fixes I shipped on mine.">
+  <meta property="og:url" content="https://echov4ult.com/blog/ai-agents-buying-death-of-the-click/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Death of the Click: Your Next Customer Might Be an AI Agent">
+  <meta name="twitter:description" content="If your product's facts aren't machine-readable, the agent shopping for your next customer skips you.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"The Death of the Click: Your Next Customer Might Be an AI Agent","description":"AI agents are starting to research and buy on users' behalf. What that means for a small product site, and the llms.txt and schema fixes I shipped.","datePublished":"2026-08-05","dateModified":"2026-08-05","url":"https://echov4ult.com/blog/ai-agents-buying-death-of-the-click/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/ai-agents-buying-death-of-the-click/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Will AI agents really buy things without a human clicking?","acceptedAnswer":{"@type":"Answer","text":"It's already happening in early form. Amazon's Buy for Me completes checkout on third-party brand sites on the customer's behalf. How fast this becomes normal for small purchases is genuinely uncertain, and anyone giving you a confident timeline is selling something."}},
+    {"@type":"Question","name":"What is llms.txt and does a small site need one?","acceptedAnswer":{"@type":"Answer","text":"It's a markdown file at yoursite.com/llms.txt that gives AI systems a curated summary of your site: what you sell, what it costs, where the important pages are. Proposed by Jeremy Howard in 2024. Adoption by AI companies is still unsettled, but it costs about an hour and a working example is live at echov4ult.com/llms.txt."}},
+    {"@type":"Question","name":"Does this replace SEO?","acceptedAnswer":{"@type":"Answer","text":"No. Pew's data shows clicks dropping when AI summaries appear, not disappearing. Treat it as one discipline: the page that answers the question plainly, with structured data, wins with Google, with answer engines, and with agents."}},
+    {"@type":"Question","name":"How do I write an llms.txt for a product site?","acceptedAnswer":{"@type":"Answer","text":"One paragraph on the company, then each product with its real name, real price, and a one-line description, then links to your key pages and purchase links. Plain markdown, no marketing language."}},
+    {"@type":"Question","name":"Can an AI agent buy my product on Gumroad today?","acceptedAnswer":{"@type":"Answer","text":"Unknown. The author sells through Gumroad and hasn't observed an agent-completed purchase in his own dashboard. What a seller can control is being findable and legible when agents come looking."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">Explainer</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">The Death of the Click: your next customer might be an AI agent</h1>
+    <p class="post-meta">2026-08-05 · echov4ult</p>
+    <p class="lede"><strong>Quick answer: somewhere in the near future, the "visitor" evaluating your product page is a piece of software shopping on a human's behalf, and it does not care how pretty your site is. If your product's facts (what it is, what it costs, who it's for) aren't readable by a machine, that buyer skips you without ever telling you it was there.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>I run a small product business. Three digital products, a five-page site, no ad budget. This shift matters more to me than to Amazon, because Amazon will be fine either way. Here's what's actually changing, and the cheap, boring things I've done about it on my own site.</p>
+
+    <h2>What actually changed</h2>
+    <p>Two things, and both have receipts.</p>
+    <p>First, people stopped clicking. Pew Research tracked 900 US adults through a month of real Google searches in March 2025 and found that when an AI summary appeared, users clicked a traditional result on only <a href="https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/" rel="noopener">8% of visits, versus 15%</a> when there was no summary. The answer gets read on the results page and the visit never happens.</p>
+    <p>Second, the software started buying. Amazon's <a href="https://www.aboutamazon.com/news/retail/amazon-shopping-app-buy-for-me-brands" rel="noopener">"Buy for Me" feature</a>, announced April 2025, lets a customer tap a button and have Amazon's AI agent go complete checkout on another brand's website for them, payment details and all. The human never visits the brand's site. An agent does.</p>
+    <p>So the funnel I grew up with, where a person searches, clicks, browses, and buys, is growing a second lane where a person asks, an agent researches, and the agent either recommends or purchases. I haven't verified how big that second lane is yet for a business my size. But I'd rather be early and slightly wrong than late and invisible.</p>
+
+    <h2>The personal shopper test</h2>
+    <p>Here's how I think about it at the kitchen table. An AI agent visiting your site is a personal shopper sent to the store with a list. The shopper doesn't linger at the window display. She walks straight to the shelf, reads the label, checks the price, and either puts your product in the cart or moves on to the next aisle.</p>
+    <p>Most small-business websites are all window display. The price is in an image. The feature list is inside a JavaScript carousel. The answer to "who is this for?" lives in a vibe, not a sentence. A human browser tolerates that. A shopping agent just leaves.</p>
+    <p>The fix is unglamorous: put the label on the shelf. State what the product is, what it costs, and who it's for in plain text a machine can parse.</p>
+
+    <h2>What I shipped on my own site</h2>
+    <p>echov4ult.com has an <code>llms.txt</code> file live right now at <a href="/llms.txt">echov4ult.com/llms.txt</a>. You can go read it. It's a plain markdown file at the root of the site, the same spot robots.txt lives, and it tells any AI system in a few hundred words: here's what this company builds, here are the products with their exact tiers and prices, here are the pages that matter, here are the purchase links.</p>
+    <p>The llms.txt idea comes from Jeremy Howard, who <a href="https://llmstxt.org/" rel="noopener">proposed it in September 2024</a> to solve a real problem: AI models can't stuff your whole website into their context window, so you give them a curated index instead. Writing mine took under an hour. The hard part was honesty, because a file like this forces you to state your offer in flat declarative sentences with no marketing cushion. "Full Party, ten specialist agents, Demo Pack $0, Creator $49, Studio $129." If your product can't survive being described that plainly, the file isn't your problem.</p>
+    <p>Full disclosure, because receipts are the house rule: I cannot yet point to a sale in my Gumroad dashboard and prove an AI agent caused it. Adoption of llms.txt by the major AI companies is still unsettled, and I haven't verified which crawlers actually read mine. I shipped it anyway because the cost was an hour and the downside of skipping it is being unreadable to whatever does come crawling.</p>
+
+    <h2>The checklist for a small product site</h2>
+    <p>Everything below is doable in a weekend without hiring anyone.</p>
+    <ul>
+      <li><strong>Write an llms.txt.</strong> Root of your site, plain markdown. Company in one paragraph, each product with real prices, links to the pages that answer buyer questions. Mine is the template I'd hand a friend.</li>
+      <li><strong>Put facts in text.</strong> Prices, tiers, compatibility, refund terms, as actual HTML text on the page. Never only inside an image, a PDF, or a script-rendered widget.</li>
+      <li><strong>Add structured data.</strong> FAQ schema and product schema are the labeled shelf. Every article on this blog carries an FAQ block for exactly this reason.</li>
+      <li><strong>Answer the question in the first two sentences.</strong> Agents retrieve passages, and a page that opens with three paragraphs of throat-clearing loses to a page that opens with the answer. (Humans prefer that too, which is convenient.)</li>
+      <li><strong>Check your robots rules.</strong> If you blanket-blocked AI crawlers during the scraping panic, you may have also blocked the ones you now want reading your product pages. Decide on purpose.</li>
+    </ul>
+    <p>If you're further along and running your own agents rather than just being visited by them, that's a different article, and I wrote the long version in the <a href="/guides/claude-code-multi-agent-setup/">multi-agent Claude Code guide</a>. The short version: the same discipline that makes your site legible to other people's agents (plain facts, explicit structure, no vibes) is what makes your own agents reliable too.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Will AI agents really buy things without a human clicking?</strong><br>It's already happening in early form. Amazon's Buy for Me completes checkout on third-party brand sites on the customer's behalf. How fast this becomes normal for small purchases is genuinely uncertain, and anyone giving you a confident timeline is selling something.</p>
+    <p><strong>What is llms.txt and does a small site need one?</strong><br>It's a markdown file at yoursite.com/llms.txt that gives AI systems a curated summary of your site: what you sell, what it costs, where the important pages are. Proposed by Jeremy Howard in 2024. Need is a strong word since adoption by AI companies is still unsettled, but it costs about an hour and mine is live at <a href="/llms.txt">echov4ult.com/llms.txt</a> if you want a working example.</p>
+    <p><strong>Does this replace SEO?</strong><br>No. Pew's data shows clicks dropping when AI summaries appear, not disappearing. I treat it as one discipline now: the page that answers the question plainly, with structured data, wins with Google, with answer engines, and with agents. I still run a normal Search Console loop every week.</p>
+    <p><strong>How do I write an llms.txt for a product site?</strong><br>One paragraph on the company, then each product with its real name, real price, and a one-line description, then links to your key pages and purchase links. Plain markdown, no marketing language. If you can't describe your product in one honest sentence, fix that first, then write the file.</p>
+    <p><strong>Can an AI agent buy my product on Gumroad today?</strong><br>I don't know, and I won't pretend to. I sell through Gumroad and I haven't observed an agent-completed purchase in my own dashboard. What I can control is being findable and legible when agents come looking, which is what this whole checklist is for.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Open Claude (or any AI assistant), paste in your homepage URL, and ask: "You're a shopping agent. What does this company sell, what does it cost, and who is it for? Only use what you can read on the page." If the answer comes back wrong or empty, you just met your next customer, and it bounced.</p>
+    <p>If you want to see what a machine-legible product looks like from the seller side, the <a href="/full-party/">Full Party kit page</a> and its entry in <a href="/llms.txt">my llms.txt</a> are the same offer stated two ways: one for you, one for your agent.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Skip the setup. Install the party.</h2>
+    <p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p>
+    <a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
