@@ -50,8 +50,9 @@ Tier 1 (apply first — recurring, small-site friendly):
   echov4ult@gmail.com). Runs on PartnerStack — Owner should create the PartnerStack
   account + payment setup while waiting; same PartnerStack account also covers
   ElevenLabs (Tier 2) later.
-- Readwise — 33%/sub — docs.readwise.io/affiliates
-- DigitalOcean — $25 CPA, 90-day cookie — digitalocean.com/affiliates
+- Readwise — 33%/sub — APPLIED 2026-08-05, pending review (they follow up via email)
+- DigitalOcean — $25 CPA, 90-day cookie — APPLIED 2026-08-05 via Awin, pending review
+  (most approve in minutes per Awin)
 
 Tier 2 (apply once matching content is live):
 - Make.com — 35% x 12mo ($100 + 3 paying users payout gate)
