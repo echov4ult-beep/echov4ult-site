@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Plugins Standard: What It Means for Claude Code | echov4ult</title>
+  <meta name="description" content="OpenAI and friends just standardized the plugin format Anthropic pioneered. What Agent Plugins means if you run a Claude Code agent stack today.">
+  <link rel="canonical" href="https://echov4ult.com/blog/agent-plugins-standard-claude-code/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Agent Plugins Standard: What It Means for Claude Code">
+  <meta property="og:description" content="OpenAI and friends just standardized the plugin format Anthropic pioneered. What Agent Plugins means if you run a Claude Code agent stack today.">
+  <meta property="og:url" content="https://echov4ult.com/blog/agent-plugins-standard-claude-code/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Agent Plugins Standard: What It Means for Claude Code">
+  <meta name="twitter:description" content="OpenAI and friends just standardized the plugin format Anthropic pioneered. What Agent Plugins means if you run a Claude Code agent stack today.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Agent Plugins Standard: What It Means for Claude Code","description":"OpenAI and friends just standardized the plugin format Anthropic pioneered. What Agent Plugins means if you run a Claude Code agent stack today.","datePublished":"2026-08-06","dateModified":"2026-08-06","url":"https://echov4ult.com/blog/agent-plugins-standard-claude-code/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/agent-plugins-standard-claude-code/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Is Agent Plugins the same as Claude Code plugins?","acceptedAnswer":{"@type":"Answer","text":"No, but they rhyme. Both are folders with a plugin.json manifest, skills, and MCP config. Claude Code's format also carries hooks, slash commands, and subagents, which the shared spec doesn't standardize — those would sit in a client-specific extension namespace."}},
+    {"@type":"Question","name":"Do my existing Claude Code skills work with Agent Plugins?","acceptedAnswer":{"@type":"Answer","text":"The skill files themselves, essentially yes. The spec's skills/ directory follows the same Agent Skills specification Claude Code uses, one SKILL.md per skill folder. It's the wrapper around them that differs."}},
+    {"@type":"Question","name":"Does Claude Code support Agent Plugins?","acceptedAnswer":{"@type":"Answer","text":"Not at launch. The announced compatible clients are Codex, ChatGPT, Cursor, GitHub Copilot, Kiro, and VS Code. Whether Anthropic adopts the format is unknown as of publication."}},
+    {"@type":"Question","name":"What's the difference between Agent Plugins and MCP?","acceptedAnswer":{"@type":"Answer","text":"MCP is a protocol: how an agent talks to a tool server while running. Agent Plugins is packaging: how you ship skills plus the config that tells a client which MCP servers to start. A plugin's mcp.json declares MCP servers; it doesn't replace them."}},
+    {"@type":"Question","name":"Should I repackage my plugins for the new standard?","acceptedAnswer":{"@type":"Answer","text":"Not yet, unless you're actively distributing to users on multiple clients. The spec is a day old, defines no registry or install mechanism, and each client decides its own discovery story. Watch adoption for a few weeks first."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">news</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">OpenAI just standardized Anthropic's plugin idea. Here's what that means for your Claude Code stack.</h1>
+    <p class="post-meta">2026-08-06 &middot; echov4ult</p>
+    <p class="lede"><strong>Agent Plugins, announced today by OpenAI with Amazon, Cursor, GitHub, Microsoft, and Vercel, is a shared format for packaging Agent Skills and MCP server configs so one plugin folder works across many AI clients. If you run a Claude Code stack: your skills were already portable, your MCP configs weren't, and this spec is aimed at that second problem &mdash; with Anthropic conspicuously absent from the table.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+
+    <p>Here's the kitchen-table version. Imagine every appliance brand shipping its own shape of wall outlet. Your toaster works in the kitchen but not the garage. That's agent plugins in 2026: same skills, same MCP servers, different folder layout and manifest for every client. Agent Plugins is a group of vendors agreeing on one outlet shape.</p>
+    <p>I didn't have to look far for evidence that the problem is real. The superpowers plugin installed on my own machine ships a <code>.claude-plugin/plugin.json</code> for Claude Code, a <code>.cursor-plugin/plugin.json</code> for Cursor, a <code>.codex-plugin/plugin.json</code> for Codex, and an <code>.opencode/</code> folder besides. Four manifests, nearly identical JSON, one plugin. Every plugin author is maintaining that same pile of duplicates right now.</p>
+
+    <h2>What's actually in the spec</h2>
+    <p>I read the spec at agent-plugins.org so you don't have to. Version 1.0.0 defines a plugin as a plain directory:</p>
+    <ul>
+      <li><strong><code>plugin.json</code></strong> &mdash; the manifest. Only two fields are required: <code>$schema</code> and <code>name</code>. Version, author, license, keywords are optional.</li>
+      <li><strong><code>skills/</code></strong> &mdash; Agent Skills, one folder per skill with a <code>SKILL.md</code> inside, following the existing Agent Skills specification. If you've written a skill for Claude Code, you've already written one of these.</li>
+      <li><strong><code>mcp.json</code></strong> &mdash; MCP server declarations. Three connection types: stdio (a local process), streamable HTTP, and legacy SSE. Two placeholders, <code>${PLUGIN_ROOT}</code> and <code>${PLUGIN_DATA}</code>, so servers can find their own files.</li>
+      <li><strong>Extension namespaces</strong> &mdash; reverse-domain folders like <code>com.example.client/</code> where each client keeps its proprietary extras. Clients ignore namespaces they don't recognize.</li>
+    </ul>
+    <p>Two things stand out to me after running plugins across a real multi-agent setup for a year.</p>
+    <p>First, the skills part is the least new thing here. Agent Skills is Anthropic's concept: it launched in Claude in October 2025 and Anthropic published it as an open standard in December 2025. The portable part of your stack was already portable. What Agent Plugins actually adds is standardized packaging around skills &mdash; the manifest, the MCP config, and a sanctioned junk drawer for client-specific features.</p>
+    <p>Second, the extension-namespace design is doing a lot of quiet work. Claude Code plugins carry things this spec doesn't standardize &mdash; <a href="/blog/claude-code-hooks-explained/">hooks</a>, slash commands, <a href="/blog/what-are-claude-code-subagents/">subagents</a>. Under Agent Plugins those would live in a vendor namespace folder, which means "compatible with the standard" and "fully works in your client" are not the same sentence. Read launch-day compatibility claims with that in mind.</p>
+
+    <h2>The elephant: where's Anthropic?</h2>
+    <p>The launch clients are Codex, ChatGPT, Cursor, GitHub Copilot, Kiro, and VS Code. No Claude Code. The steering committee is Amazon, Cursor, Microsoft, OpenAI, and Vercel. No Anthropic.</p>
+    <p>That's a strange picture, because both building blocks of this spec &mdash; Agent Skills and MCP &mdash; started at Anthropic. The polite reading: Anthropic already open-sourced both pieces (MCP went to the Linux Foundation in December 2025), so a packaging spec on top doesn't need their permission. The less polite reading: the rest of the industry just formed a standards body around Anthropic's ideas without a seat for Anthropic, and "open standard" is partly a competitive move.</p>
+    <p>I don't know which reading is right, and I won't pretend to. What I do know is that standards fights get settled by adoption, not steering committees. If plugin authors start shipping one Agent Plugins folder instead of four manifests, clients that can't read it will feel the pressure &mdash; Claude Code included.</p>
+
+    <h2>What I'd do about it today (and what I wouldn't)</h2>
+    <p>Nothing about your current setup broke this morning. Your Claude Code skills, agents, and hooks work exactly like they did yesterday. My whole <a href="/guides/claude-code-multi-agent-setup/">multi-agent Claude Code setup</a> runs unchanged.</p>
+    <p>What I'd actually do:</p>
+    <ol>
+      <li><strong>Keep writing skills the way you already do.</strong> <code>SKILL.md</code> in a folder is the shared atom of both worlds. Anything you write today rides along whichever way this goes.</li>
+      <li><strong>Keep client-specific logic out of your skills.</strong> If a skill shells out to Claude Code-only features, it won't travel. My <a href="/blog/skills-vs-subagents-vs-commands/">skills vs subagents vs commands</a> breakdown covers what belongs where.</li>
+      <li><strong>Don't rush to repackage.</strong> The spec defines no registry, no install command, no update mechanism &mdash; clients each decide how plugins get discovered and installed. Repackaging now means testing against six clients' interpretations of a day-old spec.</li>
+    </ol>
+    <p>The boring truth about the toolkits I sell is the same truth: the durable part of an agent stack is the operating discipline and the skill files, not the packaging. Packaging formats churn. The <a href="/operators-kit/">Operator's Kit</a> survives this announcement untouched for exactly that reason.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Open your own plugins folder (<code>~/.claude/plugins/</code> if you're on Claude Code) and count the manifests inside any third-party plugin you've installed. If you find two or more <code>*-plugin/plugin.json</code> files describing the same thing, you've found the exact problem this standard exists to solve &mdash; and you'll know why it might stick.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Is Agent Plugins the same as Claude Code plugins?</strong><br>No, but they rhyme. Both are folders with a plugin.json manifest, skills, and MCP config. Claude Code's format also carries hooks, slash commands, and subagents, which the shared spec doesn't standardize &mdash; those would sit in a client-specific extension namespace.</p>
+    <p><strong>Do my existing Claude Code skills work with Agent Plugins?</strong><br>The skill files themselves, essentially yes. The spec's <code>skills/</code> directory follows the same Agent Skills specification Claude Code uses, one <code>SKILL.md</code> per skill folder. It's the wrapper around them that differs.</p>
+    <p><strong>Does Claude Code support Agent Plugins?</strong><br>Not at launch. The announced compatible clients are Codex, ChatGPT, Cursor, GitHub Copilot, Kiro, and VS Code. Whether Anthropic adopts the format is unknown as I write this.</p>
+    <p><strong>What's the difference between Agent Plugins and MCP?</strong><br>MCP is a protocol: how an agent talks to a tool server while running. Agent Plugins is packaging: how you ship skills plus the config that tells a client which MCP servers to start. A plugin's <code>mcp.json</code> declares MCP servers; it doesn't replace them.</p>
+    <p><strong>Should I repackage my plugins for the new standard?</strong><br>Not yet, unless you're actively distributing to users on multiple clients. The spec is a day old, defines no registry or install mechanism, and each client decides its own discovery story. Watch adoption for a few weeks first.</p>
+
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">The part of your stack that survives format wars</h2>
+    <p>The Operator's Kit is the operating discipline layer &mdash; governance docs, quality gates, and workflows that don't care which packaging standard wins.</p>
+    <a class="btn btn-primary" href="/operators-kit/">See the Operator's Kit</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
