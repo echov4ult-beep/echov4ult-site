@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Hooks Explained: Automatic Rules That Always Fire | echov4ult</title>
+  <meta name="description" content="Claude Code hooks are automatic rules that run every time, before or after Claude takes action. What they are, when they help, and when to skip them.">
+  <link rel="canonical" href="https://echov4ult.com/blog/claude-code-hooks-explained/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Claude Code Hooks Explained: Automatic Rules That Always Fire">
+  <meta property="og:description" content="Claude Code hooks are automatic rules that run every time, before or after Claude takes action. What they are, when they help, and when to skip them.">
+  <meta property="og:url" content="https://echov4ult.com/blog/claude-code-hooks-explained/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Claude Code Hooks Explained: Automatic Rules That Always Fire">
+  <meta name="twitter:description" content="Claude Code hooks are automatic rules that run every time, before or after Claude takes action. What they are, when they help, and when to skip them.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Claude Code Hooks Explained: Automatic Rules That Always Fire","description":"Claude Code hooks are automatic rules that run every time, before or after Claude takes action. What they are, when they help, and when to skip them.","datePublished":"2026-08-06","dateModified":"2026-08-06","url":"https://echov4ult.com/blog/claude-code-hooks-explained/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/claude-code-hooks-explained/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Do I need to know how to code to use Claude Code hooks?","acceptedAnswer":{"@type":"Answer","text":"A little. The simplest hooks are one-line commands like running a formatter. You can copy those from examples and they'll work. More complex hooks that inspect what Claude is about to do need basic scripting. But the concept isn't complicated, and starting with a copy-paste hook is perfectly fine."}},
+    {"@type":"Question","name":"Do Claude Code hooks slow things down?","acceptedAnswer":{"@type":"Answer","text":"A fast hook like running a formatter or appending to a log adds barely noticeable time. A slow hook like running a full test suite adds whatever the tests take. Keep hooks focused and they stay fast."}},
+    {"@type":"Question","name":"What happens if my Claude Code hook crashes?","acceptedAnswer":{"@type":"Answer","text":"Claude keeps going. A broken hook is treated as a warning, not a wall. The error gets logged, but Claude's work continues. The one exception: if your hook deliberately exits with code 2, that's the signal for 'stop, this action is blocked.' Anything else is treated as a hiccup."}},
+    {"@type":"Question","name":"Are Claude Code hooks the same as git hooks?","acceptedAnswer":{"@type":"Answer","text":"Same idea, different system. Git hooks fire on git events like commits and pushes. Claude Code hooks fire on Claude events like running a command or editing a file. You can use both at the same time and they don't interfere with each other."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">Claude Code Decoded</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Claude Code hooks explained: automatic rules that always fire</h1>
+    <p class="post-meta">2026-08-06 &middot; echov4ult</p>
+    <p class="lede"><strong>Hooks are automatic scripts that fire at specific moments in Claude Code &mdash; before it runs a command, after it edits a file, when a session starts. Unlike instructions you put in CLAUDE.md (which Claude follows well but interprets on its own), hooks run every single time. They don't skip. They don't interpret.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+
+    <h2>The alarm-system version</h2>
+    <p>Think of Claude Code as a contractor remodeling your house. CLAUDE.md is the sticky note on the fridge: "Don't touch the upstairs bathroom." Most of the time, the contractor reads it and respects it.</p>
+    <p>A hook is the motion sensor on the bathroom door. It doesn't need to be read. If the door opens, the alarm goes off. Every time. Automatically. That's what hooks do &mdash; they enforce rules whether Claude "remembers" them or not.</p>
+
+    <h2>The four hooks worth knowing first</h2>
+    <p>Claude Code has around thirty different moments where a hook can fire. If you're just learning what hooks are, four cover the ground.</p>
+    <p><strong>PreToolUse</strong> fires right before Claude does something &mdash; runs a terminal command, writes a file, makes an edit. This is your chance to block it. If Claude is about to delete a folder or touch a file it shouldn't, a PreToolUse hook can stop the action before it happens.</p>
+    <p><strong>PostToolUse</strong> fires right after Claude finishes doing something. The action already happened, so you can't undo it, but you can follow up. Run a code formatter on the file it just wrote. Check for style errors. Log what changed.</p>
+    <p><strong>Stop</strong> fires when Claude finishes its entire response and is about to hand control back to you. This is the "final check" moment. Did it actually run the tests? Did it leave any placeholder code behind?</p>
+    <p><strong>Notification</strong> fires when Claude pings you with an alert. If you want those alerts in Slack instead of the terminal, this is where you'd wire that up.</p>
+
+    <h2>Where hooks live</h2>
+    <p>Hooks go in a file called <code>settings.json</code>. Two locations:</p>
+    <p><code>~/.claude/settings.json</code> (the <code>~</code> means your home folder) &mdash; your personal hooks, applied to every project you open.</p>
+    <p><code>.claude/settings.json</code> inside a project folder &mdash; hooks that only apply to that project. These travel with the repo, so your whole team gets the same guardrails.</p>
+    <p>If both exist, they stack. Project hooks add to your personal hooks. They don't replace them.</p>
+
+    <h2>What a hook actually looks like</h2>
+    <p>Here's the simplest useful hook I could write. It runs a code formatter every time Claude writes a file:</p>
+    <pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write ."
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+    <p>Three layers, inside out:</p>
+    <p>The <strong>hook itself</strong>: run Prettier (a code formatting tool) on the project. That's the <code>"command"</code> line.</p>
+    <p>The <strong>matcher</strong>: only fire this hook when Claude uses the Write tool. Not when it reads a file, not when it runs a terminal command. Just writes. That's the <code>"matcher": "Write"</code> line.</p>
+    <p>The <strong>event</strong>: PostToolUse &mdash; after the write is done, not before. That's the outer key.</p>
+    <p>Pick the moment, pick the trigger, pick what runs. That's the pattern for every hook you'll ever write.</p>
+
+    <h2>Four things people actually build with hooks</h2>
+    <p><strong>Block a dangerous command.</strong> A PreToolUse hook on the Bash tool that checks if Claude is about to run <code>rm -rf</code> (the terminal command that deletes everything in a folder, no questions asked). If it matches, the hook blocks the command before it executes. Claude gets an error message. No files deleted. No close calls.</p>
+    <p><strong>Auto-format on save.</strong> The Prettier example above. A PostToolUse hook that formats code every time Claude writes a file. You never ask Claude to clean up its formatting. It just happens.</p>
+    <p><strong>Keep a log of everything.</strong> A PostToolUse hook that appends every tool call to a log file &mdash; which files Claude touched, which commands it ran, when. Simple, cheap, and surprisingly useful when you're reviewing what happened in a long session.</p>
+    <p><strong>Lint after every edit.</strong> A PostToolUse hook on the Edit tool that runs your linter (a tool that checks code style and catches common mistakes). If Claude introduces a style violation, you know immediately instead of three steps later when something breaks.</p>
+
+    <h2>Hooks vs. CLAUDE.md &mdash; different jobs, same team</h2>
+    <p>This is the question I see most often, and it confused me too at first.</p>
+    <p><strong>CLAUDE.md</strong> tells Claude how to think. Use this voice. Follow this pattern. Prefer this library. It's guidance. Claude reads it, interprets it, and follows it. Usually faithfully, but it's still interpretation.</p>
+    <p><strong>Hooks</strong> don't talk to Claude at all. They're scripts that run alongside Claude, reacting to what it does. Claude doesn't decide whether to "follow" a hook. The hook fires because the event happened. Period.</p>
+    <p>In simple terms: use CLAUDE.md for preferences. Use hooks for hard rules.</p>
+    <p>They work best together. CLAUDE.md says "always write tests." A Stop hook checks whether tests actually ran before Claude finishes its response. The instruction shapes behavior. The hook verifies the outcome.</p>
+    <p>If you're sorting out the other moving parts in Claude Code &mdash; skills, <a href="/blog/what-are-claude-code-subagents/">subagents</a>, commands &mdash; I wrote a breakdown of <a href="/blog/skills-vs-subagents-vs-commands/">how those pieces fit together</a>. Short version: skills are reusable instructions, subagents are independent specialists, commands are shortcuts, and hooks are enforcement. Different tools, different jobs.</p>
+
+    <h2>When hooks earn their keep</h2>
+    <ul>
+      <li>You have a rule that must never be broken. Not "usually followed." Never.</li>
+      <li>You want something to happen automatically, without relying on Claude to remember.</li>
+      <li>You need a record of what Claude did. Logging hooks are cheap and surprisingly useful.</li>
+      <li>Your team shares a project and you want the same guardrails for everyone &mdash; project-level hooks travel with the repo.</li>
+    </ul>
+
+    <h2>When to skip them</h2>
+    <ul>
+      <li>You just want Claude to follow a convention. CLAUDE.md is simpler and adds no overhead.</li>
+      <li>The rule has gray areas. Hooks are yes-or-no. If the answer is "it depends," that belongs in instructions, not a hook.</li>
+      <li>Nothing has broken yet. Building guardrails for problems that haven't happened is how you end up maintaining scripts you forgot why you wrote.</li>
+    </ul>
+
+    <h2>Try it yourself</h2>
+    <p>Pick one thing Claude does that you always double-check by hand. Maybe it's formatting. Maybe it's running tests. Write one PostToolUse hook that does the check automatically. Start there &mdash; one hook, one rule. You can see everything you've configured by typing <code>/hooks</code> inside Claude Code.</p>
+    <p>If you want to see how hooks fit into a full working system &mdash; with <a href="/blog/what-are-claude-code-subagents/">subagents</a>, skills, and governance docs &mdash; the <a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">free Full Party demo</a> is a real setup, not a tutorial. Ten agents, the works. Run it and poke around.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Do I need to know how to code to use hooks?</strong><br>A little. The simplest hooks are one-line commands &mdash; run a formatter, check a file. You can copy those from examples and they'll work. More complex hooks that inspect what Claude is about to do need basic scripting. But the concept isn't complicated, and starting with a copy-paste hook is perfectly fine.</p>
+    <p><strong>Do hooks slow Claude down?</strong><br>A fast hook (running a formatter, appending to a log) adds barely noticeable time. A slow hook (running a full test suite) adds whatever the tests take. Keep hooks focused and they stay fast.</p>
+    <p><strong>What happens if my hook script crashes?</strong><br>Claude keeps going. A broken hook is treated as a warning, not a wall. The error gets logged, but Claude's work continues. The one exception: if your hook deliberately exits with code 2, that's the signal for "stop, this action is blocked." Anything else is treated as a hiccup.</p>
+    <p><strong>Are hooks the same as git hooks?</strong><br>Same idea, different system. Git hooks fire on git events (commit, push). Claude Code hooks fire on Claude events (running a command, editing a file). You can use both at the same time. They don't interfere with each other.</p>
+
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Skip the setup. Install the party.</h2>
+    <p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p>
+    <a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

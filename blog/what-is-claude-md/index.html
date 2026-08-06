@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Is CLAUDE.md and How to Use It | echov4ult</title>
+  <meta name="description" content="CLAUDE.md is the file Claude Code reads every session — your project's permanent memory. Where to put it, what to write, and what to leave out.">
+  <link rel="canonical" href="https://echov4ult.com/blog/what-is-claude-md/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="What Is CLAUDE.md and How to Use It | echov4ult">
+  <meta property="og:description" content="CLAUDE.md is the file Claude Code reads every session — your project's permanent memory. Where to put it, what to write, and what to leave out.">
+  <meta property="og:url" content="https://echov4ult.com/blog/what-is-claude-md/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What Is CLAUDE.md and How to Use It | echov4ult">
+  <meta name="twitter:description" content="CLAUDE.md is the file Claude Code reads every session — your project's permanent memory. Where to put it, what to write, and what to leave out.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BlogPosting", "headline": "What is CLAUDE.md and how to use it", "description": "CLAUDE.md is the file Claude Code reads every session — your project's permanent memory. Where to put it, what to write, and what to leave out.", "datePublished": "2026-08-06", "dateModified": "2026-08-06", "url": "https://echov4ult.com/blog/what-is-claude-md/", "image": "https://echov4ult.com/assets/v-shield.png", "author": {"@type": "Organization", "name": "echov4ult", "url": "https://echov4ult.com/"}, "publisher": {"@type": "Organization", "name": "EchoVault, LLC", "logo": {"@type": "ImageObject", "url": "https://echov4ult.com/assets/v-shield.png"}, "url": "https://echov4ult.com/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://echov4ult.com/blog/what-is-claude-md/"}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Claude Code Decoded</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">What is CLAUDE.md and how to use it</h1><p class="post-meta">2026-08-06 &middot; echov4ult</p><p class="lede"><strong>CLAUDE.md is a simple text file that tells Claude Code how to work in your project. You write your rules and preferences in it once, and Claude reads them at the start of every conversation. No more repeating yourself.</strong></p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+
+    <h2>The problem it solves</h2>
+    <p>Every time you start a new conversation with Claude Code, it starts fresh. It doesn't remember what you told it yesterday. If you spent ten minutes explaining "we use this testing setup" and "never change that config file," that's gone next session. You're explaining it again.</p>
+    <p>CLAUDE.md fixes that. It's a file you create in your project folder, and Claude reads it automatically before doing anything else. Think of it as a sticky note on the fridge, except the fridge actually reads it.</p>
+    <p>I run a multi-agent Claude Code setup for my own products, and my CLAUDE.md files are the single most valuable piece of infrastructure I have. Not because they're clever. Because they stop me from explaining the same thing twice a day.</p>
+
+    <h2>What goes in it</h2>
+    <p>Plain English. Seriously, that's it. You're writing a note to a very capable assistant who forgets everything between conversations. Tell it:</p>
+    <ul>
+      <li>What commands to use (and which ones to avoid)</li>
+      <li>How your project is organized</li>
+      <li>Rules that matter: "always run tests before saving," "never touch the database directly"</li>
+      <li>Style preferences: "use tabs, not spaces" or "keep function names descriptive"</li>
+    </ul>
+    <p>You don't need special formatting or programming knowledge. A simple list of rules works fine. Here's what a basic one looks like:</p>
+    <pre><code># Project rules
+
+- This is a React app using TypeScript
+- Run `npm test` before committing any changes
+- Never install new packages without asking first
+- Components go in src/components/
+- We use 2-space indentation</code></pre>
+    <p>That's a real, working CLAUDE.md. Nothing fancy. Five lines, and Claude will follow every one of them in every conversation you have in that project.</p>
+
+    <h2>Where to put it</h2>
+    <p>Create a file called <code>CLAUDE.md</code> (all caps, with the <code>.md</code> extension) and drop it in your project's main folder. Claude Code finds it automatically.</p>
+    <p>There's a shortcut if you don't want to start from scratch: type <code>/init</code> inside a Claude Code session and it will scan your project and write a starter file for you. You can tweak it afterward. Takes about thirty seconds.</p>
+
+    <h2>The three levels (if you want to get organized)</h2>
+    <p>You can actually have CLAUDE.md files in different places, and they stack like layers. Most people only need the first one, but here's the full picture:</p>
+    <p><strong>Project rules</strong> (<code>CLAUDE.md</code> in your project folder). This is the main one. It applies to everyone working on the project. Think of it as the rules posted in the office kitchen. "Clean up after yourself. Label your food. Don't microwave fish."</p>
+    <p><strong>Personal preferences</strong> (<code>~/.claude/CLAUDE.md</code>, which means a file in your home directory). Rules that follow you across every project on your computer. Like "I prefer short explanations" or "always show me what changed." These are your house rules.</p>
+    <p><strong>Private notes</strong> (<code>CLAUDE.local.md</code> in your project folder). Just for you, not shared with teammates. A sticky note on your own monitor. "I'm currently refactoring the login page" or "my test server runs on port 5433."</p>
+    <p>When rules from different levels disagree, the more specific one wins. Project rules override personal preferences. Private notes override project rules. Claude reads them all, but it treats the closest-to-the-work instructions as the final word.</p>
+
+    <h2>What to leave out</h2>
+    <p>This is where most people go wrong, and I learned it the hard way. My first CLAUDE.md was close to 300 lines. Claude followed maybe half the rules in it.</p>
+    <p>The reason: Claude has a limited attention budget each session. Everything in your CLAUDE.md takes up space in that budget. When you fill the file with obvious stuff, the important rules get diluted. Anthropic recommends keeping the file under 200 lines. From experience, 50 to 80 lines works even better.</p>
+    <p>Skip these:</p>
+    <ul>
+      <li><strong>Things Claude can figure out by looking.</strong> It can read your project files. You don't need to describe your folder structure in CLAUDE.md.</li>
+      <li><strong>Long step-by-step procedures.</strong> If a process takes more than five steps to explain, it belongs in a separate file called a "skill" (that's a different Claude Code feature for reusable workflows; there's a <a href="/blog/skills-vs-subagents-vs-commands/">full breakdown of skills vs. subagents vs. commands</a> if you're curious).</li>
+      <li><strong>Rules nobody actually follows.</strong> If your CLAUDE.md says "100% test coverage" but your project has 40%, Claude gets mixed signals, not motivation.</li>
+    </ul>
+    <p>Every line should earn its keep. If a rule isn't saving you from explaining something every session, it's just noise.</p>
+
+    <h2>One feature most people miss</h2>
+    <p>Your CLAUDE.md can pull in other files. Write <code>@docs/api-notes.md</code> on a line by itself, and Claude loads that file's contents automatically. This keeps your main file short and focused while giving Claude access to detailed reference material when it needs it.</p>
+    <p>There's also a feature called "path-scoped rules" where you can create separate rule files in a <code>.claude/rules/</code> folder that only apply when Claude is working on certain types of files. Your React rules load when Claude edits React files; your database rules load when Claude touches migration scripts. It keeps things tidy, and Claude doesn't waste attention on rules that don't apply to the current task.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Does Claude remember my CLAUDE.md between conversations?</strong><br>Claude re-reads the file from scratch at the start of every conversation. It doesn't "remember" the file so much as re-read it, like checking the employee handbook every morning. That's actually the advantage: you can update the file anytime and Claude picks up the changes immediately.</p>
+
+    <p><strong>What's the difference between CLAUDE.md and "auto memory"?</strong><br>You write CLAUDE.md. Claude writes auto memory. Auto memory is Claude's own notebook, filled with things it noticed during your sessions: "this person prefers short variable names," or "the build command is <code>npm run build</code>, not <code>yarn build</code>." Both load every session, but CLAUDE.md holds your rules, and auto memory holds Claude's observations.</p>
+
+    <p><strong>I set up a CLAUDE.md but Claude isn't following the rules. What's wrong?</strong><br>First, type <code>/context</code> in Claude Code to check that the file actually loaded. If it loaded and Claude still ignores a rule, the issue is usually vague wording. "Format code nicely" doesn't give Claude much to work with. "Use 2-space indentation and always add semicolons" does. Be specific. Think instructions, not wishes.</p>
+
+    <p><strong>Can I use CLAUDE.md on a team?</strong><br>Yes, and it's one of the best uses. Put CLAUDE.md in version control (like Git) so everyone shares the same rules. Each person can add their own personal preferences in a <code>CLAUDE.local.md</code> file that stays off the shared repo.</p>
+
+    <p><strong>How is this different from a regular README?</strong><br>A README is for humans. CLAUDE.md is for Claude. There's nothing stopping you from having both, but don't copy-paste between them. Claude can already read your README if it needs to. CLAUDE.md is for directives: "do this, never do that." Short, direct, no explanations needed.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Open Claude Code in any project and type <code>/init</code>. Thirty seconds, and you have a starter CLAUDE.md based on your actual codebase. Then add one rule. Just one. Something you've corrected Claude on before. That single line will save you from ever explaining it again.</p>
+    <p>If you want to see how CLAUDE.md fits into a bigger system where multiple AI specialists work together with real rules and quality checks, the <a href="/guides/claude-code-multi-agent-setup/">multi-agent setup guide</a> walks through the whole picture. The file is the starting point. The system is what makes it powerful.</p>
+
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>

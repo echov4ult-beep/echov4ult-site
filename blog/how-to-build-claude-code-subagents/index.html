@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Build a Claude Code Subagent (Step by Step) | echov4ult</title>
+  <meta name="description" content="Build your first Claude Code subagent in five minutes. The file, the frontmatter, the system prompt, common mistakes, and how to iterate until it works.">
+  <link rel="canonical" href="https://echov4ult.com/blog/how-to-build-claude-code-subagents/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="How to Build a Claude Code Subagent (Step by Step) | echov4ult">
+  <meta property="og:description" content="Build your first Claude Code subagent in five minutes. The file, the frontmatter, the system prompt, common mistakes, and how to iterate until it works.">
+  <meta property="og:url" content="https://echov4ult.com/blog/how-to-build-claude-code-subagents/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How to Build a Claude Code Subagent (Step by Step) | echov4ult">
+  <meta name="twitter:description" content="Build your first Claude Code subagent in five minutes. The file, the frontmatter, the system prompt, common mistakes, and how to iterate until it works.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BlogPosting", "headline": "How to Build a Claude Code Subagent (Step by Step)", "description": "A hands-on walkthrough for building your first Claude Code subagent: the file, the frontmatter fields, the system prompt, and the iteration loop.", "datePublished": "2026-08-06", "dateModified": "2026-08-06", "url": "https://echov4ult.com/blog/how-to-build-claude-code-subagents/", "image": "https://echov4ult.com/assets/v-shield.png", "author": {"@type": "Organization", "name": "echov4ult", "url": "https://echov4ult.com/"}, "publisher": {"@type": "Organization", "name": "EchoVault, LLC", "logo": {"@type": "ImageObject", "url": "https://echov4ult.com/assets/v-shield.png"}, "url": "https://echov4ult.com/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://echov4ult.com/blog/how-to-build-claude-code-subagents/"}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Claude Code Decoded</span><h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">How to build a Claude Code subagent (step by step)</h1><p class="post-meta">2026-08-06 &middot; echov4ult</p><p class="lede">Five minutes from blank file to working subagent. The whole process, including the parts most guides skip.</p></div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p><strong>You create a text file, drop it in a specific folder, and write a few lines telling Claude what this specialist should do. No coding required. No install process. Just a file.</strong> Everything below is about making that file actually good.</p>
+    <p>Want the conceptual overview first? <a href="/blog/what-are-claude-code-subagents/">What Are Claude Code Subagents?</a> covers the what and why. This guide is the how &mdash; we're building one from scratch, right now.</p>
+
+    <h2>What you need</h2>
+    <ul>
+      <li>Claude Code, up and running</li>
+      <li>Any project to try it in</li>
+      <li>About five minutes</li>
+    </ul>
+    <p>No SDK. No build step. No sign-up.</p>
+
+    <h2>Step 1: Make the folder and create the file</h2>
+    <p>Claude Code looks for subagents in a specific folder inside your project. If that folder doesn't exist yet, create it. Open your terminal and run:</p>
+    <pre><code>mkdir -p .claude/agents</code></pre>
+    <p>That creates a hidden folder called <code>.claude</code> inside your project, with an <code>agents</code> folder inside it. This is where all your subagents live.</p>
+    <p>Now create the file:</p>
+    <pre><code>touch .claude/agents/code-reviewer.md</code></pre>
+    <p>You've just made a blank text file. Open it in any text editor &mdash; VS Code, Notepad, whatever you like. We're going to fill it in.</p>
+    <p><strong>Quick note on placement.</strong> You have two choices for where to put this file:</p>
+    <ul>
+      <li><strong>Inside your project</strong> (<code>.claude/agents/</code>) &mdash; The subagent only works in this project. If you check it into version control, your teammates get it too.</li>
+      <li><strong>In your home folder</strong> (<code>~/.claude/agents/</code>) &mdash; The subagent works in every project on your machine. Good for personal helpers you want everywhere.</li>
+    </ul>
+    <p>For your first one, project-level is fine. You can always move it later.</p>
+
+    <h2>Step 2: Add the settings block</h2>
+    <p>At the top of your file, you add a small settings section. In Claude Code's world, this is called "frontmatter" &mdash; a few lines between triple dashes that tell Claude who this subagent is and what it's allowed to do.</p>
+    <p>Here's what it looks like:</p>
+    <pre><code>---
+name: code-reviewer
+description: Reviews code changes for bugs, security issues,
+  and readability problems. Use after making code changes or
+  before committing.
+tools: Read, Grep, Glob
+model: sonnet
+---</code></pre>
+    <p>Here's what each line does:</p>
+    <p><strong><code>name</code></strong> &mdash; The subagent's ID. Keep it lowercase with hyphens between words. This is how Claude refers to it behind the scenes.</p>
+    <p><strong><code>description</code></strong> &mdash; This is the most important line in the file. Claude reads it to decide whether a task should go to your subagent. Think of it like a job description: "Reviews code changes for bugs, security issues, and readability problems" tells Claude exactly when to hand off work. Something vague like "helps with code" doesn't give Claude enough to go on.</p>
+    <p><strong><code>tools</code></strong> &mdash; What this subagent is allowed to do. Think of it like permissions on a phone app &mdash; you're choosing what it can touch. <code>Read</code> lets it look at files. <code>Grep</code> lets it search through code. <code>Glob</code> lets it find files by name. That's all a reviewer needs &mdash; it reads your code and reports back. If you leave this line out, the subagent gets access to everything, which is usually more than you want. A reviewer that can also edit your files <em>will</em> start editing your files.</p>
+    <p><strong><code>model</code></strong> &mdash; Which version of Claude powers this subagent. Your options: <code>haiku</code> (fast and cheap), <code>sonnet</code> (solid all-rounder), <code>opus</code> (heavy-duty reasoning), or <code>inherit</code> (uses whatever your main session uses). For code review, <code>sonnet</code> hits the sweet spot.</p>
+    <p>Only <code>name</code> and <code>description</code> are required. But <code>tools</code> and <code>model</code> are worth setting every time.</p>
+
+    <h2>Step 3: Write the instructions</h2>
+    <p>Everything below that settings block is the system prompt &mdash; the instructions that shape how your subagent behaves. This is where most people go wrong, usually in one of two directions.</p>
+    <p><strong>Too little:</strong></p>
+    <pre><code>You are a code reviewer.</code></pre>
+    <p>Claude already knows what code review is. This tells it nothing new. You'd get the same result just asking Claude directly, without a subagent at all.</p>
+    <p><strong>Too much:</strong></p>
+    <pre><code>You are an expert senior staff principal code reviewer
+with 20 years of experience across all programming
+languages, providing comprehensive, thorough,
+exhaustive analysis...</code></pre>
+    <p>Adjective salad. Piling up titles doesn't change how Claude works. None of those words make the output better.</p>
+    <p><strong>What actually works</strong> is telling the subagent what to focus on, what to skip, and how to report back. Give it a decision framework:</p>
+    <pre><code>Review the code for three categories of issues, in this
+priority order:
+
+1. Bugs and security — anything that would break in
+   production or create a vulnerability
+2. Logic errors — things that run but produce wrong results
+3. Readability — naming, structure, anything that would
+   confuse the next person
+
+For each issue, show the specific line, explain the problem,
+and suggest a fix.
+
+Skip style nitpicks like formatting and bracket placement
+unless they hide a real bug. If the code looks solid, say
+so — a clean review is a valid outcome, not a failure to
+find problems.</code></pre>
+    <p>Five short instructions. The subagent now knows what to prioritize (bugs over style), how to format its response (show the line, explain, suggest), and what not to waste time on (formatting nitpicks). These are the things that actually shape behavior.</p>
+
+    <h2>Step 4: Try it out</h2>
+    <p>If this is the very first subagent file you've created in a brand-new <code>agents</code> folder, restart Claude Code once. After that first time, Claude watches the folder and picks up new or changed files on its own &mdash; no restarts needed.</p>
+    <p>Now test it. You can ask Claude directly:</p>
+    <pre><code>Use the code-reviewer to look at the changes in src/auth.js</code></pre>
+    <p>Or describe a task that matches your subagent's description and see if Claude delegates on its own:</p>
+    <pre><code>Can you review my recent changes for any issues?</code></pre>
+    <p>When Claude delegates, you'll see a row in the transcript with the subagent's name &mdash; something like <code>code-reviewer (Review code changes)</code>. That's how you know it worked.</p>
+
+    <h2>Step 5: Tweak and improve</h2>
+    <p>Your first version won't be perfect. That's normal. The file is just text &mdash; edit it, save it, and the next time Claude delegates to that subagent, it uses the updated version.</p>
+    <p>Things you might adjust after the first run:</p>
+    <ul>
+      <li><strong>Claude didn't delegate at all.</strong> Your description is probably too vague. Make it more specific about when this subagent should be called in.</li>
+      <li><strong>The output was a wall of text.</strong> Add a line to the instructions: "Summarize findings as a numbered list. Keep it short."</li>
+      <li><strong>It flagged things you don't care about.</strong> Add skip rules: "Ignore formatting issues" or "Don't review test files."</li>
+      <li><strong>It started editing your code instead of just reviewing.</strong> Check whether Write or Edit are in the tools list and remove them. Or add "Report issues only &mdash; never modify files" to the instructions.</li>
+    </ul>
+    <p>This edit-and-test loop is the whole workflow. No deploy step, no compilation, no waiting. Change the file, run a task, see what happens.</p>
+
+    <h2>The complete file</h2>
+    <p>Here's everything above put together &mdash; the finished subagent, ready to save as <code>.claude/agents/code-reviewer.md</code>:</p>
+    <pre><code>---
+name: code-reviewer
+description: Reviews code changes for bugs, security issues,
+  and readability problems. Use after making code changes or
+  before committing.
+tools: Read, Grep, Glob
+model: sonnet
+---
+
+Review the code for three categories of issues, in this
+priority order:
+
+1. Bugs and security — anything that would break in
+   production or create a vulnerability
+2. Logic errors — things that run but produce wrong results
+3. Readability — naming, structure, anything that would
+   confuse the next person
+
+For each issue, show the specific line, explain the problem,
+and suggest a fix.
+
+Skip style nitpicks like formatting and bracket placement
+unless they hide a real bug. If the code looks solid, say
+so — a clean review is a valid outcome, not a failure to
+find problems.</code></pre>
+
+    <h2>Common mistakes</h2>
+    <p><strong>Making it too broad.</strong> "A general helper for all coding tasks" &mdash; that's just Claude Code itself. Subagents work best when they do one thing well. If you can't describe the role in one sentence, it's either two subagents or none.</p>
+    <p><strong>Giving it too many permissions.</strong> Start with the minimum. A reviewer needs to read, not write. A researcher needs to search, not edit. You can always add tools later when you see it struggle without them. Going the other direction &mdash; figuring out which extra permission caused a mess &mdash; is less fun.</p>
+    <p><strong>Copying your main conversation.</strong> Subagents start fresh every time. They don't know what you and Claude have been discussing. If a task needs all that context to work, just ask your main session directly. Subagents are for jobs you can hand off with a short description &mdash; like asking a colleague to look something over.</p>
+    <p><strong>Writing a vague description.</strong> The description is how Claude decides what goes where. "Helps with code" is like a job posting that says "does computer things." Be specific: what does this subagent handle, when should Claude call on it, what kind of tasks match?</p>
+    <p><strong>Stuffing the prompt with adjectives.</strong> "Expert senior staff principal" doesn't change output quality. Clear instructions do. Tell the subagent what to focus on, what to skip, and how to format its response. Skip the resume padding.</p>
+
+    <h2>Once you're comfortable: more settings</h2>
+    <p>The four fields above handle most real-world use cases. When you're ready to fine-tune, here are some additional options:</p>
+    <ul>
+      <li><strong><code>maxTurns</code></strong> &mdash; Limits how long the subagent can work. Useful if you don't want a research task running for fifty rounds.</li>
+      <li><strong><code>isolation: worktree</code></strong> &mdash; Gives the subagent its own copy of your code to work in, so experimental changes don't touch your actual files.</li>
+      <li><strong><code>disallowedTools</code></strong> &mdash; The flip side of <code>tools</code>. Instead of listing what's allowed, you list what's blocked. Handy when you want "everything except file editing."</li>
+      <li><strong><code>mcpServers</code></strong> &mdash; Lets the subagent connect to external tools (like a Playwright browser or a Slack connection) that your main session doesn't load.</li>
+      <li><strong><code>skills</code></strong> &mdash; Preloads specific Claude Code skills into the subagent's memory at startup.</li>
+    </ul>
+    <p>The <a href="https://docs.anthropic.com/en/docs/claude-code/subagents" rel="noopener">official docs</a> cover every field in detail. But start simple: <code>name</code>, <code>description</code>, <code>tools</code>, <code>model</code>. Add the rest when you have a specific reason.</p>
+
+    <h2>Frequently asked questions</h2>
+    <h3>Do I need to restart Claude Code after creating a subagent?</h3>
+    <p>Only once &mdash; if it's the very first time you've created an <code>agents</code> folder. Claude Code watches that folder for changes, but it can only watch a folder that existed when your session started. A brand-new folder needs one restart. After that, new or edited subagent files get picked up automatically within seconds.</p>
+
+    <h3>Should I put subagents in my project or my home folder?</h3>
+    <p>Project folder (<code>.claude/agents/</code>) for anything tied to a specific codebase &mdash; check it into git so your team gets it too. Home folder (<code>~/.claude/agents/</code>) for personal tools you want available in every project. If the same name shows up in both places, the project version wins.</p>
+
+    <h3>Can subagents create their own subagents?</h3>
+    <p>Technically yes, up to a depth limit. Practically, keep things flat for now. Your main session hands off to a subagent, the subagent does the work and reports back. Nesting adds cost and latency at each layer, and you rarely need it.</p>
+
+    <h3>Which model should I pick?</h3>
+    <p>Match the model to the job. <strong>Haiku</strong> for quick, simple tasks like finding files or checking formatting. <strong>Sonnet</strong> for most review and analysis work &mdash; the best balance of smarts and speed. <strong>Opus</strong> for tasks that need deep reasoning, like untangling a tricky architecture problem. If you're not sure, <code>sonnet</code> is a safe default.</p>
+
+    <h3>How many subagents should I have?</h3>
+    <p>Fewer than you think. Each one is a file you need to keep accurate and updated. Three subagents you use every day beat fifteen you forget about. Start with one, get it working well, then add another when you have a clear repeated task for it. For more on right-sizing, <a href="/blog/small-party-vs-mega-roster/">Small Party vs. Mega-Roster</a> covers the tradeoffs.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Pick one task you repeat in most projects &mdash; reviewing code, scanning for TODOs, checking that tests exist for new functions. Build one subagent for it. Run it. Tweak the prompt. Run it again. The whole loop takes five minutes, and one real subagent you've iterated on teaches you more than reading about ten theoretical ones.</p>
+    <p>Not sure if you actually need a subagent, a skill, or a command for your use case? <a href="/blog/skills-vs-subagents-vs-commands/">Skills vs. Subagents vs. Commands</a> walks through the decision.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal"><h2 class="grad">Skip the setup. Install the party.</h2><p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p><a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a></div></div></section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
