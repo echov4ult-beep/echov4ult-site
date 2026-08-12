@@ -75,10 +75,13 @@ LIVE / WIRED:
   method still unset (Owner). ToS skimmed: no redirect ban in public terms.
 
 Tier 1 (apply first — recurring, small-site friendly):
-- n8n — 30% x 12mo — APPLIED 2026-08-05, pending n8n GmbH review (email lands at
-  echov4ult@gmail.com). Runs on PartnerStack — Owner should create the PartnerStack
-  account + payment setup while waiting; same PartnerStack account also covers
-  ElevenLabs (Tier 2) later.
+- n8n — **DECLINED 2026-08-11** by n8n GmbH (PartnerStack notice; no reason given —
+  likely site age/traffic). No n8n affiliate links exist anywhere on the site
+  (verified: laptop-vs-VPS post mentions n8n editorially, zero links) — nothing to
+  remove. Reapply candidate once traffic is demonstrable (pair with the Higgsfield
+  reapply trigger). PartnerStack account still worth creating — it covers
+  ElevenLabs (Tier 2). Nearest replacement in the automation lane: Make.com
+  (35% x 12mo, Tier 2) — matching content now live (laptop-vs-VPS), can apply.
 - Readwise — 33% first year ($22–$40/signup) + 2 free months for referrals —
   ACCEPTED 2026-08-05, setup in progress (Erin @ partnerships; slug echov4ult,
   v-shield icon, custom bar text). 2026-08-11: Erin couldn't find an account under
