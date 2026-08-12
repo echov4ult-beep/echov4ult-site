@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laptop vs VPS: Where Should Always-On AI Agents Live? | echov4ult</title>
+  <meta name="description" content="My whole agent stack runs on the Mac on my desk, not a VPS. The three-question test for when a $6 server makes sense, with 2026 prices and receipts.">
+  <link rel="canonical" href="https://echov4ult.com/blog/laptop-vs-vps-for-ai-agents/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Laptop vs VPS: Where Should Always-On AI Agents Live?">
+  <meta property="og:description" content="My whole agent stack runs on the Mac on my desk, not a VPS. The three-question test for when a $6 server makes sense, with 2026 prices and receipts.">
+  <meta property="og:url" content="https://echov4ult.com/blog/laptop-vs-vps-for-ai-agents/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Laptop vs VPS: Where Should Always-On AI Agents Live?">
+  <meta name="twitter:description" content="My whole agent stack runs on the Mac on my desk, not a VPS. The three-question test for when a $6 server makes sense, with 2026 prices and receipts.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Laptop vs VPS: Where Should Always-On AI Agents Live?","description":"My whole agent stack runs on the Mac on my desk, not a VPS. The three-question test for when a $6 server makes sense, with 2026 prices and receipts.","datePublished":"2026-08-11","dateModified":"2026-08-11","url":"https://echov4ult.com/blog/laptop-vs-vps-for-ai-agents/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/laptop-vs-vps-for-ai-agents/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Can't I just leave my laptop open with the lid up?","acceptedAnswer":{"@type":"Answer","text":"You can, and a desktop that never sleeps is basically the same move. The catch is that you're one OS update, power blip, or vacation away from silence, and nothing tells you when it happens. It works, but it's handled by habit instead of by design."}},
+    {"@type":"Question","name":"Do I need a VPS to use n8n?","acceptedAnswer":{"@type":"Answer","text":"No. n8n runs fine locally in Docker while you're building and testing workflows. A VPS earns its rent when workflows need to catch webhooks around the clock. Tunnel services are a middle ground: they give your local machine a public URL, but they don't fix the machine going to sleep."}},
+    {"@type":"Question","name":"Can Claude Code itself run on a VPS?","acceptedAnswer":{"@type":"Answer","text":"Yes. Anthropic's system requirements list Ubuntu 20.04+, Debian 10+, and Alpine 3.19+ with 4 GB or more of RAM, so it runs on a Linux server, but that 4 GB floor rules out the cheapest droplet tiers."}},
+    {"@type":"Question","name":"Is the $4 droplet good for anything?","acceptedAnswer":{"@type":"Answer","text":"At 512 MB of RAM, it suits small jobs: a cron runner, a webhook receiver, an uptime pinger, or just learning your way around a Linux box. For n8n, community guidance treats 1 GB as the floor for experiments and 2 GB as the comfortable production minimum."}},
+    {"@type":"Question","name":"What breaks first if I stay on my laptop?","acceptedAnswer":{"@type":"Answer","text":"In my experience, silent scheduler death. My machine was on and everything looked healthy, but stuck jobs had jammed the queue and nothing behind them ran. The fix wasn't a server, it was monitoring. Whichever box you pick, the real upgrade is knowing when a job didn't run."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">explainer</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Where should your always-on agents live? Laptop vs. a cheap VPS</h1>
+    <p class="post-meta">2026-08-11 &middot; echov4ult</p>
+    <p class="affiliate-note"><strong>Heads up:</strong> we earn commissions when you
+shop through the links below &mdash; at no extra cost to you. We only link tools we
+actually use or have vetted.
+<a href="/disclosure/">Full disclosure &rarr;</a></p>
+    <p class="lede"><strong>Quick answer: work you sit in front of stays on the machine in front of you. Work that has to happen while you're asleep, traveling, or mid-reboot belongs on a computer that never turns off &mdash; either a desktop you leave running, which is what I do, or a small rented server (a VPS) at $4&ndash;12 a month. Below: the three-question test that tells you which side you're on, real 2026 prices, and the one spec that trips people up.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+
+    <p>First, the honest starting point. I don't rent a server. Every agent I run &mdash; the business crew, the schedulers, the daily jobs &mdash; lives on the Mac on my desk. The 7 a.m. job that builds my daily note, the nightly vault backup, the watchdog that restarts crashed processes: all of it sits in launchd (macOS's built-in job scheduler) on one machine in my house.</p>
+    <p>It costs me zero dollars a month, and while I'm paying down debt, zero is a spec I care about.</p>
+    <p>It has also bitten me. Earlier this summer my scheduled tasks quietly stopped running. Stuck jobs had filled the scheduler's slots, and everything queued behind them just didn't happen. No error, no alert. I found out later than I'd like. That's the real shape of the laptop-hosting problem: it doesn't fail loudly. It fails silently, while you're not looking.</p>
+
+    <h2>What a VPS actually is</h2>
+    <p>A VPS &mdash; virtual private server &mdash; is a slice of a computer in somebody's data center that you rent by the month. Kitchen-table version: your laptop is your garage. A VPS is a small storage unit across town. It costs a little every month, but it's always there, nobody in your house can unplug it, and it doesn't close when you go on vacation.</p>
+    <p>Always on. Its own public address on the internet. It survives your reboots, your travel, and your lid.</p>
+
+    <h2>The three-question test</h2>
+    <p>Before you pay anyone $6 a month, score your own stack:</p>
+    <ol>
+      <li><strong>Does anything need to fire while your machine is asleep or off?</strong> Scheduled jobs, overnight watchers, agents that check things at 3 a.m.</li>
+      <li><strong>Does anything need a public URL?</strong> Webhooks are the usual case: a store pinging you on every sale, a Telegram bot, a form that submits to your automation. Tunnel services can fake a public URL from a laptop, but the tunnel goes down when the laptop sleeps too.</li>
+      <li><strong>Would a silent stop cost money or trust?</strong> Missing a daily digest is annoying. Missing a customer's webhook is a refund.</li>
+    </ol>
+    <p>Zero or one yes: stay local. Two or more: it's time to move the always-on pieces out.</p>
+    <p>My own score today, honestly: my machine is a desktop that stays on, so question one is handled &mdash; by habit, not by design. Nothing I run needs an inbound public URL yet. And a silent stop costs me annoyance, not revenue. One soft yes. So I stay local, on purpose, knowing exactly what I'm trading.</p>
+
+    <h2>What $6 a month actually buys in 2026</h2>
+    <p>These are DigitalOcean's basic droplet tiers as listed on their pricing page today &mdash; I'm quoting them because that's the provider you'll meet in almost every self-hosting tutorial:</p>
+    <ul>
+      <li><strong>$4/mo</strong> &mdash; 512 MB RAM, 1 vCPU, 10 GB disk</li>
+      <li><strong>$6/mo</strong> &mdash; 1 GB RAM, 1 vCPU, 25 GB disk</li>
+      <li><strong>$12/mo</strong> &mdash; 2 GB RAM, 1 vCPU, 50 GB disk</li>
+    </ul>
+    <p>Here's the spec that trips people up: you probably can't run your coding agent on the cheap tiers. Anthropic's system requirements for Claude Code call for 4 GB of RAM on a supported OS (Ubuntu 20.04+, Debian 10+). So the $4 and $6 droplets are not where your <a href="/guides/claude-code-multi-agent-setup/">multi-agent setup</a> goes. They're for the plumbing around it: automation flows, cron jobs, webhook receivers, small bots. The interactive agent work stays with you; the always-on plumbing is what moves out.</p>
+
+    <h2>The classic first workload: self-hosted n8n</h2>
+    <p>n8n (an automation tool you can host yourself: "when X happens in app A, do Y in app B") is the workload that pushes most people to their first VPS, because production n8n wants exactly what a laptop can't promise: always on, with a public URL for webhooks.</p>
+    <p>Two honest notes from n8n's own docs before you rush in. One: they publish a step-by-step guide for deploying to <a href="/go/digitalocean/" rel="sponsored noopener">a basic DigitalOcean droplet</a> &mdash; the Marketplace Docker image, Docker Compose for the app, Caddy handling HTTPS for you &mdash; and they note that a basic shared-CPU plan is enough for most usage levels. Two: they're blunt about the skill floor. Their docs say self-hosting "requires technical knowledge" and that "mistakes can lead to data loss, security issues, and downtime," and they recommend it for experienced users. If you've run Docker before, you'll be fine. If "SSH into the box" reads like a spell, use their hosted cloud until it doesn't.</p>
+    <p>If I moved tomorrow, I'd pick the $12, 2 GB tier over the $6 one. Memory headroom is the difference between an automation server you forget about and one you babysit. But I haven't moved, so read that as a plan from someone who did the research, not a review from someone who did the migration.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>Can't I just leave my laptop open with the lid up?</strong><br>You can, and a desktop that never sleeps is basically the same move. The catch is that you're one OS update, power blip, or vacation away from silence, and nothing tells you when it happens. It works, but it's handled by habit instead of by design.</p>
+    <p><strong>Do I need a VPS to use n8n?</strong><br>No. n8n runs fine locally in Docker while you're building and testing workflows. A VPS earns its rent when workflows need to catch webhooks around the clock. Tunnel services are a middle ground: they give your local machine a public URL, but they don't fix the machine going to sleep.</p>
+    <p><strong>Can Claude Code itself run on a VPS?</strong><br>Yes. Anthropic's system requirements list Ubuntu 20.04+, Debian 10+, and Alpine 3.19+ with 4 GB or more of RAM, so it runs on a Linux server, but that 4 GB floor rules out the cheapest droplet tiers.</p>
+    <p><strong>Is the $4 droplet good for anything?</strong><br>At 512 MB of RAM, it suits small jobs: a cron runner, a webhook receiver, an uptime pinger, or just learning your way around a Linux box. For n8n, community guidance treats 1 GB as the floor for experiments and 2 GB as the comfortable production minimum.</p>
+    <p><strong>What breaks first if I stay on my laptop?</strong><br>In my experience, silent scheduler death. My machine was on and everything looked healthy, but stuck jobs had jammed the queue and nothing behind them ran. The fix wasn't a server, it was monitoring. Whichever box you pick, the real upgrade is knowing when a job didn't run.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Run the three questions against your own stack tonight; it takes five minutes with your cron list open. Zero or one yes: you just confirmed local is right for now, for free. Two or more: spin up <a href="/go/digitalocean/" rel="sponsored noopener">the $6 droplet</a>, follow n8n's DigitalOcean guide end to end, and you'll have an always-on automation box by the weekend. Either way, write the answer down. The test is worth re-running the day your first webhook shows up.</p>
+
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">The discipline layer for wherever your agents live</h2>
+    <p>The Operator's Kit is the operating discipline for an AI crew &mdash; quality gates, governance docs, and the monitoring habits that catch silent failures before your customers do.</p>
+    <a class="btn btn-primary" href="/operators-kit/">See the Operator's Kit</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code), DigitalOcean, n8n, or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
