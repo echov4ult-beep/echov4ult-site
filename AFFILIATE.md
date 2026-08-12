@@ -95,9 +95,10 @@ Tier 1 (apply first — recurring, small-site friendly):
   Disclosure matrix codified above; /go/digitalocean/ wired 2026-08-11 (Awin cread
   deep link). First DO post LIVE 2026-08-11: /blog/laptop-vs-vps-for-ai-agents/
   (honest no-usage-claim framing, block v2 verified live). **Example pages EMAILED
-  to Adam 2026-08-11 (Owner sent from echov4ult@gmail.com) — AWAITING commissions-on
-  confirmation.** When it lands: update this row + confirm tracking with a test click
-  in the Awin dashboard. OPEN Owner-hand: Awin payout method (publisher 3022797). ⚠️ Awin payment status was Exposure Level 4
+  to Adam 2026-08-11 — AWAITING commissions-on confirmation (0%→10%).** Awin-side
+  partnership ACTIVATED same day (Awin confirmation email); tracking chain verified
+  live: cread 302 → digitalocean.com with affiliate_id=3022797 + awc token. Once
+  Adam confirms the rate flip, cross-check a click shows in the Awin dashboard. OPEN Owner-hand: Awin payout method (publisher 3022797). ⚠️ Awin payment status was Exposure Level 4
   (2026-08-05) — commissions may pay late; CJ as backup if Awin proves unreliable.
 
 Tier 2 (apply once matching content is live):
