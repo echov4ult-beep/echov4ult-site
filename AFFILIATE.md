@@ -9,11 +9,40 @@ Paste directly under the post's `post-meta` line, BEFORE any body content, in an
 post that contains at least one affiliate link:
 
 ```html
-<p class="affiliate-note"><strong>Heads up:</strong> some links in this post are
-affiliate links — if you buy through one, we earn a small commission at no extra
-cost to you. We only link tools we actually use.
+<p class="affiliate-note"><strong>Heads up:</strong> we earn commissions when you
+shop through the links below — at no extra cost to you. We only link tools we
+actually use or have vetted.
 <a href="/disclosure/">Full disclosure &rarr;</a></p>
 ```
+
+(v2 2026-08-11: leads with DigitalOcean/Awin's REQUIRED exact sentence "we earn
+commissions when you shop through the links below" — their affiliate manager's
+condition for turning commissions on. Old "some links in this post" block retired;
+pending ATTICUS confirm — ties into the queued ATTICUS task on disclosure injection.)
+
+## DigitalOcean/Awin channel disclosure matrix (Adam @ DO, email 2026-08-11 — BINDING for DO links)
+
+- **Blog/webpages:** "we earn commissions when you shop through the links below"
+  at the beginning of the post / top of page (covered by block v2 above).
+- **Video (YouTube/podcast/etc.):** VERBAL disclosure at the start, before first
+  brand mention: "We have relationships with some of the brands featured in this
+  video, and when you shop through the links in the description we'll earn a
+  commission at no additional cost to you." PLUS in the description: the sentence
+  before the first affiliate link, OR "(ad)" before each link.
+- **Social posts:** must START with "(ad)" or "#ad" — not after the pitch, not
+  buried in hashtags.
+- **Social video (Shorts/TikTok):** "#advertisement" burned across the bottom of
+  the video FROM THE START, plus "(ad)"/"#ad" at the beginning of the caption text.
+- **Ebooks/manuals/guides (⚠️ applies to Gumroad kits if DO links ever go in):**
+  "When you use the services featured in this guide, we earn a referral fee at no
+  additional cost to you." on the TOC and on the page with the links.
+- **Emails:** "Through my partnership with DigitalOcean, I earn a referral fee at
+  no additional cost to you" before the link + BCC affiliates@digitalocean.com.
+  (House rule stands: no affiliate links in Beehiiv — so this applies only if we
+  ever deliberately change that for DO.)
+- **Client work (Echov4ult Web relevance):** if we ever deploy client sites on DO,
+  the client contract must conspicuously disclose vendor referral fees; send a copy
+  of the general contract to DO.
 
 ## Link rules
 
@@ -55,11 +84,15 @@ Tier 1 (apply first — recurring, small-site friendly):
   sent with slug echov4ult, v-shield icon, custom bar text). /go/readwise/ +
   /go/reader/ wired to readwise.io/echov4ult landing pages. Update redirect
   URLs if Erin sends different final links.
-- DigitalOcean — 10% recurring x 12mo, 30-day cookie — APPLIED 2026-08-05 via Awin
-  (publisher ID 3022797, advertiser ID 123996, pending approval). ⚠️ Awin payment
-  status is Exposure Level 4 (advertiser over credit limit + past settlement terms) —
-  commissions may pay late. Consider applying via CJ as a backup if Awin payouts
-  prove unreliable. Wire /go/digitalocean/ once approved.
+- DigitalOcean — 10% recurring x 12mo, 30-day cookie — **APPROVED 2026-08-11 at 0%
+  commission** (Adam @ DO): link live/working now; commissions turn ON once we (a) have
+  the channel disclosures in place and (b) email Adam example pages showing them.
+  Disclosure matrix codified above; /go/digitalocean/ wired 2026-08-11 (Awin cread
+  deep link). OPEN: first DO-linked content page — Owner to pick honest placement
+  (we don't currently use DO; a factual "standard VPS pick for self-hosting n8n/agents"
+  framing is fine, a "we use this" claim is NOT until we do). Then send Adam:
+  /disclosure/ + that post URL. ⚠️ Awin payment status was Exposure Level 4
+  (2026-08-05) — commissions may pay late; CJ as backup if Awin proves unreliable.
 
 Tier 2 (apply once matching content is live):
 - Make.com — 35% x 12mo ($100 + 3 paying users payout gate)
