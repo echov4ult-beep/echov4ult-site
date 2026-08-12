@@ -88,10 +88,11 @@ Tier 1 (apply first — recurring, small-site friendly):
   commission** (Adam @ DO): link live/working now; commissions turn ON once we (a) have
   the channel disclosures in place and (b) email Adam example pages showing them.
   Disclosure matrix codified above; /go/digitalocean/ wired 2026-08-11 (Awin cread
-  deep link). OPEN: first DO-linked content page — Owner to pick honest placement
-  (we don't currently use DO; a factual "standard VPS pick for self-hosting n8n/agents"
-  framing is fine, a "we use this" claim is NOT until we do). Then send Adam:
-  /disclosure/ + that post URL. ⚠️ Awin payment status was Exposure Level 4
+  deep link). First DO post LIVE 2026-08-11: /blog/laptop-vs-vps-for-ai-agents/
+  (honest no-usage-claim framing, block v2 verified live). **Example pages EMAILED
+  to Adam 2026-08-11 (Owner sent from echov4ult@gmail.com) — AWAITING commissions-on
+  confirmation.** When it lands: update this row + confirm tracking with a test click
+  in the Awin dashboard. OPEN Owner-hand: Awin payout method (publisher 3022797). ⚠️ Awin payment status was Exposure Level 4
   (2026-08-05) — commissions may pay late; CJ as backup if Awin proves unreliable.
 
 Tier 2 (apply once matching content is live):
