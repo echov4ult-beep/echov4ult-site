@@ -80,10 +80,12 @@ Tier 1 (apply first — recurring, small-site friendly):
   account + payment setup while waiting; same PartnerStack account also covers
   ElevenLabs (Tier 2) later.
 - Readwise — 33% first year ($22–$40/signup) + 2 free months for referrals —
-  ACCEPTED 2026-08-05, setup in progress (Erin @ partnerships replied; reply
-  sent with slug echov4ult, v-shield icon, custom bar text). /go/readwise/ +
-  /go/reader/ wired to readwise.io/echov4ult landing pages. Update redirect
-  URLs if Erin sends different final links.
+  ACCEPTED 2026-08-05, setup in progress (Erin @ partnerships; slug echov4ult,
+  v-shield icon, custom bar text). 2026-08-11: Erin couldn't find an account under
+  echov4ult@gmail.com (affiliate page attaches to a Readwise account) → Owner
+  created the account + replied same day. AWAITING Erin's affiliate-page
+  confirmation + final links. /go/readwise/ + /go/reader/ wired provisionally to
+  readwise.io/echov4ult landing pages — SWAP URLs when Erin sends final links.
 - DigitalOcean — 10% recurring x 12mo, 30-day cookie — **APPROVED 2026-08-11 at 0%
   commission** (Adam @ DO): link live/working now; commissions turn ON once we (a) have
   the channel disclosures in place and (b) email Adam example pages showing them.
