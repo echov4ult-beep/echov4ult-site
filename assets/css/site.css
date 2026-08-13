@@ -276,6 +276,22 @@ section { padding: 84px 0; }
 .faq details[open] summary::after { content: "–"; }
 .faq details p { padding: 0 22px 18px; color: var(--muted); font-size: 0.95rem; }
 
+/* ---------- Diagrams ---------- */
+.diagram {
+  margin: 28px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(10, 36, 64, 0.7), rgba(10, 36, 64, 0.3));
+  padding: 20px 20px 14px;
+  overflow-x: auto;
+}
+.diagram svg { display: block; width: 100%; min-width: 520px; height: auto; }
+.diagram figcaption {
+  margin-top: 14px; text-align: center;
+  font-family: var(--font-mono); font-size: 0.78rem;
+  color: var(--faint); letter-spacing: 0.02em;
+}
+
 /* ---------- Callout ---------- */
 .callout {
   border: 1px solid rgba(0, 207, 240, 0.3); border-radius: var(--radius);
