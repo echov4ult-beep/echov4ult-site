@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grok Bot vs. Building Your Own Agent Team: Why I'm Not Re-Platforming | echov4ult</title>
+  <meta name="description" content="xAI's Grok Bot gives agents their own cloud computers, from $120/seat. What shipped, what it costs, and the portability math on building your own.">
+  <link rel="canonical" href="https://echov4ult.com/blog/grok-bot-vs-building-your-own-agent-team/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Grok Bot vs. Building Your Own Agent Team">
+  <meta property="og:description" content="xAI's Grok Bot rents you a finished agent team. Here's the furniture-vs-lease math on whether your own stack should move.">
+  <meta property="og:url" content="https://echov4ult.com/blog/grok-bot-vs-building-your-own-agent-team/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Grok Bot vs. Building Your Own Agent Team">
+  <meta name="twitter:description" content="xAI's Grok Bot rents you a finished agent team. The furniture-vs-lease math on whether your stack should move.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Grok Bot vs. building your own agent team: why I'm not re-platforming","description":"xAI's Grok Bot gives agents their own cloud computers, from $120/seat. What shipped, what it costs, and the portability math on building your own.","datePublished":"2026-08-15","dateModified":"2026-08-15","url":"https://echov4ult.com/blog/grok-bot-vs-building-your-own-agent-team/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/grok-bot-vs-building-your-own-agent-team/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What is Grok Bot?","acceptedAnswer":{"@type":"Answer","text":"xAI's team of always-on AI agents, launched in early beta August 11, 2026. Each bot runs on its own dedicated cloud computer, signs into your existing tools by operating their interfaces (even ones without APIs), works multi-step jobs while you're offline, and checks in when it needs approval."}},
+    {"@type":"Question","name":"How do I get access to Grok Bot, and what does it cost?","acceptedAnswer":{"@type":"Answer","text":"There's no standalone plan. Per launch reporting it's bundled into SuperGrok Heavy ($300/month), Cursor Ultra ($200/month), and Cursor Teams Premium ($120/seat/month), with an enterprise waitlist. Apps: macOS, Windows, iOS; Linux via the Grok Build CLI; no Android at launch."}},
+    {"@type":"Question","name":"Grok Bot vs Claude Code — should I switch?","acceptedAnswer":{"@type":"Answer","text":"They overlap but aren't the same shape. Grok Bot sells a managed runtime: agents living on vendor cloud machines, rented by the seat or the tier. Claude Code is a tool you run where you choose, with your skills and files on your own disk, where another agent costs nothing extra. If you've built a working team on one, the switching cost is the runtime layer, not your skills or knowledge."}},
+    {"@type":"Question","name":"If I did switch platforms, what actually transfers?","acceptedAnswer":{"@type":"Answer","text":"Markdown transfers: skills, prompts, role definitions, checklists, and any knowledge you kept as plain files. What doesn't: platform-side memory, vendor-specific configs, and anything stored only inside the platform's own database. The August 6 Agent Plugins standard is the industry starting to formalize the portable half."}},
+    {"@type":"Question","name":"Is the AI agent platform war real or hype?","acceptedAnswer":{"@type":"Answer","text":"The launches are real, and so is the marketing escalation — I first learned Grok Bot existed from a competitor's paid intercept ad against it, live on launch day. Real money is being spent to capture people mid-search. That's exactly when boring portability is worth the most."}}
+  ]}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">News</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Grok Bot vs. building your own agent team: why I'm not re-platforming</h1>
+    <p class="post-meta">2026-08-15 · echov4ult</p>
+    <p class="lede"><strong>Grok Bot is xAI's new team of always-on AI agents, each with its own cloud computer, launched in early beta on August 11 behind subscription bundles that start at $120 per seat per month. If you already run an agent team you built yourself, my answer to "should I switch?" is no — and the more useful question is how much of your stack could move if you ever wanted it to.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>Here's how I found out Grok Bot existed: not from xAI. From a Google ad that a competitor called Kylon bought against it, pointing at a "Kylon vs Grok Bot" comparison page that was live on launch day. A rival's ad campaign taught me about the product before the product did. Hold that thought, because it's the actual story.</p>
+
+    <h2>What shipped on August 11</h2>
+    <p>The pitch, in the framing of <a href="https://x.ai/news/introducing-grok-bot" rel="noopener">xAI's announcement</a>: AI teammates you give real work to. Each bot gets its own computer in the cloud, signs into the tools you already use — including ones with no API and no MCP support, because it's operating the app's actual interface on a real machine — and works jobs end to end, coming back only when something needs your approval. Close your laptop; the bot keeps going.</p>
+
+    <p>Launch coverage adds detail: bots keep memory of your corrections and preferences, message each other and hand off work in group chats, and you can teach one a workflow by demonstrating it once, which it saves as a reusable routine.</p>
+
+    <p>What it costs is where it gets interesting. There's no standalone price. Access is bundled into SuperGrok Heavy ($300/month), Cursor Ultra ($200/month), and Cursor Teams Premium ($120 per seat per month), per launch-day reporting. Enterprise buyers get a waitlist. Apps shipped for macOS, Windows, and iOS; Linux gets a CLI route called Grok Build, and there's no Android at launch.</p>
+
+    <p>The Cursor tiers aren't a random partnership, by the way. xAI merged into SpaceX earlier this year (most coverage now calls the combined company SpaceXAI), and SpaceX announced in June it's buying Cursor for $60 billion in stock. Grok Bot is the first big product where you can see those seams joined.</p>
+
+    <p>Beta means beta. I haven't run Grok Bot myself — I'm not on a qualifying tier — so everything above is what xAI announced and what launch-day coverage reports, not what I've verified with my own hands. I'll say so plainly rather than pretend otherwise.</p>
+
+    <h2>Five days, two launches, one ad war</h2>
+    <p>Rewind five days. On August 6, OpenAI and a group including Amazon, Cursor, GitHub, Microsoft, and Vercel published the <a href="/blog/agent-plugins-standard-claude-code/">Agent Plugins open standard</a> — a shared packaging format for skills and MCP configs, notably without Anthropic at the table. On August 11, xAI shipped agents whose headline feature is that they <em>don't need</em> APIs or MCP at all, because each one drives its own computer.</p>
+
+    <p>And before I'd read xAI's announcement, Kylon — a venture-backed multi-agent workspace startup — already had a comparison page up with sections literally titled "When Grok Bot is the better choice" and "When Kylon is the better choice," and was buying search ads to put it in front of people looking for the launch. Their page's claims about Grok Bot (that it's built for one person, that finished work stays trapped in conversation) are their claims, made by a competitor selling against it. I'd weigh them the way you'd weigh a Burger King billboard across from a McDonald's.</p>
+
+    <p>When platforms start buying intercept ads against each other's launch traffic within hours, that's not a product category maturing. That's a land war. And in a land war, the vendors' shared goal is simple: get you to move in, and make moving out expensive.</p>
+
+    <h2>The question that actually matters</h2>
+    <p>So here's the operator's question, the one none of the launch coverage asks: does a working one-person agent stack need to re-platform every six weeks to stay current?</p>
+
+    <p>Think of it like moving house. Every few weeks a shinier apartment building opens across town, and the leasing office is very excited to see you. Moving costs are real, though: repacking every box, rewiring every lamp, learning where the light switches are. The families that come out ahead aren't the ones who move the most. They're the ones whose furniture fits in any house.</p>
+
+    <p>In an agent stack, the furniture is:</p>
+    <ul>
+      <li><strong>Skills and prompts</strong> — plain markdown files. This is the portable atom. The Agent Plugins standard exists precisely because everyone agrees these should travel.</li>
+      <li><strong>Your files and data</strong> — the vault, the logs, the docs your agents read. Portable if you kept them as files; hostage if they live inside a platform's database.</li>
+      <li><strong>Process knowledge</strong> — the checklists, gates, and role definitions you've refined. Also markdown, also portable.</li>
+    </ul>
+
+    <p>What doesn't move: the runtime. Grok Bot's cloud computers, a workspace platform's shared views, whatever orchestration a vendor wraps around your work. That layer is the lease, and every vendor in this war wants the lease to be the product.</p>
+
+    <p>That's the lens I'd use on Grok Bot specifically. The cloud-computer-per-agent design is genuinely clever — it solves the "this tool has no API" problem by brute force, and it answers the <a href="/blog/laptop-vs-vps-for-ai-agents/">laptop-versus-server question</a> for you. But it also means your agents' hands, memory, and workplace all live inside one vendor's building, reachable only through one vendor's subscription bundle. The convenience and the lock-in are the same feature.</p>
+
+    <p>Here's the build-your-own math for comparison, from my own setup rather than a brochure. My crew runs on Claude Code, so yes, there's a model subscription underneath — I'm not pretending it's free. But the team itself is mine: every role, skill, and process lives in markdown files on my machine, and adding a tenth agent to the roster costs exactly $0 more than running nine. No per-seat rent, no bundle tier deciding how big my team gets, and if I ever change model vendors, the team's knowledge comes with me. That ownership is the whole trade: Grok Bot sells you a finished team you rent; building your own means assembling the furniture yourself, once, and keeping it.</p>
+
+    <p>One more honesty check before anyone re-platforms toward anything: I've written before that the real bottleneck in my setup <a href="/blog/multi-agent-queue-vs-graph/">isn't the platform at all — it's the queue</a>. A different vendor's runtime wouldn't fix the thing that's actually slow for me. That's worth checking in your stack before any launch announcement gets your attention: is your constraint something a new platform solves, or something you'd just be repacking into a new building?</p>
+
+    <h2>What I'd actually do this week</h2>
+    <p>Not switch. Audit. Take an hour and sort your stack into "furniture" and "lease": everything in markdown and files on your side of the line, everything platform-shaped on the other. If the platform side holds anything you'd cry about losing — memory, process docs, role definitions — pull a copy out into files now, while nobody's forcing the move.</p>
+
+    <p>Then watch Grok Bot the cheap way: let other people's beta reports come in for a month. Musk has said a broader beta should follow the Grok 4.6 release in late August (one outlet's report of his statement — I haven't seen it firsthand), and betas gated behind $120-to-$300 tiers are priced for the curious anyway. Patience costs nothing.</p>
+
+    <h2>FAQ</h2>
+    <p><strong>What is Grok Bot?</strong><br>xAI's team of always-on AI agents, launched in early beta August 11, 2026. Each bot runs on its own dedicated cloud computer, signs into your existing tools by operating their interfaces (even ones without APIs), works multi-step jobs while you're offline, and checks in when it needs approval.</p>
+    <p><strong>How do I get access, and what does it cost?</strong><br>There's no standalone plan. Per launch reporting it's bundled into SuperGrok Heavy ($300/month), Cursor Ultra ($200/month), and Cursor Teams Premium ($120/seat/month), with an enterprise waitlist. Apps: macOS, Windows, iOS; Linux via the Grok Build CLI; no Android at launch.</p>
+    <p><strong>Grok Bot vs Claude Code — should I switch?</strong><br>They overlap but aren't the same shape. Grok Bot sells a managed runtime: agents living on vendor cloud machines, rented by the seat or the tier. Claude Code is a tool you run where you choose, with your skills and files on your own disk, where another agent costs nothing extra. If you've built a working team on one, the switching cost is the runtime layer, not your skills or knowledge. My <a href="/guides/claude-code-multi-agent-setup/">multi-agent setup guide</a> covers how I keep that layer thin.</p>
+    <p><strong>If I did switch platforms, what actually transfers?</strong><br>Markdown transfers: skills, prompts, role definitions, checklists, and any knowledge you kept as plain files. What doesn't: platform-side memory, vendor-specific configs, and anything stored only inside the platform's own database. The August 6 Agent Plugins standard is the industry starting to formalize the portable half.</p>
+    <p><strong>Is the "AI agent platform war" real or hype?</strong><br>The launches are real, and so is the marketing escalation — I first learned Grok Bot existed from a competitor's paid intercept ad against it, live on launch day. Real money is being spent to capture people mid-search. That's exactly when boring portability is worth the most.</p>
+
+    <h2>Try it yourself</h2>
+    <p>Run the furniture-vs-lease audit on your own stack today. List every skill, prompt, and process doc; confirm each one exists as a plain file you control. Anything that only lives inside a platform, export it this week. If you want a starting shape for the file-first version, <a href="/full-party/">Full Party</a> is the exact skill-and-role structure my own crew runs on — markdown all the way down, which is the point.</p>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Skip the setup. Install the party.</h2>
+    <p>Everything described here ships pre-built in Full Party: 10 agents, 5 governance documents, 30 workflows, 22 commands, 27 templates. The Demo Pack is free.</p>
+    <a class="btn btn-primary" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Get Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+        <p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/full-party/">Full Party</a></li>
+          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
+          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
+          <li><a href="/game.html">V4ULT RUN (game)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
+          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
+          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
+          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
+      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
