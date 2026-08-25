@@ -1,0 +1,11 @@
+name = "echov4ult-virallens-api"
+main = "src/index.js"
+compatibility_date = "2026-08-25"
+
+routes = [
+  { pattern = "echov4ult.com/api/virallens/*", zone_name = "echov4ult.com" }
+]
+
+[vars]
+TIKTOK_REDIRECT_URI = "https://echov4ult.com/api/virallens/oauth/callback"
+TIKTOK_SCOPES = "user.info.basic,video.list"

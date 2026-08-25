@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ViralLens — TikTok performance calibration</title>
+  <meta name="description" content="Connect your TikTok account to compare ViralLens pre-publish findings with real video performance.">
+  <link rel="canonical" href="https://echov4ult.com/virallens/">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/virallens.css">
+</head>
+<body class="vl-body">
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="vl-product-name"><span>ViralLens</span><b>Sandbox</b></div>
+    <a class="vl-nav-link" href="#data-use">How data is used</a>
+  </nav>
+</header>
+
+<main class="vl-shell">
+  <section class="vl-hero">
+    <div class="vl-copy">
+      <span class="kicker">Post-publish calibration</span>
+      <h1>Turn results into a better next cut.</h1>
+      <p>Connect your TikTok account to compare ViralLens pre-publish findings with the real performance of your recent public videos.</p>
+      <div class="vl-actions" id="connect-actions">
+        <a class="vl-tiktok-button" href="/api/virallens/oauth/start" id="connect-button">
+          <span class="vl-note" aria-hidden="true">♪</span>
+          Continue with TikTok
+        </a>
+        <p class="vl-permission-note">Read-only access to your basic profile and public video data.</p>
+      </div>
+      <div class="vl-status" id="status" role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <div class="vl-instrument" aria-label="ViralLens calibration preview">
+      <div class="vl-instrument-head">
+        <span>Calibration console</span>
+        <i id="console-state">Awaiting connection</i>
+      </div>
+      <div class="vl-signal">
+        <div class="vl-reticle"><span></span></div>
+        <p>Pre-publish finding</p>
+        <strong>Hook lands at 0.8s</strong>
+      </div>
+      <div class="vl-trace" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="vl-readout">
+        <div><span>Source</span><b>TikTok Display API</b></div>
+        <div><span>Scope</span><b>Last 20 public videos</b></div>
+        <div><span>Purpose</span><b>Improve future guidance</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vl-results" id="results" hidden>
+    <div class="vl-profile">
+      <img id="profile-avatar" alt="TikTok profile avatar">
+      <div><span>Connected TikTok account</span><h2 id="profile-name">Account</h2></div>
+      <button class="vl-disconnect" id="disconnect-button" type="button">Disconnect</button>
+    </div>
+    <div class="vl-results-head">
+      <div><span class="kicker">Recent public videos</span><h2>Performance observations</h2></div>
+      <p id="observed-at"></p>
+    </div>
+    <div class="vl-video-grid" id="video-grid"></div>
+    <div class="vl-empty" id="empty-state" hidden>
+      <h3>No public videos returned</h3>
+      <p>Post a public TikTok video or authorize an account that already has one, then reconnect.</p>
+    </div>
+  </section>
+
+  <section class="vl-data-use" id="data-use">
+    <div><span class="vl-step">01</span><h3>Authorize</h3><p>TikTok shows the permissions requested. You stay in control.</p></div>
+    <div><span class="vl-step">02</span><h3>Observe</h3><p>ViralLens reads your basic profile and up to 20 recent public videos.</p></div>
+    <div><span class="vl-step">03</span><h3>Calibrate</h3><p>Actual results help test and improve future pre-publish recommendations.</p></div>
+  </section>
+
+  <section class="vl-legal-note">
+    <p>ViralLens does not post, edit, or delete TikTok content. It does not predict guaranteed virality or imply TikTok endorsement.</p>
+    <nav aria-label="ViralLens policies"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:echov4ult@gmail.com">Support &amp; deletion requests</a></nav>
+  </section>
+</main>
+
+<script src="/assets/js/virallens.js" defer></script>
+</body>
+</html>
