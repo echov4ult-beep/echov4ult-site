@@ -1,8 +1,8 @@
 # echov4ult
 
-> AI game studio kits for solo developers and small teams. echovault (EchoVault, LLC)
-> packages battle-tested multi-agent Claude Code setups — specialist agent rosters,
-> governance systems, workflows, and quality gates — into installable digital products.
+> Chris Retherford's personal project universe: AI crews, creator tools, games,
+> practical kits, and build-in-public notes. EchoVault, LLC publishes finished
+> tools and honest receipts from the work at echov4ult.com.
 
 Flagship product: Full Party — The AI Game Studio Kit. 10 specialist agents
 (Studio Director, Game Director, Art Director, Lead Engineer, Code Reviewer,
@@ -22,6 +22,10 @@ $129 (up to 5 people). Installer verified by a 22/22-scenario acceptance suite.
 - [Multi-agent Claude Code: the practical guide](https://echov4ult.com/guides/claude-code-multi-agent-setup/): role design, governance, party size, acceptance testing
 - [The AI game development workflow](https://echov4ult.com/guides/ai-game-development-workflow/): concept → pillars → proposals → QA gates → release check
 - [Blog](https://echov4ult.com/blog/): build-in-public notes with real numbers
+- [Why I rebuilt echov4ult as a project universe](https://echov4ult.com/blog/why-i-rebuilt-echov4ult-as-a-project-universe/): the new site's design decisions, mistakes, tools, and quality gates
+- [What my AI crew actually shipped this month](https://echov4ult.com/blog/what-my-ai-crew-shipped-this-month/): a dated receipt trail across products, publishing, ViralLens, and the site rebuild
+- [ViralLens](https://echov4ult.com/virallens/): an active creator-calibration lab
+- [V4ULT RUN](https://echov4ult.com/game.html): a playable browser game
 
 ## Purchase
 

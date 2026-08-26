@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="js-pending">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#061426">
+  <title>Why I rebuilt echov4ult as a project universe</title>
+  <meta name="description" content="The old echov4ult homepage sold three AI kits. The new one has a harder job: explain the builder, connect the projects, and show the receipts without becoming a private dashboard.">
+  <link rel="canonical" href="https://echov4ult.com/blog/why-i-rebuilt-echov4ult-as-a-project-universe/">
+  <meta property="og:type" content="article"><meta property="og:site_name" content="echov4ult"><meta property="og:title" content="Why I rebuilt echov4ult as a project universe"><meta property="og:description" content="The design decisions, mistakes, tools, and quality gates behind the new echov4ult.com."><meta property="og:url" content="https://echov4ult.com/blog/why-i-rebuilt-echov4ult-as-a-project-universe/"><meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Why I rebuilt echov4ult as a project universe"><meta name="twitter:description" content="The design decisions, mistakes, tools, and quality gates behind the new echov4ult.com.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/css/site.css">
+  <script>document.documentElement.classList.remove('js-pending');document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why I rebuilt echov4ult as a project universe","datePublished":"2026-08-26","dateModified":"2026-08-26","author":{"@type":"Person","name":"Chris Retherford"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}},"mainEntityOfPage":"https://echov4ult.com/blog/why-i-rebuilt-echov4ult-as-a-project-universe/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site"><nav class="nav" aria-label="Main navigation"><a class="brand" href="/"><img src="/assets/v-shield-64.png" width="28" height="28" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="nav-toggle-label">Menu</span><span class="nav-toggle-icon" aria-hidden="true"></span></button><div class="nav-links" id="site-menu"><a href="/#projects">Projects</a><a href="/guides/">Guides</a><a href="/blog/">Build Log</a><a href="/about/">About</a><a class="btn btn-primary btn-sm" href="https://echov4ult.beehiiv.com/subscribe" rel="noopener">Follow the build</a></div></nav></header>
+<main id="article">
+  <section class="page-head"><div class="wrap-narrow"><span class="kicker">Build log · 2026-08-26</span><h1 class="grad">Why I rebuilt echov4ult as a project universe</h1><p class="lede">The old homepage sold three kits. The new one has to explain the builder, connect the projects, and give every visitor a useful door into the work.</p><div class="post-meta">By Chris Retherford · 8 minute read</div></div></section>
+  <section style="padding-top:24px"><article class="wrap-narrow prose">
+    <p>I had a website full of finished work that still made me look like I only sold AI kits.</p>
+    <p>Full Party, Operator's Kit, and Launch Crew deserved a place on the homepage. They were shipped products with free demos and working pages. But they were not the whole story. I was also building ViralLens, making small games, writing field notes, running agent teams, and turning my own workflows into tools.</p>
+    <p>The homepage had flattened all of that into a three-product shelf.</p>
+
+    <h2>The site had the wrong center of gravity</h2>
+    <p>The first version asked visitors to pick a kit before they understood who built it or why the projects belonged together. The navigation reinforced the same idea: three product names, then guides and a blog.</p>
+    <p>That structure works for a small store. It does not work for a personal brand built around many projects.</p>
+    <p>The new center is simple: I build ambitious things with AI crews. The kits are proof. ViralLens is proof. V4ULT RUN is proof. The articles are the notebook beside the workbench.</p>
+
+    <h2>The useful mistake happened first</h2>
+    <p>I initially audited the wrong domain.</p>
+    <p>Echov4ult Web is a separate local website service at echov4ultweb.com. The personal brand lives at echov4ult.com. Both domains were live, both had project files on the same Mac, and I followed the business context instead of resolving the domain before planning.</p>
+    <p>No production files were changed, but the mistake produced a complete plan for the wrong site. I deleted that plan, logged the failure, verified both domains, and restarted.</p>
+    <p>That became a design requirement: the public site should make its identity obvious within seconds.</p>
+
+    <h2>One visual idea carried the rebuild</h2>
+    <p>I kept the terminal-noir identity because it already belonged to Echov4ult. The redesign added one signature element: a project constellation with Echov4ult at the center and each public project orbiting it.</p>
+    <p>The rest of the homepage supports that map:</p>
+    <ul>
+      <li>Six project surfaces with honest state labels such as Shipped, Active Lab, Playable, and Open Notes.</li>
+      <li>A house-method panel that shows how the projects move from mission to review to receipts.</li>
+      <li>A recent-transmissions section for writing from inside the work.</li>
+      <li>An entry console that routes visitors by what they want to build.</li>
+    </ul>
+    <p>I deliberately avoided turning the public homepage into a copy of my private venture dashboard. The private dashboard answers what needs my attention. The website answers who I am, what I have made, and where a visitor can experience it.</p>
+
+    <h2>The repositories behind the process</h2>
+    <p>The homepage itself is plain HTML, CSS, and JavaScript. The design and verification process used instruction sets from several public repositories:</p>
+    <ul>
+      <li><a href="https://github.com/vercel-labs/agent-skills" rel="noopener">Vercel Agent Skills</a> for interface review and React guidance. The React rules were correctly skipped because this site is static.</li>
+      <li><a href="https://github.com/vercel-labs/web-interface-guidelines" rel="noopener">Web Interface Guidelines</a> for focus, form, motion, content, and interaction checks.</li>
+      <li><a href="https://github.com/addyosmani/web-quality-skills" rel="noopener">Web Quality Skills</a> for performance, accessibility, Core Web Vitals, SEO, and browser-quality gates.</li>
+      <li><a href="https://github.com/vercel-labs/design-systems-to-agent-skills" rel="noopener">Design Systems to Agent Skills</a> as the future path for turning a maintained component system into project-specific agent knowledge.</li>
+      <li><a href="https://github.com/anthropics/skills/tree/main/skills/frontend-design" rel="noopener">Anthropic's Frontend Design skill</a> for the art-direction pass.</li>
+    </ul>
+    <p>The public site source is also available at <a href="https://github.com/echov4ult-beep/echov4ult-site" rel="noopener">github.com/echov4ult-beep/echov4ult-site</a>.</p>
+
+    <h2>The quality gate changed the design</h2>
+    <p>The first live baseline scored 84 for performance and 89 for accessibility in one mobile Lighthouse lab run. It also showed a 3.04-second LCP and a CLS of 0.119.</p>
+    <p>The redesign exposed a more important behavior problem. Scroll-reveal CSS made most sections invisible until JavaScript and IntersectionObserver activated. A human scrolling normally would see the content, but full-page captures and some automated browsers saw a mostly empty page.</p>
+    <p>I removed opacity-based hiding. Animation now sits in the constellation, hover states, diagrams, and surface depth. The content stays visible with JavaScript disabled and when reduced motion is enabled.</p>
+    <p>The final local run scored 99 performance and 100 in accessibility, best practices, SEO, and agentic browsing. LCP measured 1.57 seconds, CLS measured 0.002, and total blocking time remained zero. Those are lab values, not a claim about every visitor, but they are a much better starting point.</p>
+
+    <h2>What the new homepage is allowed to become</h2>
+    <p>The project universe can grow without forcing every project into the navigation. A project earns a public card when it has a clear job, an honest state, and something a visitor can experience.</p>
+    <p>That rule matters because I build more things than I should publish. The website is the edited record, not the entire workshop floor.</p>
+    <p><a href="/#projects">Explore the new project universe</a>, or inspect the <a href="https://github.com/echov4ult-beep/echov4ult-site" rel="noopener">public source repository</a>.</p>
+  </article></section>
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout"><h2 class="grad">Follow the workshop</h2><p>AI Onramp is where I send the shorter version: what shipped, what broke, and what I am testing next.</p><a class="btn btn-primary" href="https://echov4ult.beehiiv.com/subscribe" rel="noopener">Subscribe free</a></div></div></section>
+</main>
+<footer class="site"><div class="wrap"><div class="legal"><span>© 2026 EchoVault, LLC. · <a href="/blog/">Build Log</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/disclosure/">Disclosure</a></span><span>Independent project. Not affiliated with or endorsed by Anthropic or any engine vendor.</span></div></div></footer>
+<script src="/assets/js/site.js" defer></script>
+</body></html>
