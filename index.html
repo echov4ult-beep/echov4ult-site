@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="js-pending">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>echov4ult — Claude Code kits, built by people who use them daily</title>
-  <meta name="description" content="echov4ult builds Claude Code kits from real, working practice: Full Party, a 10-agent virtual game studio for solo devs; Operator's Kit, 8 session-discipline skills for any project; and Launch Crew, an AI marketing department in a folder. Free demos of all three.">
+  <meta name="theme-color" content="#061426">
+  <title>echov4ult — Chris builds ambitious projects with AI crews</title>
+  <meta name="description" content="The project universe of Chris and echov4ult: AI agent systems, creator tools, small games, field-tested kits, and build-in-public notes—with working artifacts and honest receipts.">
   <link rel="canonical" href="https://echov4ult.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="echov4ult">
-  <meta property="og:title" content="echov4ult — Claude Code kits, built by people who use them daily">
-  <meta property="og:description" content="Three kits, three different jobs: Full Party (10-agent game studio kit), Operator's Kit (8 session-discipline skills), and Launch Crew (an AI marketing department). All drafted from a real daily workflow, all with a free demo.">
+  <meta property="og:title" content="echov4ult — A personal project universe built with AI crews">
+  <meta property="og:description" content="AI systems, creator tools, games, field-tested kits, and build-in-public notes. Explore the projects and the receipts behind them.">
   <meta property="og:url" content="https://echov4ult.com/">
   <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
   <meta property="og:image:width" content="800">
   <meta property="og:image:height" content="800">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="echov4ult — Claude Code kits, built by people who use them daily">
-  <meta name="twitter:description" content="Full Party: a 10-agent game studio kit. Operator's Kit: 8 session-discipline skills. Launch Crew: an AI marketing department. All free to try.">
+  <meta name="twitter:title" content="echov4ult — A personal project universe built with AI crews">
+  <meta name="twitter:description" content="Explore AI systems, creator tools, games, kits, and build-in-public notes—with working artifacts and honest receipts.">
   <meta name="twitter:image" content="https://echov4ult.com/assets/v-shield.png">
   <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/site.css">
+  <script>document.documentElement.classList.remove('js-pending');document.documentElement.classList.add('js');</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -35,214 +37,190 @@
         "url": "https://echov4ult.com/",
         "logo": "https://echov4ult.com/assets/v-shield.png",
         "email": "echov4ult@gmail.com",
-        "sameAs": [
-          "https://echovault7.gumroad.com",
-          "https://x.com/echov4ultHQ",
-          "https://echov4ult.beehiiv.com"
-        ]
+        "sameAs": ["https://echovault7.gumroad.com", "https://x.com/echov4ultHQ", "https://echov4ult.beehiiv.com"]
       },
       {
         "@type": "WebSite",
         "@id": "https://echov4ult.com/#website",
         "url": "https://echov4ult.com/",
         "name": "echov4ult",
+        "description": "Chris's personal project universe: AI systems, creator tools, games, and field-tested kits.",
         "publisher": { "@id": "https://echov4ult.com/#org" }
       }
     ]
   }
   </script>
 </head>
-<body>
+<body class="home-v2">
+<a class="skip-link" href="#main">Skip to projects</a>
 
 <header class="site">
-  <nav class="nav" aria-label="Main">
-    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
-    <div class="nav-links">
-      <a href="/full-party/">Full Party</a>
-      <a href="/operators-kit/">Operator's Kit</a>
-      <a href="/launch-crew/">Launch Crew</a>
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="/" aria-label="echov4ult home"><img src="/assets/v-shield-64.png" width="28" height="28" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="nav-toggle-label">Menu</span><span class="nav-toggle-icon" aria-hidden="true"></span></button>
+    <div class="nav-links" id="site-menu">
+      <a href="#projects">Projects</a>
       <a href="/guides/">Guides</a>
-      <a href="/blog/">Blog</a>
-      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
-      <a class="btn btn-primary btn-sm" href="/#kits">Free demos →</a>
+      <a href="/blog/">Build Log</a>
+      <a href="/about/">About</a>
+      <a class="btn btn-primary btn-sm" href="#start">Start exploring</a>
     </div>
   </nav>
 </header>
 
-<main>
-
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="kicker">Claude Code kits</span>
-        <h1 class="grad">Your AI assistant is capable. Give it a job description.</h1>
-        <p class="lede">Claude Code will happily do whatever you ask — which is exactly the problem. It doesn't push back, doesn't remember last week's decision, doesn't know when to stop. echov4ult builds kits that fix that: <strong>Full Party</strong> installs a ten-agent virtual game studio for solo devs building games; <strong>Operator's Kit</strong> installs session discipline for any project, game or not; <strong>Launch Crew</strong> installs a marketing department that drafts while you keep the publish button. All three are the actual systems we run daily, sanitized and packaged — not prompt packs.</p>
+<main id="main">
+  <section class="hero universe-hero" aria-labelledby="hero-title">
+    <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
+    <div class="wrap universe-grid">
+      <div class="hero-copy">
+        <span class="signal-pill"><i aria-hidden="true"></i> Personal project universe · systems online</span>
+        <h1 id="hero-title">I build ambitious things with <span class="grad">AI crews.</span></h1>
+        <p class="lede">I’m Chris. echov4ult is where my experiments become working systems: agent teams, creator tools, small games, practical kits, and the honest notes behind all of it.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#kits">See both kits</a>
-          <a class="btn btn-ghost" href="/full-party/">Full Party →</a>
+          <a class="btn btn-primary" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost" href="/about/">Meet the builder</a>
         </div>
-        <p class="hero-note">Free demo of each · Claude Code + Universal editions where noted</p>
-      </div>
-      <div class="term reveal" aria-hidden="true">
-        <div class="term-bar"><i></i><i></i><i></i><span>claude — /studio-start</span></div>
-        <div class="term-body">
-<span class="p">&gt; /feature-proposal</span> crafting-system-v2<br>
-<span class="dim">Game Director:</span> reviewing against pillars…<br>
-<span class="dim">QA Director:</span> edge cases untested<br>
-<span class="dim">Quality Critic:</span> <span class="warn">MAJOR REVISIONS REQUIRED</span><br>
-<span class="c">— save/load unverified, economy impact unpriced</span><br>
-<span class="p">&gt; revision submitted</span><br>
-<span class="dim">Quality Critic:</span> <span class="ok">APPROVED WITH REVISIONS</span><br>
-<span class="dim">Decision log:</span> DR-005 recorded ✓<br>
-<span class="c"># the review loop most demos hide — failure included</span>
+        <div class="hero-proof" aria-label="What you will find">
+          <span><b>Build</b> working systems</span>
+          <span><b>Test</b> the edges</span>
+          <span><b>Share</b> the receipts</span>
         </div>
       </div>
+
+      <div class="constellation" aria-label="Project constellation">
+        <div class="constellation-grid" aria-hidden="true"></div>
+        <a class="project-node node-core" href="#projects">
+          <span class="node-status">LIVE INDEX</span>
+          <img src="/assets/v-shield-64.png" width="56" height="56" alt="">
+          <strong>echov4ult</strong>
+          <small>project control</small>
+        </a>
+        <a class="project-node node-build" href="/full-party/"><span>BUILD</span><strong>Full Party</strong><small>AI game studio</small></a>
+        <a class="project-node node-operate" href="/operators-kit/"><span>OPERATE</span><strong>Operator’s Kit</strong><small>session discipline</small></a>
+        <a class="project-node node-launch" href="/launch-crew/"><span>LAUNCH</span><strong>Launch Crew</strong><small>marketing system</small></a>
+        <a class="project-node node-lab" href="/virallens/"><span>LAB</span><strong>ViralLens</strong><small>creator calibration</small></a>
+        <a class="project-node node-play" href="/game.html"><span>PLAY</span><strong>V4ULT RUN</strong><small>browser game</small></a>
+        <svg class="constellation-lines" viewBox="0 0 660 570" aria-hidden="true" preserveAspectRatio="none">
+          <path d="M330 285 L132 120 M330 285 L530 108 M330 285 L560 345 M330 285 L122 390 M330 285 L358 520"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="status-rail" aria-label="Current studio status">
+      <div class="wrap status-rail-inner">
+        <span class="rail-label">NOW BUILDING</span>
+        <span>AI-native workflows</span><i aria-hidden="true"></i>
+        <span>creator systems</span><i aria-hidden="true"></i>
+        <span>games & experiments</span><i aria-hidden="true"></i>
+        <span>public field notes</span>
+      </div>
     </div>
   </section>
 
-  <section id="kits">
+  <section id="projects" class="project-section">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="kicker">Three kits, different jobs</span>
-        <h2>Pick the one you need</h2>
+      <div class="section-head split-head reveal">
+        <div><span class="kicker">Selected projects</span><h2>Different missions.<br><span class="grad">One operating system.</span></h2></div>
+        <p>Some projects are products. Some are tools I use. Some are experiments that teach the next project what to become. Every card leads to something real.</p>
       </div>
-      <div class="cards cards-3">
-        <a class="card reveal" href="/full-party/" style="display:block">
-          <span class="mono-tag">$0 / $49 / $129</span>
-          <h3 style="color:var(--ice)">Full Party</h3>
-          <p>10 specialist Claude Code agents + a governance system for actually building a game — concept to release-check.</p>
-        </a>
-        <a class="card reveal" href="/operators-kit/" style="display:block">
-          <span class="mono-tag">$0 / $19 / $29</span>
-          <h3 style="color:var(--ice)">Operator's Kit</h3>
-          <p>8 discipline skills for how any Claude Code session runs — a quality floor, a token-spend ceiling, a clean ending. Not game-specific.</p>
-        </a>
-        <a class="card reveal" href="/launch-crew/" style="display:block">
-          <span class="mono-tag">$0 / $39 / $79</span>
-          <h3 style="color:var(--ice)">Launch Crew</h3>
-          <p>An AI marketing department (unofficial): a CMO + 5 specialists that plan and draft. No auto-posting — you approve and publish.</p>
-        </a>
+
+      <div class="project-bento">
+        <article class="project-feature project-full-party reveal">
+          <div class="project-card-top"><span class="project-index">01</span><span class="status-chip shipped">SHIPPED</span></div>
+          <div class="project-art party-art" aria-hidden="true">
+            <div class="party-ring ring-one"></div><div class="party-ring ring-two"></div>
+            <div class="party-core">10<span>roles</span></div>
+            <span class="party-role role-a">DESIGN</span><span class="party-role role-b">ENGINEERING</span><span class="party-role role-c">QA</span><span class="party-role role-d">PRODUCTION</span>
+          </div>
+          <div class="project-card-copy">
+            <span class="mono-tag">Build games</span>
+            <h3>Full Party</h3>
+            <p>A virtual game studio for solo developers: 10 specialist agents, governance, workflows, and quality gates—not a bag of prompts.</p>
+            <div class="project-actions"><a class="text-link" href="/full-party/">Enter the studio <span aria-hidden="true">↗</span></a><span>$0 / $49 / $129</span></div>
+          </div>
+        </article>
+
+        <article class="project-tile project-operators reveal">
+          <div class="project-card-top"><span class="project-index">02</span><span class="status-chip shipped">SHIPPED</span></div>
+          <div class="mini-terminal" aria-hidden="true"><span>&gt; /session-start</span><b>quality floor loaded</b><b>token ceiling armed</b><em>one next action →</em></div>
+          <div class="project-card-copy"><span class="mono-tag">Operate better</span><h3>Operator’s Kit</h3><p>Eight interlocking skills that make strong AI sessions repeatable.</p><a class="text-link" href="/operators-kit/">Open the kit <span aria-hidden="true">↗</span></a></div>
+        </article>
+
+        <article class="project-tile project-launch reveal">
+          <div class="project-card-top"><span class="project-index">03</span><span class="status-chip shipped">SHIPPED</span></div>
+          <div class="launch-board" aria-hidden="true"><span>BRIEF</span><i></i><span>PLAN</span><i></i><span>DRAFT</span><i></i><span class="launch-human">YOU</span></div>
+          <div class="project-card-copy"><span class="mono-tag">Launch products</span><h3>Launch Crew</h3><p>An AI marketing department that plans and drafts while you keep the publish button.</p><a class="text-link" href="/launch-crew/">Meet the crew <span aria-hidden="true">↗</span></a></div>
+        </article>
+
+        <article class="project-wide project-virallens reveal">
+          <div class="project-card-copy"><div class="project-card-top"><span class="project-index">04</span><span class="status-chip lab">ACTIVE LAB</span></div><span class="mono-tag">Creator intelligence</span><h3>ViralLens</h3><p>A calibration loop that compares pre-publish creative judgment with real TikTok performance—so the next cut learns from the last one.</p><a class="text-link" href="/virallens/">View the calibration lab <span aria-hidden="true">↗</span></a></div>
+          <div class="lens-visual" aria-hidden="true"><div class="lens-radar"><i></i><i></i><i></i><span></span></div><div class="lens-score"><small>SIGNAL</small><b>↗</b><span>observe · compare · learn</span></div></div>
+        </article>
+
+        <article class="project-tile project-game reveal">
+          <div class="project-card-top"><span class="project-index">05</span><span class="status-chip playable">PLAYABLE</span></div>
+          <div class="game-window" aria-hidden="true"><span class="game-ship">◆</span><i class="hazard h1"></i><i class="hazard h2"></i><i class="hazard h3"></i><small>SCORE 0042</small></div>
+          <div class="project-card-copy"><span class="mono-tag">Small game</span><h3>V4ULT RUN</h3><p>A neon dodge experiment you can play in the browser right now.</p><a class="text-link" href="/game.html">Play V4ULT RUN <span aria-hidden="true">→</span></a></div>
+        </article>
+
+        <article class="project-tile project-notes reveal">
+          <div class="project-card-top"><span class="project-index">06</span><span class="status-chip open">OPEN NOTES</span></div>
+          <div class="note-stack" aria-hidden="true"><span>RECHECK RULE</span><span>GRAPH ENGINEERING</span><span>SMALL PARTY &gt; MEGA ROSTER</span></div>
+          <div class="project-card-copy"><span class="mono-tag">Field notes</span><h3>The Build Log</h3><p>What worked, what broke, and the methods that survived contact with real projects.</p><a class="text-link" href="/blog/">Read the notes <span aria-hidden="true">↗</span></a></div>
+        </article>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="method-section">
     <div class="wrap">
-      <div class="cards cards-2">
-        <div class="card reveal">
-          <span class="mono-tag">Built, not bought-in</span>
-          <h3>We run these ourselves, daily</h3>
-          <p>Both kits come out of a real working studio's own practice — the roles, gates, and habits are the ones we use to ship our own products, sanitized and packaged, not written to sound good in a listing.</p>
+      <div class="method-shell reveal">
+        <div class="method-copy"><span class="kicker">The house method</span><h2>Ideas are cheap.<br><span class="grad">Operating systems ship.</span></h2><p>I use AI as a crew, not an oracle. Every serious project gets roles, authority, quality gates, receipts, and one visible next action.</p><a class="btn btn-ghost" href="/guides/">Read the practical guides</a></div>
+        <ol class="method-flow">
+          <li><span>01</span><div><b>Frame the mission</b><small>One goal. Clear authority. Real constraints.</small></div></li>
+          <li><span>02</span><div><b>Give the crew roles</b><small>Specialists with boundaries, not a noisy mega-roster.</small></div></li>
+          <li><span>03</span><div><b>Try to break it</b><small>Adversarial review before “done.”</small></div></li>
+          <li><span>04</span><div><b>Leave receipts</b><small>Decisions, evidence, and the next action stay visible.</small></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="writing-section">
+    <div class="wrap">
+      <div class="section-head reveal"><span class="kicker">Recent transmissions</span><h2>Notes from inside the work</h2><p>No victory-lap summaries. These are field notes about agent systems, product decisions, and what happens when the clean diagram meets a real project.</p></div>
+      <div class="transmission-grid">
+        <a class="transmission-card reveal" href="/blog/semantic-layers-ai-agents/"><span class="post-meta">SYSTEMS</span><h3>Semantic layers for AI agents</h3><p>How to make a codebase legible to an agent without stuffing the whole repository into context.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+        <a class="transmission-card reveal" href="/blog/what-is-graph-engineering/"><span class="post-meta">METHOD</span><h3>What is graph engineering?</h3><p>A practical way to think about connected agents, tools, state, and decisions.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+        <a class="transmission-card reveal" href="/blog/small-party-vs-mega-roster/"><span class="post-meta">TEAMS</span><h3>Small party vs. mega-roster</h3><p>Why a curated team usually beats 50 impressive names in a directory.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" class="start-section">
+    <div class="wrap">
+      <div class="start-console reveal">
+        <div class="start-copy"><span class="kicker">Choose an entry point</span><h2>What are you here to build?</h2><p>Start with a project, steal the method from a guide, or follow the experiments as they happen.</p></div>
+        <div class="start-actions">
+          <a href="/full-party/"><span>BUILD A GAME</span><b>Full Party</b><i aria-hidden="true">↗</i></a>
+          <a href="/operators-kit/"><span>RUN BETTER SESSIONS</span><b>Operator’s Kit</b><i aria-hidden="true">↗</i></a>
+          <a href="/launch-crew/"><span>LAUNCH A PROJECT</span><b>Launch Crew</b><i aria-hidden="true">↗</i></a>
+          <a href="https://echov4ult.beehiiv.com/subscribe" rel="noopener"><span>FOLLOW THE BUILD</span><b>AI Onramp</b><i aria-hidden="true">↗</i></a>
         </div>
-        <div class="card reveal">
-          <span class="mono-tag">House law</span>
-          <h3>Nothing ships checked once</h3>
-          <p>Every feature gets built, then someone tries to break it — bad input, a second run, a clean directory. Both kits carry that discipline into how they were made and how they tell you to work.</p>
-        </div>
       </div>
     </div>
   </section>
-
-  <section>
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="kicker">Learn the method</span>
-        <h2>The guides behind the kit</h2>
-        <p>Everything in Full Party comes from running a real multi-agent studio on real projects. The method is documented free.</p>
-      </div>
-      <div class="cards cards-2">
-        <a class="card reveal" href="/guides/claude-code-multi-agent-setup/" style="display:block">
-          <span class="mono-tag">Pillar guide</span>
-          <h3 style="color:var(--ice)">Multi-agent Claude Code: the practical guide</h3>
-          <p>Subagents, role design, governance, and why a small curated party beats a 50-agent mega-roster.</p>
-        </a>
-        <a class="card reveal" href="/guides/ai-game-development-workflow/" style="display:block">
-          <span class="mono-tag">Pillar guide</span>
-          <h3 style="color:var(--ice)">The AI game development workflow</h3>
-          <p>Concept → pillars → feature proposals → QA gates → release check, with an AI team at every step.</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section id="blog-teaser">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="kicker">From the blog</span>
-        <h2>Build-in-public notes</h2>
-      </div>
-      <div class="post-list">
-        <a class="post-item reveal" href="/blog/full-party-launch/">
-          <div class="post-meta">2026-07-26 · launch</div>
-          <h3>We shipped Full Party five days early. Here's the receipt trail.</h3>
-          <p>From "finished but never launched" to live listing — what a governance loop does when you point it at your own product.</p>
-        </a>
-        <a class="post-item reveal" href="/blog/recheck-rule/">
-          <div class="post-meta">2026-07-26 · method</div>
-          <h3>The recheck rule: nothing ships checked once</h3>
-          <p>The single house law that catches more AI mistakes than any prompt trick.</p>
-        </a>
-        <a class="post-item reveal" href="/blog/what-are-claude-code-subagents/">
-          <div class="post-meta">2026-07-26 · explainer</div>
-          <h3>What are Claude Code subagents?</h3>
-          <p>A plain-English explainer: what they are, when to use them, when not to.</p>
-        </a>
-      </div>
-      <p class="reveal" style="margin-top:24px"><a href="/blog/">All posts →</a></p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="callout reveal">
-        <h2 class="grad">Watch the studio get built</h2>
-        <p>The AI Onramp newsletter documents this whole experiment — building products with an AI agent team, receipts included. Plus: we make small games too. Try <a href="/game.html">V4ULT RUN</a>, our neon dodge game, right in your browser.</p>
-        <a class="btn btn-primary" href="https://echov4ult.beehiiv.com/subscribe" rel="noopener">Subscribe free</a>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand">
-        <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a>
-        <p>Claude Code kits built from real daily practice: Full Party (AI game studio kit), Operator's Kit (session-discipline skills), and Launch Crew (AI marketing department).</p>
-      </div>
-      <div>
-        <h4>Product</h4>
-        <ul>
-          <li><a href="/full-party/">Full Party</a></li>
-          <li><a href="/operators-kit/">Operator's Kit</a></li>
-          <li><a href="/launch-crew/">Launch Crew</a></li>
-          <li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li>
-          <li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li>
-          <li><a href="/game.html">V4ULT RUN (game)</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Learn</h4>
-        <ul>
-          <li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li>
-          <li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li>
-          <li><a href="/blog/">Blog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li>
-          <li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li>
-          <li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li>
-        </ul>
-      </div>
+      <div class="foot-brand"><a class="brand" href="/"><img src="/assets/v-shield-64.png" width="28" height="28" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a><p>Chris’s project universe: AI crews, creator tools, games, practical kits, and receipts from the work.</p></div>
+      <div><div class="foot-heading">Projects</div><ul><li><a href="/full-party/">Full Party</a></li><li><a href="/operators-kit/">Operator’s Kit</a></li><li><a href="/launch-crew/">Launch Crew</a></li><li><a href="/virallens/">ViralLens</a></li><li><a href="/game.html">V4ULT RUN</a></li></ul></div>
+      <div><div class="foot-heading">Explore</div><ul><li><a href="/guides/">Guides</a></li><li><a href="/blog/">Build Log</a></li><li><a href="/about/">About Chris</a></li><li><a href="/contact/">Contact</a></li></ul></div>
+      <div><div class="foot-heading">Connect</div><ul><li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li><li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li><li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li></ul></div>
     </div>
-    <div class="legal">
-      <span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span>
-      <span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span>
-    </div>
+    <div class="legal"><span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/disclosure/">Disclosure</a></span><span>Independent project. Not affiliated with or endorsed by Anthropic or any engine vendor. All trademarks belong to their respective owners.</span></div>
   </div>
 </footer>
 

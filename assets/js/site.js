@@ -1,7 +1,9 @@
 // echov4ult — shared behaviors (no frameworks, no trackers)
 (function () {
   // Scroll-reveal
-  if ("IntersectionObserver" in window) {
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if ("IntersectionObserver" in window && !reducedMotion) {
+    document.documentElement.classList.add("reveal-ready");
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (e) {
@@ -16,6 +18,30 @@
     document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
   } else {
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
+  }
+
+  // Mobile navigation
+  var navToggle = document.querySelector(".nav-toggle");
+  var navMenu = document.getElementById("site-menu");
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", function () {
+      var open = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!open));
+      navMenu.classList.toggle("open", !open);
+    });
+    navMenu.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navToggle.setAttribute("aria-expanded", "false");
+        navMenu.classList.remove("open");
+      });
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        navToggle.setAttribute("aria-expanded", "false");
+        navMenu.classList.remove("open");
+        navToggle.focus();
+      }
+    });
   }
 
   // Mark active nav link
