@@ -7,6 +7,82 @@ const consoleState = document.querySelector('#console-state');
 
 const compactNumber = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 });
 
+// House laws: loaded from /virallens/laws.json, with Law 1 inlined as a fallback so grading never silently disappears.
+const FALLBACK_LAWS = [{
+  id: 'seven-zero-opener',
+  number: 1,
+  title: 'Open with the Seven / Zero question',
+  rule: 'Every video opens with the question: "What if Seven and Zero swapped teams?"',
+  why: 'The old videos that pulled the highest view counts all started with this exact question. It is the proven hook, so it is the default opener until the numbers say otherwise.',
+  pattern: '^what\\s+if\\s+(seven|7)\\s+(and|&|\\+)\\s+(zero|0)\\s+(swap|swaps|swapped|switch|switches|switched|trade|trades|traded)\\s+teams'
+}];
+let laws = FALLBACK_LAWS;
+
+async function loadLaws() {
+  try {
+    const response = await fetch('/virallens/laws.json', { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error('laws.json unavailable');
+    const payload = await response.json();
+    if (Array.isArray(payload.laws) && payload.laws.length) laws = payload.laws;
+  } catch { laws = FALLBACK_LAWS; }
+  renderLaws();
+}
+
+function renderLaws() {
+  const list = document.querySelector('#law-list');
+  if (!list) return;
+  list.replaceChildren(...laws.map(law => {
+    const item = document.createElement('li');
+    item.className = 'vl-law';
+    const number = document.createElement('span');
+    number.className = 'vl-law-number';
+    number.textContent = `Law ${String(law.number).padStart(2, '0')}`;
+    const body = document.createElement('div');
+    const title = document.createElement('h3');
+    title.textContent = law.title;
+    const rule = document.createElement('p');
+    rule.className = 'vl-law-rule';
+    rule.textContent = law.rule;
+    const why = document.createElement('p');
+    why.textContent = law.why;
+    body.append(title, rule, why);
+    item.append(number, body);
+    return item;
+  }));
+}
+
+// Strip leading emoji, hashtags, quotes, and punctuation so only real words are graded.
+function normalizeOpener(text) {
+  return String(text || '')
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u201c\u201d"']/g, '')
+    .replace(/^(?:[^a-z0-9#]+|#\S+\s*)+/u, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function lawPasses(law, video) {
+  let pattern;
+  try { pattern = new RegExp(law.pattern, 'i'); } catch { return null; }
+  const caption = normalizeOpener(video.title || video.video_description);
+  return pattern.test(caption);
+}
+
+function lawBadges(video) {
+  const wrap = document.createElement('div');
+  wrap.className = 'vl-law-badges';
+  laws.forEach(law => {
+    const result = lawPasses(law, video);
+    if (result === null) return;
+    const badge = document.createElement('span');
+    badge.className = `vl-law-badge ${result ? 'is-pass' : 'is-miss'}`;
+    badge.title = law.rule;
+    badge.textContent = `Law ${law.number} · ${result ? 'opener present' : 'opener missing'}`;
+    wrap.append(badge);
+  });
+  return wrap;
+}
+
 function showStatus(message) {
   statusBox.textContent = message;
   statusBox.hidden = false;
@@ -43,7 +119,7 @@ function videoCard(video) {
   const metrics = document.createElement('div');
   metrics.className = 'vl-metrics';
   metrics.append(metric(' views', video.view_count), metric(' likes', video.like_count), metric(' comments', video.comment_count), metric(' shares', video.share_count));
-  body.append(title, created, metrics);
+  body.append(title, created, lawBadges(video), metrics);
   article.append(media, body);
   return article;
 }
@@ -76,4 +152,4 @@ document.querySelector('#disconnect-button').addEventListener('click', async () 
   else showStatus('Disconnect failed. Refresh the page and try again.');
 });
 
-loadSession();
+loadLaws().then(loadSession);

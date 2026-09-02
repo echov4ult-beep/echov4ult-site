@@ -6,6 +6,7 @@
 .vl-product-name span { font-weight: 700; letter-spacing: -.02em; }
 .vl-product-name b { font: 600 .62rem var(--font-mono); color: #d29922; border: 1px solid rgba(210,153,34,.4); border-radius: 999px; padding: 3px 7px; text-transform: uppercase; letter-spacing: .1em; }
 .vl-nav-link { margin-left: auto; color: #8b949e; font-size: .9rem; }
+.vl-nav-link-secondary { margin-left: 18px; }
 .vl-hero { min-height: 680px; padding: 92px 0 76px; display: grid; grid-template-columns: .92fr 1.08fr; gap: 70px; align-items: center; }
 .vl-copy h1 { max-width: 650px; font-size: clamp(3rem, 6vw, 5.9rem); line-height: .93; letter-spacing: -.065em; text-wrap: balance; }
 .vl-copy > p { max-width: 600px; margin: 28px 0 32px; color: #9da7b3; font-size: 1.1rem; }
@@ -44,9 +45,19 @@
 .vl-video-body { padding:16px; }.vl-video-body h3{font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.vl-video-body time{display:block;margin-top:4px;color:#6e7681;font:.68rem var(--font-mono)}
 .vl-metrics { display:grid; grid-template-columns:repeat(4,1fr); margin-top:16px; border-top:1px solid #30363d; padding-top:13px; gap:8px; }.vl-metrics span{color:#6e7681;font-size:.63rem}.vl-metrics b{display:block;color:#c9d1d9;font:.76rem var(--font-mono)}
 .vl-empty { border:1px dashed #30363d; padding:34px; text-align:center; }.vl-empty p{color:#8b949e;margin-top:6px}
+.vl-laws { padding:72px 0; border-top:1px solid #21262d; }
+.vl-laws .vl-results-head { margin-top:0; }.vl-laws .vl-results-head a{color:#8b949e;text-decoration:underline;text-underline-offset:3px}
+.vl-law-list { list-style:none; margin:0; padding:0; display:grid; gap:16px; }
+.vl-law { display:grid; grid-template-columns:96px 1fr; gap:22px; padding:22px 24px; border:1px solid #30363d; border-left:3px solid #58a6ff; background:#161b22; }
+.vl-law-number { color:#58a6ff; font:600 .7rem var(--font-mono); letter-spacing:.12em; text-transform:uppercase; padding-top:4px; }
+.vl-law h3 { font-size:1.05rem; }.vl-law p.vl-law-rule{margin:8px 0 6px;color:#e6edf3;font:600 1rem var(--font-display)}.vl-law p{color:#8b949e;font-size:.92rem}
+.vl-law-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.vl-law-badge { display:inline-block; padding:3px 8px; border-radius:999px; font:600 .62rem var(--font-mono); letter-spacing:.06em; text-transform:uppercase; border:1px solid; }
+.vl-law-badge.is-pass { color:#3fb950; border-color:rgba(63,185,80,.45); background:rgba(63,185,80,.08); }
+.vl-law-badge.is-miss { color:#f85149; border-color:rgba(248,81,73,.45); background:rgba(248,81,73,.08); }
 .vl-data-use { padding:72px 0; border-top:1px solid #21262d; display:grid; grid-template-columns:repeat(3,1fr); gap:44px; }
 .vl-data-use > div { position:relative; padding-top:18px; border-top:1px solid #30363d; }.vl-step{color:#58a6ff;font:.7rem var(--font-mono)}.vl-data-use h3{margin:32px 0 9px}.vl-data-use p{color:#8b949e;font-size:.92rem}
 .vl-legal-note { padding:30px 0 52px; border-top:1px solid #21262d; display:flex; justify-content:space-between; gap:40px; color:#6e7681; font-size:.78rem; }.vl-legal-note p{max-width:620px}.vl-legal-note nav{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-end}.vl-legal-note a{color:#8b949e;text-decoration:underline;text-underline-offset:3px}
 @media (max-width:900px){.vl-hero{grid-template-columns:1fr;min-height:0}.vl-copy h1{font-size:clamp(3rem,12vw,5rem)}.vl-instrument{max-width:650px}.vl-video-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:620px){.vl-shell{width:min(100% - 28px,1180px)}.vl-nav-link{display:none}.vl-product-name{margin-left:auto}.vl-hero{padding:64px 0 54px;gap:44px}.vl-actions{align-items:flex-start;flex-direction:column}.vl-readout{grid-template-columns:1fr}.vl-readout div{border-right:0;border-bottom:1px solid #21262d}.vl-video-grid,.vl-data-use{grid-template-columns:1fr}.vl-results-head,.vl-legal-note{align-items:flex-start;flex-direction:column}.vl-legal-note nav{justify-content:flex-start}}
+@media (max-width:620px){.vl-shell{width:min(100% - 28px,1180px)}.vl-nav-link{display:none}.vl-product-name{margin-left:auto}.vl-hero{padding:64px 0 54px;gap:44px}.vl-actions{align-items:flex-start;flex-direction:column}.vl-readout{grid-template-columns:1fr}.vl-readout div{border-right:0;border-bottom:1px solid #21262d}.vl-video-grid,.vl-data-use{grid-template-columns:1fr}.vl-law{grid-template-columns:1fr;gap:8px}.vl-results-head,.vl-legal-note{align-items:flex-start;flex-direction:column}.vl-legal-note nav{justify-content:flex-start}}
 @media (prefers-reduced-motion:reduce){.vl-tiktok-button{transition:none}}
