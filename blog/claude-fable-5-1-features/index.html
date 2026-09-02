@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Fable 5.1 Features, Pricing, and Migration Guide | echov4ult</title>
+  <meta name="description" content="Claude Fable 5.1 improves long-running agents, coding, research, vision, and computer use. See its pricing, new API features, and migration risks.">
+  <link rel="canonical" href="https://echov4ult.com/blog/claude-fable-5-1-features/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="echov4ult">
+  <meta property="og:title" content="Claude Fable 5.1 Features, Pricing, and Migration Guide">
+  <meta property="og:description" content="The useful upgrades, honest price tradeoff, and three migration breaks developers need to know.">
+  <meta property="og:url" content="https://echov4ult.com/blog/claude-fable-5-1-features/">
+  <meta property="og:image" content="https://echov4ult.com/assets/v-shield.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Claude Fable 5.1 Features, Pricing, and Migration Guide">
+  <meta name="twitter:description" content="What changed in Fable 5.1, when to use it, and what can break during migration.">
+  <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"Claude Fable 5.1 Features, Pricing, and Migration Guide","description":"Claude Fable 5.1 improves long-running agents, coding, research, vision, and computer use. See its pricing, new API features, and migration risks.","datePublished":"2026-09-02","dateModified":"2026-09-02","url":"https://echov4ult.com/blog/claude-fable-5-1-features/","mainEntityOfPage":{"@type":"WebPage","@id":"https://echov4ult.com/blog/claude-fable-5-1-features/"},"image":"https://echov4ult.com/assets/v-shield.png","author":{"@type":"Organization","name":"echov4ult","url":"https://echov4ult.com/"},"publisher":{"@type":"Organization","name":"EchoVault, LLC","url":"https://echov4ult.com/","logo":{"@type":"ImageObject","url":"https://echov4ult.com/assets/v-shield.png"}}}
+  </script>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><img src="/assets/v-shield-64.png" alt="echov4ult V-shield logo"><span class="wm">echo<span class="v4">v4</span>ult</span></a>
+    <div class="nav-links">
+      <a href="/full-party/">Full Party</a>
+      <a href="/guides/">Guides</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://echov4ult.beehiiv.com" rel="noopener">Newsletter</a>
+      <a class="btn btn-primary btn-sm" href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free demo &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-head"><div class="wrap-narrow">
+    <span class="kicker">news</span>
+    <h1 class="grad" style="font-size:clamp(1.9rem,4vw,2.8rem)">Claude Fable 5.1 is built for long-running work. Most tasks still do not need it.</h1>
+    <p class="post-meta">2026-09-02 &middot; echov4ult</p>
+    <p class="lede"><strong>Anthropic released Claude Fable 5.1 on September 1 with stronger long-session coding, research, document work, vision, and computer use. It keeps Fable 5's $10 input and $50 output price per million tokens, while cutting cache reads to $0.25. The catch for developers is in the migration: forced tool calls no longer work, thinking blocks become model-bound, and edited conversation history can fail validation.</strong></p>
+  </div></section>
+
+  <section style="padding-top:8px"><div class="wrap-narrow prose">
+    <p>Fable 5.1 is Anthropic's highest-capability model available to general customers. It has a one-million-token context window, a 128,000-token maximum output, always-on adaptive thinking, image input, and a June 2026 knowledge cutoff.</p>
+
+    <p>That specification sounds like an automatic upgrade. Anthropic's model guide says otherwise: start most workloads with Claude Opus 5. Move to Fable 5.1 when a demanding reasoning or long-horizon task still falls short on Opus 5 at higher effort. Fable costs twice as much per token and has slower comparative latency.</p>
+
+    <p>That is the right frame for this release. Fable 5.1 is a specialist for work that stays hard for a long time, not the default model for every prompt.</p>
+
+    <h2>The features that matter</h2>
+
+    <h3>Long-running agentic coding</h3>
+    <p>Anthropic says the largest gains appear in coding sessions that run for hours: multi-file features, large refactors, migrations, debugging, and code review. Fable 5.1 can plan work, use tools, recover after a failed step, write tests, and use vision to compare an interface against its target design.</p>
+
+    <p>The practical value is continuity. A model that remains useful across a large repository can spend less of the session rebuilding its understanding after each step. That claim still needs your own evaluation on your codebase. Vendor benchmarks cannot tell you whether the model follows your architecture or produces acceptable diffs.</p>
+
+    <h3>Research and document work</h3>
+    <p>Fable 5.1 improves multistep web research and tasks that turn source material into finished documents, spreadsheets, or slide decks. Its vision system can read charts and tables inside PDFs, including through crop-and-zoom tools. The one-million-token context window helps when the answer depends on connections across a large set of files.</p>
+
+    <p>This makes the model a plausible fit for due diligence, technical research, and document-heavy analysis. It does not remove the need to inspect citations, formulas, or claims before using the output.</p>
+
+    <h3>Computer use and visible progress</h3>
+    <p>Anthropic reports better browser and desktop operation, including recovery from failed actions. API developers can also opt into readable progress updates between tool calls with <code>thinking.display: "updates"</code>. The reasoning stays hidden while users receive short status lines from a long-running task.</p>
+
+    <p>That feature is in beta. Fable 5.1 also produces fewer progress messages by default than Fable 5, so an existing interface may look silent until the display option and user-facing update instructions are added.</p>
+
+    <h3>Effort can change during a conversation</h3>
+    <p>A beta API feature lets applications change effort between turns without breaking the prompt cache. An agent can use high effort for diagnosis, then switch lower for a routine summary. That gives builders a direct control for balancing reasoning depth, latency, and cost inside one run.</p>
+
+    <p>Turn-scoped system messages are another beta addition. An application can append a high-authority instruction for one turn, such as requiring an inbox check before more code runs, without rewriting earlier history.</p>
+
+    <h3>Cheaper cache reads</h3>
+    <p>Base pricing remains $10 per million input tokens and $50 per million output tokens. Cache reads drop from $1 on Fable 5 to $0.25 per million tokens on Fable 5.1. Anthropic estimates that this reduces typical workload cost by about 25 percent and highly agentic workload cost by as much as 45 percent. Those figures are vendor estimates; the result depends on how much of your prompt prefix is reused.</p>
+
+    <p>Batch processing is half price at $5 input and $25 output per million tokens. Cache writes remain $12.50 for five-minute storage and $20 for one-hour storage.</p>
+
+    <h3>Content provenance is on by default</h3>
+    <p>Fable 5.1 text carries Anthropic's statistical watermark on every platform where the model is available. Supported image and video files returned through the Files API carry C2PA Content Credentials. Anthropic says the text mark adds no tokens or hidden characters and does not contain information about the user or organization.</p>
+
+    <p>If you publish model-assisted work, this connects directly to the disclosure question covered in my <a href="/blog/claude-text-watermarking-explained/">Claude text watermarking explainer</a>. The durable answer remains simple: edit the work, verify it, and disclose the role AI played.</p>
+
+    <h2>Three migration breaks to check</h2>
+
+    <ol>
+      <li><strong>Forced tool choice returns an error.</strong> Fable 5.1 supports <code>auto</code> and <code>none</code>, but <code>any</code> or a named forced tool returns HTTP 400. Use strict tool schemas or structured outputs when you need valid JSON, and state the tool requirement in the prompt.</li>
+      <li><strong>Older models cannot read Fable 5.1 thinking blocks.</strong> Moving a conversation up to Fable 5.1 preserves earlier reasoning. Routing it back to Fable 5, Opus 5, or an older model drops the newer thinking blocks.</li>
+      <li><strong>Conversation history must stay append-only.</strong> Editing the system prompt, tools, or an earlier message can invalidate later Fable 5.1 thinking blocks. Applications that rebuild history need to use mid-conversation messages, server-side compaction, or the documented block-drop behavior.</li>
+    </ol>
+
+    <p>There are behavior differences too. Fable 5.1 may make one tool call per turn when Fable 5 would have batched independent work. At low effort it relies on memory more often instead of searching. It can write denser prose, reproduce source passages without marking them as quotations, and rewrite a whole text file when a targeted edit would do. Each behavior is manageable, but each belongs in your evaluation before a production switch.</p>
+
+    <h2>Who should use Fable 5.1</h2>
+
+    <p>Use it when a task spans a large codebase, runs across many tools, depends on dense documents, or has enough value to justify the price. It also makes sense as an escalation model: let Opus 5 handle the normal queue, then route the small number of jobs that fail a defined acceptance test to Fable 5.1.</p>
+
+    <p>Skip it for short answers, simple transformations, routine coding, and high-volume work that Opus 5 or Sonnet 5 already completes reliably. Model selection should follow measured task performance, not the release hierarchy.</p>
+
+    <p>I would not replace an entire agent roster with Fable 5.1 on day one. I would run the same acceptance tests against the current model, compare quality and total run cost, then promote it only for the jobs where the difference survives review.</p>
+
+    <h2>Availability and data policy</h2>
+
+    <p>Fable 5.1 is available to Pro, Max, Team, and Enterprise users, and through the Claude API, Amazon Bedrock, Google Cloud, Microsoft Foundry, and Claude Platform on AWS. The API model ID is <code>claude-fable-5-1</code>.</p>
+
+    <p>Anthropic classifies Fable 5.1 as a Covered Model. It requires 30-day data retention and is not available under zero-data-retention arrangements unless Anthropic expressly authorizes the exception. Teams with strict retention requirements need to resolve that before migrating.</p>
+
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1" rel="noopener">Anthropic: Introducing Claude Fable 5.1 and Claude Mythos 5.1</a>, September 1, 2026</li>
+      <li><a href="https://platform.claude.com/docs/en/models/fable-5-1/overview" rel="noopener">Claude Platform Docs: Fable 5.1 overview</a></li>
+      <li><a href="https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1" rel="noopener">Claude Platform Docs: What's new in Fable 5.1</a></li>
+      <li><a href="https://platform.claude.com/docs/en/models/fable-5-1/migration-guide" rel="noopener">Claude Platform Docs: Fable 5.1 migration guide</a></li>
+    </ul>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="wrap-narrow"><div class="callout reveal">
+    <h2 class="grad">Test the model against the job</h2>
+    <p>Full Party gives AI game-development roles defined responsibilities, handoffs, and acceptance checks, so a model upgrade can be measured instead of guessed.</p>
+    <a class="btn btn-primary" href="/full-party/">See Full Party</a>
+  </div></div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><img src="/assets/v-shield-64.png" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a><p>AI game studio kits for solo developers and small teams. Structure, governance, and quality gates for AI-assisted game development.</p></div>
+      <div><h4>Product</h4><ul><li><a href="/full-party/">Full Party</a></li><li><a href="https://echovault7.gumroad.com/l/FullPartyAIGameStudioKit" rel="noopener">Free Demo Pack</a></li><li><a href="https://echovault7.gumroad.com" rel="noopener">Gumroad store</a></li><li><a href="/game.html">V4ULT RUN (game)</a></li></ul></div>
+      <div><h4>Learn</h4><ul><li><a href="/guides/claude-code-multi-agent-setup/">Multi-agent Claude Code</a></li><li><a href="/guides/ai-game-development-workflow/">AI game dev workflow</a></li><li><a href="/blog/">Blog</a></li></ul></div>
+      <div><h4>Connect</h4><ul><li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li><li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li><li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li></ul></div>
+    </div>
+    <div class="legal"><span>&copy; 2026 EchoVault, LLC. All rights reserved. &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/disclosure/">Disclosure</a></span><span>Products are provided as-is; no guarantee of functional code or commercial outcomes. echov4ult is an independent project, not affiliated with or endorsed by Anthropic (Claude, Claude Code) or any engine vendor; all trademarks belong to their respective owners.</span></div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
