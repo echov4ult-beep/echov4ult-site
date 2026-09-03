@@ -2,8 +2,8 @@
 <html lang="en" class="js-pending">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#061426">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#040d19">
   <title>echov4ult — Chris builds ambitious projects with AI crews</title>
   <meta name="description" content="The project universe of Chris and echov4ult: AI agent systems, creator tools, small games, field-tested kits, and build-in-public notes—with working artifacts and honest receipts.">
   <link rel="canonical" href="https://echov4ult.com/">
@@ -22,9 +22,12 @@
   <link rel="icon" type="image/png" href="/assets/v-shield-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
   <script>document.documentElement.classList.remove('js-pending');document.documentElement.classList.add('js');</script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -37,7 +40,7 @@
         "url": "https://echov4ult.com/",
         "logo": "https://echov4ult.com/assets/v-shield.png",
         "email": "echov4ult@gmail.com",
-        "sameAs": ["https://echovault7.gumroad.com", "https://x.com/echov4ultHQ", "https://echov4ult.beehiiv.com"]
+        "sameAs": ["https://echovault7.gumroad.com", "https://x.com/echov4ultHQ", "https://echov4ult.beehiiv.com", "https://www.tiktok.com/@echov4ult"]
       },
       {
         "@type": "WebSite",
@@ -51,7 +54,7 @@
   }
   </script>
 </head>
-<body class="home-v2">
+<body class="home-v3">
 <a class="skip-link" href="#main">Skip to projects</a>
 
 <header class="site">
@@ -69,146 +72,216 @@
 </header>
 
 <main id="main">
-  <section class="hero universe-hero" aria-labelledby="hero-title">
-    <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
-    <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
-    <div class="wrap universe-grid">
-      <div class="hero-copy">
-        <span class="signal-pill"><i aria-hidden="true"></i> Personal project universe · systems online</span>
+  <!-- HERO: the brand mark, forged in WebGL -->
+  <section class="v3-hero" aria-labelledby="hero-title">
+    <div class="v3-hero-bg" aria-hidden="true"></div>
+    <div class="wrap v3-hero-grid">
+      <div class="v3-hero-copy">
+        <span class="v3-eyebrow"><i aria-hidden="true"></i> Project universe · systems online</span>
         <h1 id="hero-title">I build ambitious things with <span class="grad">AI crews.</span></h1>
-        <p class="lede">I’m Chris. echov4ult is where my experiments become working systems: agent teams, creator tools, small games, practical kits, and the honest notes behind all of it.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
-          <a class="btn btn-ghost" href="/about/">Meet the builder</a>
+        <p class="lede">I’m Chris. echov4ult is where experiments become working systems: agent teams, creator tools, small games, practical kits—and the honest receipts behind all of it.</p>
+        <div class="v3-hero-ctas">
+          <a class="btn btn-primary" href="#projects">Explore the projects <span class="btn-orb" aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost" href="#footage">Watch it run <span class="btn-orb" aria-hidden="true">▶</span></a>
         </div>
-        <div class="hero-proof" aria-label="What you will find">
-          <span><b>Build</b> working systems</span>
-          <span><b>Test</b> the edges</span>
-          <span><b>Share</b> the receipts</span>
+        <p class="v3-hero-hint"><span class="v3-hint-touch">Drag the shield</span><span class="v3-hint-mouse">Move your cursor · the mark follows</span></p>
+      </div>
+
+      <div class="shield-stage" aria-label="The echov4ult V-shield, rendered in real time">
+        <img class="shield-fallback" src="/assets/v-shield.png" width="800" height="800" alt="echov4ult V-shield mark" fetchpriority="high">
+        <div class="shield-floor" aria-hidden="true"></div>
+        <div class="v3-hero-corner" aria-hidden="true">WebGL · real-time<br><b>V-SHIELD / MK.II</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECEIPTS RAIL: dated facts, nothing aspirational -->
+  <div class="v3-rail" aria-label="Current receipts">
+    <div class="v3-rail-track">
+      <span><i></i><b>3 kits</b> shipped to Gumroad</span>
+      <span><i></i><b><span data-rail-post-count>23</span> notes</b> in the Build Log</span>
+      <span><i></i>TikTok <b>@echov4ult</b> live since 2026-08-17</span>
+      <span><i></i>Every video graded by <b>ViralLens</b> before it posts</span>
+      <span><i></i><b>V4ULT RUN</b> playable in the browser</span>
+      <span><i></i>Site source <b>public on GitHub</b></span>
+      <span><i></i><b>AI Onramp</b> newsletter on Beehiiv</span>
+      <span aria-hidden="true"><i></i><b>3 kits</b> shipped to Gumroad</span>
+      <span aria-hidden="true"><i></i><b><span data-rail-post-count>23</span> notes</b> in the Build Log</span>
+      <span aria-hidden="true"><i></i>TikTok <b>@echov4ult</b> live since 2026-08-17</span>
+      <span aria-hidden="true"><i></i>Every video graded by <b>ViralLens</b> before it posts</span>
+      <span aria-hidden="true"><i></i><b>V4ULT RUN</b> playable in the browser</span>
+      <span aria-hidden="true"><i></i>Site source <b>public on GitHub</b></span>
+      <span aria-hidden="true"><i></i><b>AI Onramp</b> newsletter on Beehiiv</span>
+    </div>
+  </div>
+
+  <!-- STACK: the actual tools behind the work -->
+  <section class="v3-stack" aria-label="Tools this site and its projects run on">
+    <div class="wrap v3-stack-inner">
+      <span class="v3-stack-label">Runs on</span>
+      <ul class="v3-stack-list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg>Claude Code</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub Pages</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268zm2.7568-5.5634c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"/></svg>Cloudflare</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>TikTok</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0Zm-.007 5.12c4.48 0 5.995 3.025 6.064 4.744h-3.239c-.069-.962-.897-2.406-2.896-2.406-2.136 0-3.514 1.857-3.514 4.126 0 2.27 1.378 4.125 3.514 4.125 1.93 0 2.758-1.512 3.103-3.025h-3.103v-1.238h6.509v6.327h-2.855v-3.989c-.207 1.444-1.102 4.264-4.617 4.264-3.516 0-5.584-2.82-5.584-6.326 0-3.645 2.276-6.602 6.618-6.602z"/></svg>Gumroad</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.355 18.538a68.967 68.959 0 0 0 1.858-2.954.81.81 0 0 0-.062-.9c-.516-.685-1.504-2.075-2.042-3.362-.553-1.321-.636-3.375-.64-4.377a1.707 1.707 0 0 0-.358-1.05l-3.198-4.064a3.744 3.744 0 0 1-.076.543c-.106.503-.307 1.004-.536 1.5-.134.29-.29.6-.446.914l-.31.626c-.516 1.068-.997 2.227-1.132 3.59-.124 1.26.046 2.73.815 4.481.128.011.257.025.386.044a6.363 6.363 0 0 1 3.326 1.505c.916.79 1.744 1.922 2.415 3.5zM8.199 22.569c.073.012.146.02.22.02.78.024 2.095.092 3.16.29.87.16 2.593.64 4.01 1.055 1.083.316 2.198-.548 2.355-1.664.114-.814.33-1.735.725-2.58l-.01.005c-.67-1.87-1.522-3.078-2.416-3.849a5.295 5.295 0 0 0-2.778-1.257c-1.54-.216-2.952.19-3.84.45.532 2.218.368 4.829-1.425 7.531zM5.533 9.938c-.023.1-.056.197-.098.29L2.82 16.059a1.602 1.602 0 0 0 .313 1.772l4.116 4.24c2.103-3.101 1.796-6.02.836-8.3-.728-1.73-1.832-3.081-2.55-3.831zM9.32 14.01c.615-.183 1.606-.465 2.745-.534-.683-1.725-.848-3.233-.716-4.577.154-1.552.7-2.847 1.235-3.95.113-.235.223-.454.328-.664.149-.297.288-.577.419-.86.217-.47.379-.885.46-1.27.08-.38.08-.72-.014-1.043-.095-.325-.297-.675-.68-1.06a1.6 1.6 0 0 0-1.475.36l-4.95 4.452a1.602 1.602 0 0 0-.513.952l-.427 2.83c.672.59 2.328 2.316 3.335 4.711.09.21.175.43.253.653z"/></svg>Obsidian</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.72 17.91V6.5l-.53-.49L9.05 18.52l-1.29-.06L24 1.53l-.33-.95-11.93 1-5.75 6.6v-.23l4.7-5.39-1.38-.77-9.11.77v2.85l1.91.46v.01l.19-.01-.56.66v10.6c.609-.126 1.22-.241 1.83-.36L14.12 5.22l.83-.04L0 21.44l9.67.82 1.35-.77 6.82-6.74v2.15l-5.72 5.57 11.26.95.35-.94v-3.16l-3.29-.18c.434-.403.858-.816 1.28-1.23z"/></svg>FFmpeg</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>X</li>
+      </ul>
+      <p class="v3-stack-note">Logos identify the tools in use. Independent project; no endorsement implied.</p>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="v3-section" aria-labelledby="projects-title">
+    <div class="wrap">
+      <div class="v3-head reveal">
+        <div><span class="kicker">Selected projects</span><h2 id="projects-title">Different missions.<br><span class="grad">One operating system.</span></h2></div>
+        <p>Some projects are products. Some are tools I use daily. Some are experiments that teach the next project what to become. Every card leads to something real.</p>
+      </div>
+
+      <div class="v3-bento">
+        <article class="v3-card v3-feature reveal">
+          <div class="v3-card-in">
+            <div class="v3-photo" aria-hidden="true">
+              <img src="/assets/img/v2-test-1-ignition-800.webp" srcset="/assets/img/v2-test-1-ignition-800.webp 800w, /assets/img/v2-test-1-ignition-1600.webp 1600w" sizes="(max-width: 1024px) 100vw, 640px" width="1536" height="2752" alt="" loading="lazy" decoding="async">
+            </div>
+            <div class="v3-card-top"><span class="v3-idx">01 · BUILD GAMES</span><span class="v3-chip">Shipped</span></div>
+            <div class="v3-copy">
+              <span class="mono-tag">Full Party</span>
+              <h3>A virtual game studio for solo developers.</h3>
+              <p>Ten specialist agents with governance, workflows, and quality gates for Claude Code—not a bag of prompts.</p>
+              <div class="v3-roles" aria-hidden="true"><span>Design</span><span>Engineering</span><span>QA</span><span>Production</span><span>Art</span><span>Audio</span></div>
+              <div class="v3-meta"><span>Enter the studio <small>· $0 / $49 / $129</small></span><span class="arrow" aria-hidden="true">↗</span></div>
+            </div>
+            <a class="v3-cover" href="/full-party/" aria-label="Full Party: enter the studio"></a>
+          </div>
+        </article>
+
+        <article class="v3-card v3-tile reveal">
+          <div class="v3-card-in">
+            <div class="v3-card-top"><span class="v3-idx">02 · OPERATE</span><span class="v3-chip">Shipped</span></div>
+            <div class="v3-art"><div class="v3-term" aria-hidden="true">$ /session-start<b>quality floor loaded</b><b>token ceiling armed</b><em>one next action → <i></i></em></div></div>
+            <div class="v3-copy"><span class="mono-tag">Operator’s Kit</span><h3>Make strong AI sessions repeatable.</h3><p>Eight interlocking skills for the way real sessions actually go.</p><div class="v3-meta"><span>Open the kit</span><span class="arrow" aria-hidden="true">↗</span></div></div>
+            <a class="v3-cover" href="/operators-kit/" aria-label="Operator’s Kit: open the kit"></a>
+          </div>
+        </article>
+
+        <article class="v3-card v3-tile reveal">
+          <div class="v3-card-in">
+            <div class="v3-card-top"><span class="v3-idx">03 · LAUNCH</span><span class="v3-chip">Shipped</span></div>
+            <div class="v3-art"><div class="v3-flow" aria-hidden="true"><span>BRIEF</span><i></i><span>PLAN</span><i></i><span>DRAFT</span><i></i><span class="you">YOU</span></div></div>
+            <div class="v3-copy"><span class="mono-tag">Launch Crew</span><h3>An AI marketing department that drafts while you keep the publish button.</h3><div class="v3-meta"><span>Meet the crew</span><span class="arrow" aria-hidden="true">↗</span></div></div>
+            <a class="v3-cover" href="/launch-crew/" aria-label="Launch Crew: meet the crew"></a>
+          </div>
+        </article>
+
+        <article class="v3-card v3-wide reveal">
+          <div class="v3-card-in">
+            <div class="v3-card-top"><span class="v3-idx">04 · CREATOR INTELLIGENCE</span><span class="v3-chip amber live">Active lab</span></div>
+            <div class="v3-art">
+              <div class="v3-lens" aria-hidden="true">
+                <div class="v3-photo"><img src="/assets/img/v2-test-3-dashboard-800.webp" width="1536" height="2752" alt="" loading="lazy" decoding="async"></div>
+                <div class="v3-gauge"><span>Pre-publish score</span><div><b>74<small>/100</small></b><div class="bar"><i></i></div><em>PASS · laws met</em></div><span>Observe · compare · learn</span></div>
+              </div>
+            </div>
+            <div class="v3-copy"><span class="mono-tag">ViralLens</span><h3>Grades the cut before it posts, then learns from what actually happened.</h3><p>A calibration loop that compares pre-publish judgment with real TikTok performance.</p><div class="v3-meta"><span>View the calibration lab</span><span class="arrow" aria-hidden="true">↗</span></div></div>
+            <a class="v3-cover" href="/virallens/" aria-label="ViralLens: view the calibration lab"></a>
+          </div>
+        </article>
+
+        <article class="v3-card v3-third reveal">
+          <div class="v3-card-in">
+            <div class="v3-card-top"><span class="v3-idx">05 · PLAY</span><span class="v3-chip">Playable</span></div>
+            <div class="v3-art"><div class="v3-game" aria-hidden="true"><i class="hz"></i><i class="hz"></i><i class="hz"></i><i class="hz"></i><span class="ship">◆</span><small>SCORE 0042</small></div></div>
+            <div class="v3-copy"><span class="mono-tag">V4ULT RUN</span><h3>A neon dodge experiment you can play right now.</h3><div class="v3-meta"><span>Play in the browser</span><span class="arrow" aria-hidden="true">→</span></div></div>
+            <a class="v3-cover" href="/game.html" aria-label="Play V4ULT RUN"></a>
+          </div>
+        </article>
+
+        <article class="v3-card v3-third reveal">
+          <div class="v3-card-in">
+            <div class="v3-card-top"><span class="v3-idx">06 · FIELD NOTES</span><span class="v3-chip">Open</span></div>
+            <div class="v3-art"><div class="v3-notes" aria-hidden="true"><span>RECHECK RULE</span><span>GRAPH ENGINEERING</span><span>SMALL PARTY &gt; MEGA ROSTER</span></div></div>
+            <div class="v3-copy"><span class="mono-tag">The Build Log</span><h3>What worked, what broke, and what survived contact with real projects.</h3><div class="v3-meta"><span>Read the notes</span><span class="arrow" aria-hidden="true">↗</span></div></div>
+            <a class="v3-cover" href="/blog/" aria-label="Read the Build Log"></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIELD FOOTAGE: real echov4ult videos, not stock -->
+  <section id="footage" class="v3-field" aria-labelledby="footage-title">
+    <div class="v3-field-bg" aria-hidden="true">
+      <video data-autoplay muted loop playsinline preload="metadata" poster="/assets/video/ev-03-poster.jpg"><source src="/assets/video/ev-03-field-loop.mp4" type="video/mp4"></video>
+    </div>
+    <div class="v3-field-scrim" aria-hidden="true"></div>
+    <div class="wrap v3-field-grid">
+      <div class="v3-field-copy reveal">
+        <span class="kicker">Field footage</span>
+        <h2 id="footage-title">The brand runs <span class="grad">in public.</span></h2>
+        <p>Short videos from inside the workshop, posted as @echov4ult. The background loop and the phone are both real cuts from the channel—shot in the “Terminal Noir” house style, no faces, two light temperatures, practical effects only.</p>
+        <ul class="v3-field-facts">
+          <li>Every cut is graded by ViralLens before it posts <small>· the grade is kept, hit or miss</small></li>
+          <li>Narration, captions, and QC run through the same crew that builds the kits</li>
+          <li>Casual cadence on purpose <small>· ramp only on traction, never on hope</small></li>
+        </ul>
+        <a class="btn btn-ghost" href="https://www.tiktok.com/@echov4ult" rel="noopener">Watch on TikTok <span class="btn-orb" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="v3-phone-wrap reveal">
+        <div class="v3-phone">
+          <video data-autoplay muted loop playsinline preload="metadata" poster="/assets/video/ev-04-poster.jpg" aria-label="echov4ult TikTok: monthly receipts video"><source src="/assets/video/ev-04-receipts-loop.mp4" type="video/mp4"></video>
         </div>
-      </div>
-
-      <div class="constellation" aria-label="Project constellation">
-        <div class="constellation-grid" aria-hidden="true"></div>
-        <a class="project-node node-core" href="#projects">
-          <span class="node-status">LIVE INDEX</span>
-          <img src="/assets/v-shield-64.png" width="56" height="56" alt="">
-          <strong>echov4ult</strong>
-          <small>project control</small>
-        </a>
-        <a class="project-node node-build" href="/full-party/"><span>BUILD</span><strong>Full Party</strong><small>AI game studio</small></a>
-        <a class="project-node node-operate" href="/operators-kit/"><span>OPERATE</span><strong>Operator’s Kit</strong><small>session discipline</small></a>
-        <a class="project-node node-launch" href="/launch-crew/"><span>LAUNCH</span><strong>Launch Crew</strong><small>marketing system</small></a>
-        <a class="project-node node-lab" href="/virallens/"><span>LAB</span><strong>ViralLens</strong><small>creator calibration</small></a>
-        <a class="project-node node-play" href="/game.html"><span>PLAY</span><strong>V4ULT RUN</strong><small>browser game</small></a>
-        <svg class="constellation-lines" viewBox="0 0 660 570" aria-hidden="true" preserveAspectRatio="none">
-          <path d="M330 285 L132 120 M330 285 L530 108 M330 285 L560 345 M330 285 L122 390 M330 285 L358 520"></path>
-        </svg>
-      </div>
-    </div>
-    <div class="status-rail" aria-label="Current studio status">
-      <div class="wrap status-rail-inner">
-        <span class="rail-label">NOW BUILDING</span>
-        <span>AI-native workflows</span><i aria-hidden="true"></i>
-        <span>creator systems</span><i aria-hidden="true"></i>
-        <span>games & experiments</span><i aria-hidden="true"></i>
-        <span>public field notes</span>
+        <span class="v3-phone-tag">EV-04 · <b>monthly receipts</b></span>
       </div>
     </div>
   </section>
 
-  <section id="projects" class="project-section">
+  <!-- METHOD: this one is a real sequence, so it earns its numbers -->
+  <section class="v3-section v3-method" aria-labelledby="method-title">
     <div class="wrap">
-      <div class="section-head split-head reveal">
-        <div><span class="kicker">Selected projects</span><h2>Different missions.<br><span class="grad">One operating system.</span></h2></div>
-        <p>Some projects are products. Some are tools I use. Some are experiments that teach the next project what to become. Every card leads to something real.</p>
+      <div class="v3-head reveal">
+        <div><span class="kicker">The house method</span><h2 id="method-title">Ideas are cheap.<br><span class="grad">Operating systems ship.</span></h2></div>
+        <p>I use AI as a crew, not an oracle. Every serious project gets roles, authority, quality gates, receipts, and one visible next action. <a href="/guides/">Read the practical guides ↗</a></p>
       </div>
-
-      <div class="project-bento">
-        <article class="project-feature project-full-party reveal">
-          <div class="project-card-top"><span class="project-index">01</span><span class="status-chip shipped">SHIPPED</span></div>
-          <div class="project-art party-art" aria-hidden="true">
-            <div class="party-ring ring-one"></div><div class="party-ring ring-two"></div>
-            <div class="party-core">10<span>roles</span></div>
-            <span class="party-role role-a">DESIGN</span><span class="party-role role-b">ENGINEERING</span><span class="party-role role-c">QA</span><span class="party-role role-d">PRODUCTION</span>
-          </div>
-          <div class="project-card-copy">
-            <span class="mono-tag">Build games</span>
-            <h3>Full Party</h3>
-            <p>A virtual game studio for solo developers: 10 specialist agents, governance, workflows, and quality gates—not a bag of prompts.</p>
-            <div class="project-actions"><a class="text-link" href="/full-party/">Enter the studio <span aria-hidden="true">↗</span></a><span>$0 / $49 / $129</span></div>
-          </div>
-        </article>
-
-        <article class="project-tile project-operators reveal">
-          <div class="project-card-top"><span class="project-index">02</span><span class="status-chip shipped">SHIPPED</span></div>
-          <div class="mini-terminal" aria-hidden="true"><span>&gt; /session-start</span><b>quality floor loaded</b><b>token ceiling armed</b><em>one next action →</em></div>
-          <div class="project-card-copy"><span class="mono-tag">Operate better</span><h3>Operator’s Kit</h3><p>Eight interlocking skills that make strong AI sessions repeatable.</p><a class="text-link" href="/operators-kit/">Open the kit <span aria-hidden="true">↗</span></a></div>
-        </article>
-
-        <article class="project-tile project-launch reveal">
-          <div class="project-card-top"><span class="project-index">03</span><span class="status-chip shipped">SHIPPED</span></div>
-          <div class="launch-board" aria-hidden="true"><span>BRIEF</span><i></i><span>PLAN</span><i></i><span>DRAFT</span><i></i><span class="launch-human">YOU</span></div>
-          <div class="project-card-copy"><span class="mono-tag">Launch products</span><h3>Launch Crew</h3><p>An AI marketing department that plans and drafts while you keep the publish button.</p><a class="text-link" href="/launch-crew/">Meet the crew <span aria-hidden="true">↗</span></a></div>
-        </article>
-
-        <article class="project-wide project-virallens reveal">
-          <div class="project-card-copy"><div class="project-card-top"><span class="project-index">04</span><span class="status-chip lab">ACTIVE LAB</span></div><span class="mono-tag">Creator intelligence</span><h3>ViralLens</h3><p>A calibration loop that compares pre-publish creative judgment with real TikTok performance—so the next cut learns from the last one.</p><a class="text-link" href="/virallens/">View the calibration lab <span aria-hidden="true">↗</span></a></div>
-          <div class="lens-visual" aria-hidden="true"><div class="lens-radar"><i></i><i></i><i></i><span></span></div><div class="lens-score"><small>SIGNAL</small><b>↗</b><span>observe · compare · learn</span></div></div>
-        </article>
-
-        <article class="project-tile project-game reveal">
-          <div class="project-card-top"><span class="project-index">05</span><span class="status-chip playable">PLAYABLE</span></div>
-          <div class="game-window" aria-hidden="true"><span class="game-ship">◆</span><i class="hazard h1"></i><i class="hazard h2"></i><i class="hazard h3"></i><small>SCORE 0042</small></div>
-          <div class="project-card-copy"><span class="mono-tag">Small game</span><h3>V4ULT RUN</h3><p>A neon dodge experiment you can play in the browser right now.</p><a class="text-link" href="/game.html">Play V4ULT RUN <span aria-hidden="true">→</span></a></div>
-        </article>
-
-        <article class="project-tile project-notes reveal">
-          <div class="project-card-top"><span class="project-index">06</span><span class="status-chip open">OPEN NOTES</span></div>
-          <div class="note-stack" aria-hidden="true"><span>RECHECK RULE</span><span>GRAPH ENGINEERING</span><span>SMALL PARTY &gt; MEGA ROSTER</span></div>
-          <div class="project-card-copy"><span class="mono-tag">Field notes</span><h3>The Build Log</h3><p>What worked, what broke, and the methods that survived contact with real projects.</p><a class="text-link" href="/blog/">Read the notes <span aria-hidden="true">↗</span></a></div>
-        </article>
-      </div>
+      <ol class="v3-steps reveal">
+        <li><b>Frame the mission</b><small>One goal. Clear authority. Real constraints.</small></li>
+        <li><b>Give the crew roles</b><small>Specialists with boundaries, not a noisy mega-roster.</small></li>
+        <li><b>Try to break it</b><small>Adversarial review before “done.”</small></li>
+        <li><b>Leave receipts</b><small>Decisions, evidence, and the next action stay visible.</small></li>
+      </ol>
     </div>
   </section>
 
-  <section class="method-section">
+  <!-- LATEST NOTES: site.js keeps these synced with /blog/ -->
+  <section class="v3-section v3-writing" aria-labelledby="writing-title">
     <div class="wrap">
-      <div class="method-shell reveal">
-        <div class="method-copy"><span class="kicker">The house method</span><h2>Ideas are cheap.<br><span class="grad">Operating systems ship.</span></h2><p>I use AI as a crew, not an oracle. Every serious project gets roles, authority, quality gates, receipts, and one visible next action.</p><a class="btn btn-ghost" href="/guides/">Read the practical guides</a></div>
-        <ol class="method-flow">
-          <li><span>01</span><div><b>Frame the mission</b><small>One goal. Clear authority. Real constraints.</small></div></li>
-          <li><span>02</span><div><b>Give the crew roles</b><small>Specialists with boundaries, not a noisy mega-roster.</small></div></li>
-          <li><span>03</span><div><b>Try to break it</b><small>Adversarial review before “done.”</small></div></li>
-          <li><span>04</span><div><b>Leave receipts</b><small>Decisions, evidence, and the next action stay visible.</small></div></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <section class="writing-section">
-    <div class="wrap">
-      <div class="writing-head reveal">
-        <div class="section-head"><span class="kicker">Latest from the Build Log</span><h2>Fresh notes from inside the work</h2><p>The newest field reports, decisions, and useful mistakes. New notes appear here as soon as they publish.</p></div>
-        <a class="writing-index-link" href="/blog/"><span data-post-count>21 published notes</span>View the full log <b aria-hidden="true">↗</b></a>
+      <div class="v3-writing-head reveal">
+        <div><span class="kicker">Latest from the Build Log</span><h2 id="writing-title">Fresh notes from inside the work</h2><p>The newest field reports, decisions, and useful mistakes. New notes appear here as soon as they publish.</p></div>
+        <a class="writing-index-link" href="/blog/"><span data-post-count>23 published notes</span>View the full log <b aria-hidden="true">↗</b></a>
       </div>
       <div class="transmission-grid" id="latest-posts" data-latest-posts>
-        <a class="transmission-card transmission-feature reveal" href="/blog/why-i-rebuilt-echov4ult-as-a-project-universe/"><span class="latest-flag">NEWEST SIGNAL</span><span class="post-meta">2026-08-26 · build log</span><h3>Why I rebuilt echov4ult as a project universe</h3><p>The old site looked like a storefront. The new one shows the connected projects, experiments, and systems behind the brand.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
-        <a class="transmission-card reveal" href="/blog/what-my-ai-crew-shipped-this-month/"><span class="post-meta">2026-08-26 · field report</span><h3>What my AI crew actually shipped this month</h3><p>A dated receipt trail: three products, 21 posts, a video review system, and a rebuilt personal site.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
-        <a class="transmission-card reveal" href="/blog/claude-code-auto-mode-default/"><span class="post-meta">2026-08-18 · news</span><h3>Claude Code made auto mode the default</h3><p>The permission default changed. Here is the setting to check and why autonomy should be intentional.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+        <a class="transmission-card transmission-feature reveal" href="/blog/claude-fable-5-1-features/"><span class="latest-flag">NEWEST SIGNAL</span><span class="post-meta">2026-09-02 · news</span><h3>Claude Fable 5.1 is built for long-running work. Most tasks still do not need it.</h3><p>The useful upgrades, honest price tradeoff, and three migration breaks developers need to check.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+        <a class="transmission-card reveal" href="/blog/ai-agent-sandbox-escapes/"><span class="post-meta">2026-09-01 · news</span><h3>AI agents escaped their sandboxes. Small teams should pay attention to how.</h3><p>Recent security incidents exposed failures in permissions, isolation, shared state, and monitoring.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
+        <a class="transmission-card reveal" href="/blog/why-i-rebuilt-echov4ult-as-a-project-universe/"><span class="post-meta">2026-08-26 · build log</span><h3>Why I rebuilt echov4ult as a project universe</h3><p>The old site looked like a storefront. The new one shows the connected projects, experiments, and systems behind the brand.</p><span class="read-arrow" aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
-  <section id="start" class="start-section">
+  <!-- START -->
+  <section id="start" class="v3-section v3-start" aria-labelledby="start-title">
     <div class="wrap">
-      <div class="start-console reveal">
-        <div class="start-copy"><span class="kicker">Choose an entry point</span><h2>What are you here to build?</h2><p>Start with a project, steal the method from a guide, or follow the experiments as they happen.</p></div>
-        <div class="start-actions">
-          <a href="/full-party/"><span>BUILD A GAME</span><b>Full Party</b><i aria-hidden="true">↗</i></a>
-          <a href="/operators-kit/"><span>RUN BETTER SESSIONS</span><b>Operator’s Kit</b><i aria-hidden="true">↗</i></a>
-          <a href="/launch-crew/"><span>LAUNCH A PROJECT</span><b>Launch Crew</b><i aria-hidden="true">↗</i></a>
-          <a href="https://echov4ult.beehiiv.com/subscribe" rel="noopener"><span>FOLLOW THE BUILD</span><b>AI Onramp</b><i aria-hidden="true">↗</i></a>
+      <div class="v3-console reveal">
+        <div class="v3-console-in">
+          <div><span class="kicker">Choose an entry point</span><h2 id="start-title">What are you here to build?</h2><p>Start with a project, steal the method from a guide, or follow the experiments as they happen.</p></div>
+          <div class="v3-start-actions">
+            <a href="/full-party/"><span>Build a game</span><b>Full Party</b><i aria-hidden="true">↗</i></a>
+            <a href="/operators-kit/"><span>Run better sessions</span><b>Operator’s Kit</b><i aria-hidden="true">↗</i></a>
+            <a href="/launch-crew/"><span>Launch a project</span><b>Launch Crew</b><i aria-hidden="true">↗</i></a>
+            <a href="https://echov4ult.beehiiv.com/subscribe" rel="noopener"><span>Follow the build</span><b>AI Onramp</b><i aria-hidden="true">↗</i></a>
+          </div>
         </div>
       </div>
     </div>
@@ -221,12 +294,13 @@
       <div class="foot-brand"><a class="brand" href="/"><img src="/assets/v-shield-64.png" width="28" height="28" alt=""><span class="wm">echo<span class="v4">v4</span>ult</span></a><p>Chris’s project universe: AI crews, creator tools, games, practical kits, and receipts from the work.</p></div>
       <div><div class="foot-heading">Projects</div><ul><li><a href="/full-party/">Full Party</a></li><li><a href="/operators-kit/">Operator’s Kit</a></li><li><a href="/launch-crew/">Launch Crew</a></li><li><a href="/virallens/">ViralLens</a></li><li><a href="/game.html">V4ULT RUN</a></li></ul></div>
       <div><div class="foot-heading">Explore</div><ul><li><a href="/guides/">Guides</a></li><li><a href="/blog/">Build Log</a></li><li><a href="https://github.com/echov4ult-beep/echov4ult-site" rel="noopener">Website source</a></li><li><a href="/about/">About Chris</a></li><li><a href="/contact/">Contact</a></li></ul></div>
-      <div><div class="foot-heading">Connect</div><ul><li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li><li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li><li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li></ul></div>
+      <div><div class="foot-heading">Connect</div><ul><li><a href="https://www.tiktok.com/@echov4ult" rel="noopener">@echov4ult on TikTok</a></li><li><a href="https://echov4ult.beehiiv.com" rel="noopener">AI Onramp newsletter</a></li><li><a href="https://x.com/echov4ultHQ" rel="noopener">@echov4ultHQ on X</a></li><li><a href="mailto:echov4ult@gmail.com">echov4ult@gmail.com</a></li></ul></div>
     </div>
     <div class="legal"><span>© 2026 EchoVault, LLC. All rights reserved. · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/disclosure/">Disclosure</a></span><span>Independent project. Not affiliated with or endorsed by Anthropic or any engine vendor. All trademarks belong to their respective owners.</span></div>
   </div>
 </footer>
 
 <script src="/assets/js/site.js" defer></script>
+<script type="module" src="/assets/js/home.js"></script>
 </body>
 </html>
