@@ -69,3 +69,29 @@ export function decideSkip(input: { claimPassed: boolean; compliancePassed: bool
   if (input.score < 60) return input.score < 40 ? 'LOW_QUALITY' : 'LOW_CONFIDENCE';
   return null;
 }
+
+export function requireApprovedExternalAction(input:{approvalStatus?:string;emergencyStop:boolean;paused:boolean;idempotencyExists:boolean}):GateResult{
+  const reasons:string[]=[];
+  if(input.emergencyStop)reasons.push('Emergency stop is active.');
+  if(input.paused)reasons.push('This external-action lane is paused.');
+  if(input.approvalStatus!=='APPROVED')reasons.push('Explicit human approval is required.');
+  if(input.idempotencyExists)reasons.push('Duplicate external action blocked by idempotency key.');
+  return{passed:reasons.length===0,reasons,evidence:{approvalStatus:input.approvalStatus||'MISSING',emergencyStop:input.emergencyStop,paused:input.paused,idempotencyExists:input.idempotencyExists}};
+}
+
+export function validateBaseUsageRights(input:{paidAdUsage:boolean;perpetualUsage:boolean;rawFootageOwnership:boolean;categoryExclusivity:boolean;competitorExclusivity:boolean}):GateResult{
+  const included=Object.entries(input).filter(([,value])=>value).map(([key])=>key);
+  return{passed:included.length===0,reasons:included.map(key=>`${key} is an add-on right and cannot be silently included in a base package.`),evidence:{included}};
+}
+
+const internalOutputPatterns:[string,RegExp][]=[
+  ['chain-of-thought',/\b(chain[- ]of[- ]thought|hidden reasoning|private reasoning)\b/i],
+  ['scratchpad',/\b(scratchpad|internal monologue)\b/i],
+  ['routing',/\b(subagent_type|route this to agent|agent routing|queue instructions?)\b/i],
+  ['system-prompt',/\b(system prompt|hidden prompt)\b/i],
+  ['raw-tool',/\b(raw tool (?:response|output)|tool_call|tool result:)\b/i]
+];
+export function sanitizeUserFacingOutput(value:string):{safe:boolean;text:string;blockedReasons:string[]}{
+  const blockedReasons=internalOutputPatterns.filter(([,pattern])=>pattern.test(value)).map(([name])=>name);
+  return{safe:blockedReasons.length===0,text:blockedReasons.length===0?value:'',blockedReasons};
+}

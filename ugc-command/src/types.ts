@@ -5,6 +5,9 @@ export type SkipReason = 'LOW_QUALITY' | 'COMPLIANCE_FAILURE' | 'CLAIM_RISK' | '
 export type ExperimentTag = 'CONTROL' | 'ITERATION' | 'EXPERIMENT';
 export type FindingDisposition = 'PENDING' | 'ACCEPT' | 'QUESTION' | 'IGNORE';
 export type MoneyStatus = 'ESTIMATED' | 'PENDING' | 'CONFIRMED';
+export type BusinessType = 'CLIENT_UGC' | 'AFFILIATE' | 'PORTFOLIO' | 'EXPERIMENT';
+export type LeadStage = 'DISCOVERED' | 'QUALIFIED' | 'PITCH_DRAFTED' | 'AWAITING_APPROVAL' | 'PITCH_SENT' | 'FOLLOW_UP_DUE' | 'REPLIED' | 'DISCOVERY' | 'PROPOSAL_SENT' | 'NEGOTIATION' | 'WON' | 'LOST' | 'NURTURE';
+export type ApprovalType = 'PROSPECT_OUTREACH' | 'FOLLOW_UP_MESSAGE' | 'PRICING_DISCOUNT' | 'CONTRACT_TERMS' | 'PRODUCT_CLAIM' | 'CREATIVE_BRIEF' | 'FINAL_SCRIPT' | 'CLIENT_DRAFT' | 'FINAL_DELIVERY' | 'PUBLISHING' | 'AFFILIATE_LINK' | 'COMPLIANCE_EXCEPTION' | 'PAYMENT_OVERRIDE';
 
 export interface FactualClaim { text: string; evidenceId?: number }
 export interface CandidateDraft {

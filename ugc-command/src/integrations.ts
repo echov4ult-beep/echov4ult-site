@@ -8,6 +8,7 @@ export interface HiggsfieldClient { generate(draft: CandidateDraft): Promise<Gen
 export interface TikTokPublisher { publish(input: { videoUri: string; caption: string; idempotencyKey: string }): Promise<PublishResult> }
 export interface TikTokAnalytics { snapshot(platformPostId: string): Promise<AnalyticsResult> }
 export interface AffiliateLinks { validate(input: { url: string; programType: string }): { valid: boolean; reasons: string[] } }
+export interface PaymentConfirmationProvider { validate(input:{amountCents:number;idempotencyKey:string}):{provider:string;valid:boolean;reasons:string[]} }
 
 const digest = (value: string) => createHash('sha256').update(value).digest('hex').slice(0,16);
 export class MockHiggsfieldClient implements HiggsfieldClient {
@@ -34,6 +35,15 @@ export class ComplianceAffiliateLinks implements AffiliateLinks {
       if (input.programType !== 'AMAZON' && url.pathname.startsWith('/go/') && url.origin !== 'https://echov4ult.com') reasons.push('/go/ links must use echov4ult.com.');
     } catch { reasons.push('Invalid URL.'); }
     return { valid: reasons.length === 0, reasons };
+  }
+}
+
+export class ManualPaymentConfirmationProvider implements PaymentConfirmationProvider {
+  validate(input:{amountCents:number;idempotencyKey:string}){
+    const reasons:string[]=[];
+    if(!Number.isInteger(input.amountCents)||input.amountCents<=0)reasons.push('Payment amount must be a positive number of cents.');
+    if(!input.idempotencyKey.trim())reasons.push('A bank or provider receipt identifier is required.');
+    return{provider:'MANUAL',valid:reasons.length===0,reasons};
   }
 }
 

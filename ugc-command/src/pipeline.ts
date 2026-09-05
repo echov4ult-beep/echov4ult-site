@@ -35,6 +35,7 @@ export class UgcPipeline {
   }
 
   async generateCandidate(ideaId: number): Promise<number> {
+    if(setting(this.db,'emergency_stop',false)||setting(this.db,'agents_paused',false)||setting(this.db,'generation_paused',true)||setting(this.db,'global_automation_paused',true))throw new Error('Generation is paused by Hermes controls.');
     const idea = this.db.prepare(`SELECT ci.*,p.evidence_state,p.name product_name FROM content_ideas ci JOIN products p ON p.id=ci.product_id WHERE ci.id=?`).get(ideaId) as Row|undefined;
     if (!idea) throw new Error('Content idea not found.');
     const evidence = this.db.prepare('SELECT id,claim FROM product_evidence WHERE product_id=? ORDER BY id LIMIT 1').get(Number(idea.product_id)) as {id:number;claim:string}|undefined;
@@ -70,6 +71,11 @@ export class UgcPipeline {
     const row = this.db.prepare(`SELECT j.*,c.status candidate_status,c.caption,c.video_uri,c.score,c.content_idea_id,ci.product_id,ci.hook,ci.angle,ci.format,ci.cta,ci.experiment_tag FROM publishing_jobs j JOIN creative_candidates c ON c.id=j.candidate_id JOIN content_ideas ci ON ci.id=c.content_idea_id WHERE j.id=?`).get(jobId) as Row|undefined;
     if (!row || row.status !== 'PENDING') return {published:false,reason:'Job is missing or no longer pending.'};
     const mode=setting<PublishingMode>(this.db,'publishing_mode','MANUAL_APPROVAL'), lifecycle=setting<Lifecycle>(this.db,'lifecycle','COLD_START');
+    const pauseReasons:string[]=[];
+    if(setting(this.db,'agents_paused',false))pauseReasons.push('Agents are paused.');
+    if(setting(this.db,'publishing_paused',false))pauseReasons.push('Publishing is paused.');
+    if(setting(this.db,'global_automation_paused',true))pauseReasons.push('Global automation is paused.');
+    if(pauseReasons.length){const reason=pauseReasons.join(' ');this.db.prepare("UPDATE publishing_jobs SET status='BLOCKED',skip_reason='MANUAL_HOLD',last_error=?,updated_at=? WHERE id=?").run(reason,now(),jobId);activity(this.db,'VANTAGE','PUBLISH_BLOCKED',`Publishing job ${jobId} was blocked by Hermes controls.`,{jobId,reasons:pauseReasons});return{published:false,reason};}
     const start=new Date(setting(this.db,'account_started_at',now())).getTime();
     const recent=(this.db.prepare("SELECT COUNT(*) count FROM published_posts WHERE published_at >= datetime('now','-24 hours')").get() as {count:number}).count;
     const gate=publishingGate({mode,emergencyStop:setting(this.db,'emergency_stop',false),approved:row.candidate_status==='APPROVED',due:new Date(String(row.scheduled_for)).getTime()<=Date.now(),lifecycle,postsInLast24Hours:recent,accountAgeDays:Math.max(0,Math.floor((Date.now()-start)/86400000)),autonomousExplicitlyEnabled:setting(this.db,'autonomous_explicitly_enabled',false)});

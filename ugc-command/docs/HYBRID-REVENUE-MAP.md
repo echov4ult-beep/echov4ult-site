@@ -24,11 +24,11 @@
 
 Files:
 
-- `src/db.ts`: migration v2 for offers/add-ons, leads, communications, approvals, clients/projects, intake, production items, and financial entries.
+- `src/db.ts`: migrations v2–v3 for offers/add-ons, leads, communications, approvals, clients/projects, intake, production, QA, versions, delivery receipts, follow-ups, and separated financial entries.
 - `src/revenue.ts`: validated lifecycle transitions, duplicate detection, lead qualification, pitch approval gate, client conversion, pricing snapshots, and immutable audit events.
 - `src/policies.ts`: outreach, cold-start publishing, business-type separation, paid-rights defaults, emergency pause, and output-sanitizer rules.
 - `src/dashboard.ts` + `src/server.ts`: command overview, sales pipeline, approval center, client intake, and production board with real form actions and explicit empty states.
-- `tests/revenue.test.ts`: full lead → approved pitch → won project path plus all critical hard gates.
+- `tests/revenue.test.ts` and `tests/server.test.ts`: full lead → approved pitch → won project → paid delivery → follow-up path, all critical hard gates, and CSRF-protected owner actions.
 
 ## Client operations
 
@@ -60,7 +60,7 @@ Extend the same migration/service rather than adding a second subsystem:
 
 ## First-release acceptance path
 
-One integration test will prove:
+The integration tests prove:
 
 ```text
 lead → qualified → pitch draft → human approval → sent → won
@@ -69,4 +69,4 @@ lead → qualified → pitch draft → human approval → sent → won
 → client approval → unwatermarked delivery → testimonial/repeat prompt
 ```
 
-The same test will verify audit coverage and financial separation. Negative tests prove outreach, unsupported claims, cold-start publishing, included paid-ad rights, unpaid final delivery, internal-reasoning leakage, emergency-stop bypass, and duplicate external actions are blocked.
+The suite verifies audit coverage and financial separation. Negative tests prove outreach, unsupported claims, cold-start publishing, included paid-ad rights, unpaid final delivery, internal-reasoning leakage, emergency-stop bypass, duplicate actions, paused generation, and cross-site form actions are blocked.
