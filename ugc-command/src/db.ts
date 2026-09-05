@@ -232,7 +232,83 @@ CREATE INDEX idx_followups_project ON client_followups(project_id, followup_type
 CREATE UNIQUE INDEX idx_deliveries_receipt_code ON deliveries(receipt_code) WHERE receipt_code IS NOT NULL;
 `;
 
-const migrations = [{ version: 1, sql: migration1 }, { version: 2, sql: migration2 }, { version: 3, sql: migration3 }];
+const migration4 = `
+CREATE TABLE business_events (
+  id INTEGER PRIMARY KEY, event_type TEXT NOT NULL, subject_type TEXT NOT NULL, subject_id INTEGER,
+  idempotency_key TEXT NOT NULL UNIQUE, payload_json TEXT NOT NULL DEFAULT '{}', occurred_at TEXT NOT NULL
+);
+CREATE TABLE work_queue (
+  id INTEGER PRIMARY KEY, task_kind TEXT NOT NULL, title TEXT NOT NULL, owner TEXT NOT NULL,
+  priority_class INTEGER NOT NULL CHECK(priority_class BETWEEN 1 AND 13), business_value_cents INTEGER NOT NULL DEFAULT 0,
+  deadline TEXT, dependencies_json TEXT NOT NULL DEFAULT '[]', required_approval_id INTEGER REFERENCES approvals(id),
+  status TEXT NOT NULL DEFAULT 'READY' CHECK(status IN ('READY','CLAIMED','WAITING_APPROVAL','BLOCKED','COMPLETED','FAILED','CANCELLED')),
+  evidence_json TEXT NOT NULL DEFAULT '{}', completion_criteria TEXT NOT NULL, result_json TEXT, next_action TEXT,
+  source_event_id INTEGER REFERENCES business_events(id), idempotency_key TEXT NOT NULL UNIQUE,
+  lease_owner TEXT, lease_token TEXT, lease_until TEXT, attempt_count INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL, updated_at TEXT NOT NULL, completed_at TEXT,
+  UNIQUE(source_event_id, task_kind)
+);
+CREATE TABLE autonomy_policies (
+  capability TEXT PRIMARY KEY, current_level INTEGER NOT NULL CHECK(current_level BETWEEN 1 AND 4),
+  maximum_level INTEGER NOT NULL CHECK(maximum_level BETWEEN 1 AND 4), successful_runs INTEGER NOT NULL DEFAULT 0,
+  material_incidents INTEGER NOT NULL DEFAULT 0, duplicate_actions INTEGER NOT NULL DEFAULT 0,
+  audit_complete INTEGER NOT NULL DEFAULT 0, emergency_stop_tested INTEGER NOT NULL DEFAULT 0,
+  promoted_by TEXT, promoted_at TEXT, updated_at TEXT NOT NULL
+);
+CREATE TABLE autonomy_executions (
+  id INTEGER PRIMARY KEY, capability TEXT NOT NULL REFERENCES autonomy_policies(capability), work_item_id INTEGER REFERENCES work_queue(id),
+  autonomy_level INTEGER NOT NULL, outcome TEXT NOT NULL CHECK(outcome IN ('SUCCESS','FAILED','BLOCKED','UNKNOWN')),
+  material_incident INTEGER NOT NULL DEFAULT 0, duplicate_action INTEGER NOT NULL DEFAULT 0,
+  evidence_json TEXT NOT NULL DEFAULT '{}', idempotency_key TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL
+);
+CREATE INDEX idx_business_events_subject ON business_events(subject_type,subject_id,occurred_at);
+CREATE INDEX idx_work_queue_claim ON work_queue(status,priority_class,deadline,created_at);
+CREATE INDEX idx_work_queue_approval ON work_queue(required_approval_id,status);
+INSERT INTO autonomy_policies(capability,current_level,maximum_level,updated_at) VALUES
+  ('RESEARCH',2,2,datetime('now')),
+  ('DRAFTING',2,2,datetime('now')),
+  ('EXTERNAL_COMMUNICATION',1,2,datetime('now')),
+  ('PUBLISHING',1,2,datetime('now')),
+  ('DELIVERY',1,2,datetime('now')),
+  ('FINANCIAL_ACTION',1,1,datetime('now'));
+`;
+
+const migration5 = `
+ALTER TABLE autonomy_policies ADD COLUMN error_rate REAL NOT NULL DEFAULT 0;
+ALTER TABLE autonomy_policies ADD COLUMN error_tolerance REAL NOT NULL DEFAULT 0.05;
+CREATE TABLE autonomy_promotion_requests (
+  id INTEGER PRIMARY KEY, capability TEXT NOT NULL REFERENCES autonomy_policies(capability), target_level INTEGER NOT NULL CHECK(target_level BETWEEN 1 AND 4),
+  status TEXT NOT NULL DEFAULT 'PENDING' CHECK(status IN ('PENDING','APPROVED','REJECTED','CHANGES_REQUESTED')),
+  reason TEXT NOT NULL, evidence_json TEXT NOT NULL, risks_json TEXT NOT NULL, requested_by TEXT NOT NULL, requested_at TEXT NOT NULL,
+  decided_by TEXT, decided_at TEXT, decision_note TEXT
+);
+CREATE INDEX idx_autonomy_promotions_status ON autonomy_promotion_requests(status,requested_at);
+`;
+
+const migration6 = `
+ALTER TABLE leads ADD COLUMN is_test INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE projects ADD COLUMN is_test INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE revisions ADD COLUMN scope_warning INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE project_checks ADD COLUMN version_id INTEGER REFERENCES deliverable_versions(id);
+ALTER TABLE work_queue ADD COLUMN deferred_until TEXT;
+CREATE TABLE attention_deferrals (
+  source_type TEXT NOT NULL, source_id INTEGER NOT NULL, deferred_until TEXT NOT NULL,
+  deferred_by TEXT NOT NULL, reason TEXT, created_at TEXT NOT NULL,
+  PRIMARY KEY(source_type,source_id)
+);
+CREATE INDEX idx_projects_test ON projects(is_test,business_type,status);
+CREATE INDEX idx_project_checks_version ON project_checks(version_id,check_type,id);
+`;
+
+const migration7 = `
+CREATE TABLE IF NOT EXISTS attention_deferrals (
+  source_type TEXT NOT NULL, source_id INTEGER NOT NULL, deferred_until TEXT NOT NULL,
+  deferred_by TEXT NOT NULL, reason TEXT, created_at TEXT NOT NULL,
+  PRIMARY KEY(source_type,source_id)
+);
+`;
+
+const migrations = [{ version: 1, sql: migration1 }, { version: 2, sql: migration2 }, { version: 3, sql: migration3 }, { version: 4, sql: migration4 }, { version: 5, sql: migration5 }, { version: 6, sql: migration6 }, { version: 7, sql: migration7 }];
 
 export function openDatabase(path: string): DatabaseSync {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });

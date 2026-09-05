@@ -1,0 +1,8 @@
+.ugc-trust,
+.ugc-viewfinder > p {
+  color: var(--muted);
+}
+
+.ugc-process li > span {
+  color: rgba(0, 207, 240, 0.65);
+}

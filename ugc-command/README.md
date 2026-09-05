@@ -16,7 +16,7 @@ npm run dev
 
 Open `http://127.0.0.1:4310`. The default configuration is mock mode, `MANUAL_APPROVAL`, and `COLD_START`. `npm test` runs all unit and end-to-end mock tests. `npm run typecheck` checks strict TypeScript.
 
-Permanent Hermes agents are available through `vantage chat` and `scout chat`. Their current canary authority is read-only. Both inspect this application's live database through `npm run agent -- <status|mission|products|candidates|evidence|experiments|findings|activity|money|leads|approvals|projects|production|audit>`; only humans may operate dashboard write, delivery, or publishing controls during the canary.
+Permanent Hermes agents are available through `vantage chat` and `scout chat`. The existing `scout` profile is the technical profile for the **SCOUT-UGC** role; it is not a second general Scout agent. Their current canary authority is read-only. Both inspect this application's live database through `npm run agent -- <status|mission|products|candidates|evidence|experiments|findings|activity|money|leads|approvals|projects|production|queue|attention|events|autonomy|audit>`; only humans may operate dashboard write, delivery, or publishing controls during the canary.
 
 ## Architecture
 
@@ -94,3 +94,4 @@ The server binds to `127.0.0.1`, rejects cross-origin form posts, requires a per
 - Unwatermarked final delivery requires owner approval, paid invoices (or a separately approved payment override), and passing claim, disclosure, and quality checks.
 
 See [`docs/PLAN.md`](docs/PLAN.md) for the audited implementation plan.
+See [`docs/GROWTH-PLAN.md`](docs/GROWTH-PLAN.md) for the plain-English customer and revenue path.

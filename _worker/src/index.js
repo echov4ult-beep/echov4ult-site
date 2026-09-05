@@ -1,3 +1,5 @@
+import { handleUgc } from './ugc.js';
+
 const AUTHORIZE_URL = 'https://www.tiktok.com/v2/auth/authorize/';
 const TOKEN_URL = 'https://open.tiktokapis.com/v2/oauth/token/';
 const USER_URL = 'https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name';
@@ -8,6 +10,7 @@ const decoder = new TextDecoder();
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith('/api/ugc/')) return handleUgc(request, env, url);
     if (url.pathname === '/api/virallens/oauth/start' && request.method === 'GET') return startOAuth(env);
     if (url.pathname === '/api/virallens/oauth/callback' && request.method === 'GET') return finishOAuth(request, env);
     if (url.pathname === '/api/virallens/session' && request.method === 'GET') return getSession(request, env);

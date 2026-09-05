@@ -44,10 +44,10 @@ Extend the same migration/service rather than adding a second subsystem:
 
 1. Every external action is idempotent and approval-backed.
 2. `COLD_START` blocks publishing even when a candidate is approved.
-3. Emergency stop or the relevant pause blocks new outreach, publishing, generation, delivery, and agent work.
-4. Unwatermarked final delivery requires final approval and satisfied payment, unless a separate approved `PAYMENT_OVERRIDE` exists.
+3. Emergency stop or the relevant pause blocks new outreach, production, publishing, generation, delivery, and agent work.
+4. Production requires complete intake, an accepted agreement, and the confirmed required deposit. Unwatermarked final delivery requires final approval, version-specific QA, and satisfied payment, unless a separate approved `PAYMENT_OVERRIDE` exists.
 5. User-facing agent output is rejected when it contains internal routing, hidden-prompt, scratchpad, chain-of-thought, or raw-tool language.
-6. Revenue, expenses, goals, and conversion fields always carry a business type. Views and predicted scores never enter revenue totals.
+6. Revenue, expenses, goals, and conversion fields always carry a business type. Clearly labeled test projects are excluded from real dashboard and agent revenue totals.
 7. Seeded service packages are configuration, not transactions or claimed sales.
 
 ## Manual integrations for the first release
@@ -70,3 +70,13 @@ lead → qualified → pitch draft → human approval → sent → won
 ```
 
 The suite verifies audit coverage and financial separation. Negative tests prove outreach, unsupported claims, cold-start publishing, included paid-ad rights, unpaid final delivery, internal-reasoning leakage, emergency-stop bypass, duplicate actions, paused generation, and cross-site form actions are blocked.
+
+## Durable operation layer — 2026-09-05
+
+- `src/work-queue.ts` claims one eligible item transactionally, leases it to one worker, skips approval-blocked work, honors dependency completion, and rejects stale completion tokens.
+- `src/events.ts` records idempotent business events and creates only the necessary next tasks. A final-delivery event creates the eight required retention/case-study follow-ons exactly once.
+- Migrations v4–v5 store business events, the 13-class work queue, autonomy policy evidence, executions, error tolerances, and owner-decided promotion requests.
+- Selecting `AUTONOMOUS` in the dashboard cannot promote the system. External communication, publishing, delivery, and financial actions remain level 1; research/drafting are capped at level 2. Promotion requires a matching approved owner record plus every evidence gate.
+- The dashboard now begins with Founder Attention and the durable queue, while the agent CLI exposes `queue`, `attention`, `events`, and `autonomy` as read-only views.
+- Founder Attention consolidates pending decisions, sales replies, unsigned agreements, unpaid invoices, footage/client blockers, final deliverables, and critical queue work. Decisions are recorded in place and any item can be deferred for 24 hours with an audit event.
+- Migration v6 adds test-data labeling, version-specific QA, revision scope warnings, production pause state, and attention deferrals.

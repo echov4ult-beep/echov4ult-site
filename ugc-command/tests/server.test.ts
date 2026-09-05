@@ -21,6 +21,14 @@ describe('owner dashboard security',()=>{
       const form=new URLSearchParams({_csrf:token!,company:'Temporary Test Brand',website:'https://test.invalid',productCategory:'technology',leadSource:'automated test',fitReason:'Ephemeral in-memory validation',estimatedDeal:'149',proposedConcept:'Test only'});
       const accepted=await fetch(`${origin}/actions/lead-create`,{method:'POST',redirect:'manual',headers:{'content-type':'application/x-www-form-urlencoded',origin},body:form});
       expect(accepted.status).toBe(303);expect((db.prepare('SELECT COUNT(*) count FROM leads').get() as {count:number}).count).toBe(1);
+      for(const key of ['production_paused','agents_paused','global_automation_paused']){
+        const pause=new URLSearchParams({_csrf:token!,key,active:'true'});const response=await fetch(`${origin}/actions/pause`,{method:'POST',redirect:'manual',headers:{'content-type':'application/x-www-form-urlencoded',origin},body:pause});expect(response.status).toBe(303);expect((db.prepare('SELECT value_json FROM settings WHERE key=?').get(key) as {value_json:string}).value_json).toBe('true');
+      }
+      expect((db.prepare("SELECT COUNT(*) count FROM audit_events WHERE event_type='PAUSE_CHANGED'").get() as {count:number}).count).toBe(3);
+      const autonomy=new URLSearchParams({_csrf:token!,mode:'AUTONOMOUS'});
+      const refused=await fetch(`${origin}/actions/mode`,{method:'POST',redirect:'manual',headers:{'content-type':'application/x-www-form-urlencoded',origin},body:autonomy});
+      expect(refused.status).toBe(400);expect(await refused.text()).toMatch(/separate governed promotion/i);
+      expect((db.prepare("SELECT value_json FROM settings WHERE key='autonomous_explicitly_enabled'").get() as {value_json:string}).value_json).toBe('false');
     }finally{await new Promise<void>(resolve=>server.close(()=>resolve()));db.close();}
   });
 });

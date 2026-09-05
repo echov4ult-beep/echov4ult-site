@@ -1,5 +1,7 @@
 # UGC Command implementation plan
 
+> Current-state note — 2026-09-05: the original plan below describes the first build. Migrations v1–v5, the client-revenue workflow, and the durable event/work-queue layer now exist. The active runtime is Hermes (verified live); no OpenClaw executable is installed. Hermes gateway and cron are operational, but the three externally asserted UGC Work schedules are not visible in local Hermes/Codex schedule state, so no duplicates were installed. The remaining Milestone 1 gaps are five complete truthful portfolio formats, 50 verified qualified prospects, and their personalized pitch drafts. See `HYBRID-REVENUE-MAP.md` and `GROWTH-PLAN.md` for the current architecture and plain-English next actions.
+
 ## Audit findings
 
 - The repository is a static GitHub Pages site. The new application will live entirely in `ugc-command/`; no public-site pages or assets will be changed.
@@ -67,4 +69,3 @@ Interfaces with honest mocks until credentials and approved APIs are supplied:
 - `npm run seed` is idempotent.
 - `npm run dev` starts the dashboard and scheduler in one process.
 - A final smoke test will start the server, exercise health/API/action routes, run one mock candidate through approval and publish, then confirm stored activity and metrics.
-

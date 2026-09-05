@@ -318,13 +318,14 @@ footer.site {
   background: rgba(6, 20, 38, 0.6); font-size: 0.9rem;
 }
 .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
-.foot-grid h4, .foot-heading { font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px; }
+.foot-grid h4, .foot-heading { font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
 .foot-grid ul { list-style: none; }
 .foot-grid li { margin: 8px 0; }
 .foot-grid a { color: var(--muted); }
 .foot-grid a:hover { color: var(--cyan); }
-.foot-brand p { color: var(--faint); margin-top: 12px; max-width: 280px; font-size: 0.85rem; }
-.legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(0, 207, 240, 0.08); color: var(--faint); font-size: 0.78rem; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.foot-brand p { color: var(--muted); margin-top: 12px; max-width: 280px; font-size: 0.85rem; }
+.legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(0, 207, 240, 0.08); color: var(--muted); font-size: 0.78rem; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.legal a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Reveal animation: visible by default, enhanced only with JS ---------- */
 .reveal { opacity: 1; transform: none; }
