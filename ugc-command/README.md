@@ -16,6 +16,8 @@ npm run dev
 
 Open `http://127.0.0.1:4310`. The default configuration is mock mode, `MANUAL_APPROVAL`, and `COLD_START`. `npm test` runs all unit and end-to-end mock tests. `npm run typecheck` checks strict TypeScript.
 
+Permanent Hermes agents are available through `vantage chat` and `scout chat`. Their current canary authority is read-only. Both inspect this application's live database through `npm run agent -- <status|mission|products|candidates|evidence|experiments|findings|activity|money>`; only humans may operate dashboard write/publish controls during the canary.
+
 ## Architecture
 
 ```text
