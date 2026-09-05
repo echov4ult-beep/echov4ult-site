@@ -19,7 +19,7 @@ export function dashboard(db:DatabaseSync):string {
   <main><section class="status-grid">
     <article><label>Publishing mode</label><strong>${esc(mode)}</strong><form method="post" action="/actions/mode"><select name="mode">${['OFF','MANUAL_APPROVAL','SCHEDULED','AUTONOMOUS'].map(x=>`<option ${x===mode?'selected':''}>${x}</option>`).join('')}</select><button>Update</button></form></article>
     <article><label>Lifecycle</label><strong>${esc(lifecycle)}</strong><span>Caps are enforced before every transport call.</span></article>
-    <article><label>Agents</label><strong>VANTAGE / SCOUT</strong><span>Local services · bounded execution</span></article>
+    <article><label>Agents</label><strong>VANTAGE / SCOUT</strong><span>Permanent Hermes profiles · read-only canary</span></article>
     <article class="stop"><label>Kill switch</label><strong>${stopped?'ACTIVE':'ARMED'}</strong><form method="post" action="/actions/emergency-stop"><input type="hidden" name="active" value="${stopped?'false':'true'}"><button>${stopped?'Resume manually':'EMERGENCY STOP'}</button></form></article>
   </section>
   <section><div class="section-head"><div><span class="eyebrow">NEXT DECISION</span><h2>Today's Mission</h2></div>${idea?`<form method="post" action="/actions/generate"><input type="hidden" name="ideaId" value="${idea.id}"><button>Generate candidate</button></form>`:''}</div>${idea?`<div class="mission"><div><span class="tag">${esc(idea.product_name)}</span><h3>${esc(idea.concept)}</h3><p>${esc(idea.hook)} · ${esc(idea.angle)} · ${esc(idea.format)}</p></div></div>`:'<div class="empty">No data yet.</div>'}
