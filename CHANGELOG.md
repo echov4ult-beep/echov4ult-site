@@ -2,6 +2,14 @@
 
 All notable changes to the EchoVault site are documented here.
 
+## [0.1.0.1] - 2026-09-06
+
+### Added
+
+- Add a second self-initiated UGC portfolio case study for the W&amp;O Q7 camera using original product photography and corrected footage captured with the camera.
+- Separate TikTok Shop listing claims from creator experience, including the observed handheld-shake tradeoff.
+- Link the new case study from the main UGC portfolio and include it in the sitemap.
+
 ## [0.1.0.0] - 2026-09-06
 
 ### Added
