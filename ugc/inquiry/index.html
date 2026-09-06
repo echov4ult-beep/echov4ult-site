@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>UGC project inquiry — echov4ult</title>
+    <meta
+      name="description"
+      content="Tell EchoVault about your UGC project, product, usage, timeline, and budget."
+    />
+    <link rel="canonical" href="https://echov4ult.com/ugc/inquiry/" />
+    <link rel="icon" type="image/png" href="/assets/v-shield-64.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <link rel="stylesheet" href="/assets/css/ugc-forms.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to form</a>
+    <header class="site">
+      <nav class="nav" aria-label="Main">
+        <a class="brand" href="/"
+          ><img
+            src="/assets/v-shield-64.png"
+            alt="echov4ult V-shield logo"
+          /><span class="wm">echo<span class="v4">v4</span>ult</span></a
+        ><button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-menu"
+        >
+          <span class="nav-toggle-label">Menu</span
+          ><span class="nav-toggle-icon" aria-hidden="true"></span>
+        </button>
+        <div class="nav-links" id="site-menu">
+          <a class="active" href="/ugc/">UGC</a
+          ><a href="/virallens/">ViralLens</a><a href="/blog/">Build log</a
+          ><a href="/contact/">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main" class="ugc-form-page">
+      <div class="wrap">
+        <div class="form-intro">
+          <span class="kicker">EchoVault UGC · project inquiry</span>
+          <h1>Tell us what needs to be seen.</h1>
+          <p>
+            AI-accelerated short-form creative for gaming, technology, creator,
+            home-office, and software brands. We combine product research,
+            creative strategy, human review, and efficient production to help
+            brands test more short-form content.
+          </p>
+        </div>
+        <div class="form-shell">
+          <form id="ugc-inquiry-form" class="form-card" novalidate>
+            <div hidden aria-hidden="true">
+              <label
+                >Leave this blank<input
+                  name="botField"
+                  tabindex="-1"
+                  autocomplete="off"
+              /></label>
+            </div>
+            <fieldset class="form-section">
+              <legend>
+                <span class="section-code">01 · Contact</span>Who should we
+                reply to?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="name">Name <span class="required">*</span></label
+                  ><input
+                    id="name"
+                    name="name"
+                    autocomplete="name"
+                    required
+                    maxlength="120"
+                  /><span class="field-error" id="name-error"></span>
+                </div>
+                <div class="field">
+                  <label for="email"
+                    >Work email <span class="required">*</span></label
+                  ><input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    maxlength="254"
+                  /><span class="field-error" id="email-error"></span>
+                </div>
+                <div class="field">
+                  <label for="company"
+                    >Company or brand <span class="required">*</span></label
+                  ><input
+                    id="company"
+                    name="company"
+                    autocomplete="organization"
+                    required
+                    maxlength="160"
+                  /><span class="field-error" id="company-error"></span>
+                </div>
+                <div class="field">
+                  <label for="companyUrl"
+                    >Company website or product page
+                    <span class="required">*</span></label
+                  ><input
+                    id="companyUrl"
+                    name="companyUrl"
+                    type="url"
+                    inputmode="url"
+                    placeholder="https://"
+                    required
+                  /><span class="field-error" id="companyUrl-error"></span>
+                </div>
+                <div class="field">
+                  <label for="phone"
+                    >Phone <span class="field-help">Optional</span></label
+                  ><input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    maxlength="40"
+                  />
+                </div>
+                <div class="field">
+                  <label for="preferredContact">Preferred contact method</label
+                  ><select id="preferredContact" name="preferredContact">
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                    <option value="either">Either</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section">
+              <legend>
+                <span class="section-code">02 · Project</span>What needs
+                content?
+              </legend>
+              <div class="field-grid">
+                <div class="field full">
+                  <label for="productName"
+                    >Product, service, or app
+                    <span class="required">*</span></label
+                  ><input
+                    id="productName"
+                    name="productName"
+                    required
+                    maxlength="240"
+                  /><span class="field-error" id="productName-error"></span>
+                </div>
+                <div class="field full">
+                  <label for="productUrl"
+                    >Product or website URL
+                    <span class="required">*</span></label
+                  ><input
+                    id="productUrl"
+                    name="productUrl"
+                    type="url"
+                    inputmode="url"
+                    placeholder="https://"
+                    required
+                  /><span class="field-error" id="productUrl-error"></span>
+                </div>
+                <div class="choice-field full">
+                  <span id="contentTypes-label"
+                    >Content you are interested in
+                    <span class="required">*</span></span
+                  >
+                  <div
+                    class="choice-grid"
+                    role="group"
+                    aria-labelledby="contentTypes-label"
+                  >
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="product-demonstration"
+                      /><span>Product demonstration</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="problem-solution"
+                      /><span>Problem-and-solution video</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="testimonial-style"
+                      /><span>Testimonial-style video</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="unboxing"
+                      /><span>Unboxing</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="tutorial"
+                      /><span>Tutorial</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="comparison"
+                      /><span>Comparison</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="software-website-demo"
+                      /><span>Software or website demonstration</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="paid-ad-creative"
+                      /><span>Paid advertising creative</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="monthly-package"
+                      /><span>Monthly content package</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="contentTypes"
+                        value="recommend"
+                      /><span>Not sure — recommend an approach</span></label
+                    >
+                  </div>
+                  <span class="field-error" id="contentTypes-error"></span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section">
+              <legend>
+                <span class="section-code">03 · Scope</span>What size project
+                are you considering?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="videoCount"
+                    >Approximate number of videos
+                    <span class="required">*</span></label
+                  ><select id="videoCount" name="videoCount" required>
+                    <option value="">Choose…</option>
+                    <option>1</option>
+                    <option>2–3</option>
+                    <option>4–7</option>
+                    <option>8+</option>
+                    <option>Not sure</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="completionWindow"
+                    >Desired completion window
+                    <span class="required">*</span></label
+                  ><select
+                    id="completionWindow"
+                    name="completionWindow"
+                    required
+                  >
+                    <option value="">Choose…</option>
+                    <option>Within 2 weeks</option>
+                    <option>Within 30 days</option>
+                    <option>1–2 months</option>
+                    <option>Ongoing</option>
+                    <option>Not sure</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="budget"
+                    >Estimated budget <span class="required">*</span></label
+                  ><select id="budget" name="budget" required>
+                    <option value="">Choose…</option>
+                    <option value="under-250">Under $250</option>
+                    <option value="250-500">$250–$500</option>
+                    <option value="500-1000">$500–$1,000</option>
+                    <option value="1000-2000">$1,000–$2,000</option>
+                    <option value="2000-plus">$2,000+</option>
+                    <option value="not-sure">Not sure</option>
+                  </select>
+                  <p class="field-help">
+                    This helps us recommend a useful scope. It does not create a
+                    contract or fix the final price.
+                  </p>
+                  <span class="field-error" id="budget-error"></span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section">
+              <legend>
+                <span class="section-code">04 · Usage</span>Where will the
+                creative run?
+              </legend>
+              <div class="field-grid">
+                <div class="choice-field full">
+                  <span id="usageLocations-label"
+                    >Planned locations <span class="required">*</span></span
+                  >
+                  <div
+                    class="choice-grid"
+                    role="group"
+                    aria-labelledby="usageLocations-label"
+                  >
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="organic-tiktok"
+                      /><span>Organic TikTok</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="organic-instagram"
+                      /><span>Organic Instagram / Reels</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="organic-youtube-shorts"
+                      /><span>Organic YouTube Shorts</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="website"
+                      /><span>Website or product page</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="email"
+                      /><span>Email</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="paid-social"
+                      /><span>Paid social advertising</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="spark-ads"
+                      /><span>TikTok Spark Ads</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="meta-partnership"
+                      /><span>Meta Partnership Ads</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="multiple"
+                      /><span>Multiple locations</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="usageLocations"
+                        value="not-sure"
+                      /><span>Not sure</span></label
+                    >
+                  </div>
+                  <span class="field-error" id="usageLocations-error"></span>
+                </div>
+                <div class="field full">
+                  <label for="usageKind"
+                    >Expected usage <span class="required">*</span></label
+                  ><select id="usageKind" name="usageKind" required>
+                    <option value="">Choose…</option>
+                    <option value="organic">Organic use only</option>
+                    <option value="paid">Paid advertising</option>
+                    <option value="both">Both</option>
+                    <option value="not-sure">Not sure</option></select
+                  ><span class="field-error" id="usageKind-error"></span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section">
+              <legend>
+                <span class="section-code">05 · Goal</span>What should the
+                content accomplish?
+              </legend>
+              <div class="field-grid">
+                <div class="field full">
+                  <label for="objective"
+                    >Primary goal <span class="required">*</span></label
+                  ><textarea
+                    id="objective"
+                    name="objective"
+                    required
+                    maxlength="2000"
+                    placeholder="What should the right viewer understand, feel, or do?"
+                  ></textarea
+                  ><span class="field-error" id="objective-error"></span>
+                </div>
+                <div class="field full">
+                  <label for="notes">Anything else we should know?</label
+                  ><textarea
+                    id="notes"
+                    name="notes"
+                    maxlength="2000"
+                    placeholder="Product access, campaign context, restrictions, or questions."
+                  ></textarea>
+                </div>
+              </div>
+            </fieldset>
+            <div class="consent-box">
+              <label class="choice"
+                ><input
+                  type="checkbox"
+                  name="consent"
+                  value="yes"
+                  required
+                /><span
+                  >I understand that submission does not create a contract or
+                  guarantee acceptance; pricing depends on scope, production
+                  method, and usage rights. EchoVault may review this inquiry
+                  and contact me about it under the
+                  <a href="/privacy/">privacy policy</a>.
+                  <span class="required">*</span></span
+                ></label
+              ><span class="field-error" id="consent-error"></span
+              ><label class="choice"
+                ><input
+                  type="checkbox"
+                  name="marketingConsent"
+                  value="yes"
+                /><span
+                  >Optional: send me occasional EchoVault UGC updates. This is
+                  not required to submit.</span
+                ></label
+              >
+            </div>
+            <div class="form-actions">
+              <span class="form-note">Required fields are marked *</span
+              ><button class="btn btn-primary" type="submit">
+                Send project inquiry →
+              </button>
+            </div>
+            <div
+              id="form-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></div>
+          </form>
+          <aside class="form-aside">
+            <span class="section-code">What happens next</span>
+            <h2>A real review, not an automatic contract.</h2>
+            <ol>
+              <li>We review product, fit, budget, usage, and timing.</li>
+              <li>We prepare the clearest response and scope.</li>
+              <li>
+                A project starts only after proposal, rights, payment, and
+                production method are confirmed.
+              </li>
+            </ol>
+            <p class="security-note">
+              Human-filmed, hybrid AI-assisted, and fully synthetic work are
+              clearly distinguished before production.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </main>
+    <footer class="site">
+      <div class="wrap">
+        <div class="legal">
+          <span
+            >&copy; 2026 EchoVault, LLC · <a href="/ugc/">UGC portfolio</a> ·
+            <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></span
+          ><span
+            >Submitting an inquiry does not create a contract or guarantee
+            project acceptance.</span
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="/assets/js/site.js" defer></script>
+    <script src="/assets/js/ugc-inquiry.js" defer></script>
+  </body>
+</html>

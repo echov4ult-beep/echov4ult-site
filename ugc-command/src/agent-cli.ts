@@ -1,0 +1,30 @@
+import { loadConfig } from './config.js';
+import { openDatabase, setting } from './db.js';
+import { sanitizeUserFacingOutput } from './policies.js';
+import { founderAttention } from './attention.js';
+
+const db = openDatabase(loadConfig().databasePath);
+const command = process.argv[2] || 'status';
+const queries: Record<string, () => unknown> = {
+  status: () => ({ publishingMode: setting(db,'publishing_mode','MANUAL_APPROVAL'), lifecycle: setting(db,'lifecycle','COLD_START'), emergencyStop: setting(db,'emergency_stop',false), pauses:{outreach:setting(db,'outreach_paused',true),generation:setting(db,'generation_paused',true),production:setting(db,'production_paused',true),agents:setting(db,'agents_paused',false),globalAutomation:setting(db,'global_automation_paused',true),publishing:setting(db,'publishing_paused',false),delivery:setting(db,'delivery_paused',false)}, thesis: setting(db,'channel_thesis',null), niche: setting(db,'niche',null), counts: Object.fromEntries(['products','content_ideas','creative_candidates','published_posts','experiments','agent_findings','publishing_jobs','leads','approvals','projects','production_items','invoices','deliveries'].map(table=>[table,(db.prepare(`SELECT COUNT(*) count FROM ${table}`).get() as {count:number}).count])) }),
+  mission: () => db.prepare(`SELECT ci.id,ci.concept,ci.hook,ci.angle,ci.format,ci.cta,ci.information_value,ci.status,p.name product,p.evidence_state FROM content_ideas ci JOIN products p ON p.id=ci.product_id ORDER BY ci.id DESC LIMIT 10`).all(),
+  products: () => db.prepare(`SELECT id,name,niche,evidence_state,status,opportunity_score,opportunity_dimensions_json,opportunity_reasoning_json FROM products ORDER BY opportunity_score DESC`).all(),
+  candidates: () => db.prepare(`SELECT c.id,c.status,c.score,c.score_dimensions_json,c.slop_flags_json,c.rejection_reason,ci.hook,ci.angle,ci.format,p.name product FROM creative_candidates c JOIN content_ideas ci ON ci.id=c.content_idea_id JOIN products p ON p.id=ci.product_id ORDER BY c.id DESC LIMIT 20`).all(),
+  evidence: () => db.prepare(`SELECT pe.id,p.name product,pe.claim,pe.source_url,pe.source_title,pe.verified_at FROM product_evidence pe JOIN products p ON p.id=pe.product_id ORDER BY pe.id DESC LIMIT 50`).all(),
+  experiments: () => db.prepare(`SELECT id,name,hypothesis,dimension,variants_json,status,created_at,updated_at FROM experiments ORDER BY id DESC`).all(),
+  findings: () => db.prepare(`SELECT id,finding,confidence,sample_size,date_start,date_end,observed_lift,evidence_json,disposition FROM agent_findings ORDER BY id DESC LIMIT 50`).all(),
+  activity: () => db.prepare(`SELECT id,agent,action,summary,evidence_json,created_at FROM agent_activity ORDER BY id DESC LIMIT 50`).all(),
+  money: () => db.prepare(`SELECT f.business_type,f.entry_type,f.status,SUM(f.amount_cents) amount_cents,COUNT(*) entries FROM financial_entries f LEFT JOIN projects p ON p.id=f.project_id WHERE COALESCE(p.is_test,0)=0 GROUP BY f.business_type,f.entry_type,f.status ORDER BY f.business_type,f.entry_type,f.status`).all(),
+  leads: () => db.prepare(`SELECT id,company,website,product_category,lead_source,fit_reason,estimated_deal_cents,stage,next_action,next_action_at,assigned_agent,human_owner,loss_reason,updated_at FROM leads ORDER BY updated_at DESC LIMIT 50`).all(),
+  approvals: () => db.prepare(`SELECT id,approval_type,status,subject_type,subject_id,action_summary,recommendation,requesting_agent,requested_at,expires_at,decided_at,decided_by,decision_note FROM approvals ORDER BY CASE status WHEN 'PENDING' THEN 0 ELSE 1 END,id DESC LIMIT 50`).all(),
+  projects: () => db.prepare(`SELECT id,business_type,client_name,title,quoted_revenue_cents,actual_revenue_cents,expense_cents,production_minutes,status,deadline,testimonial_status,repeat_order_status,updated_at FROM projects ORDER BY updated_at DESC LIMIT 50`).all(),
+  production: () => db.prepare(`SELECT pi.id,pi.project_id,p.business_type,p.client_name,pi.title,pi.format,pi.hook,pi.cta,pi.deadline,pi.stage,pi.disclosure_status,pi.claim_status,pi.blocked_reason,pi.updated_at FROM production_items pi JOIN projects p ON p.id=pi.project_id ORDER BY pi.updated_at DESC LIMIT 50`).all(),
+  audit: () => db.prepare(`SELECT id,actor_type,actor_id,event_type,subject_type,subject_id,summary,created_at FROM audit_events ORDER BY id DESC LIMIT 100`).all(),
+  queue: () => db.prepare(`SELECT id,task_kind,title,owner,priority_class,business_value_cents,deadline,required_approval_id,status,completion_criteria,next_action,attempt_count,updated_at FROM work_queue ORDER BY CASE status WHEN 'READY' THEN 0 WHEN 'CLAIMED' THEN 1 WHEN 'WAITING_APPROVAL' THEN 2 ELSE 3 END,priority_class,deadline,created_at LIMIT 100`).all(),
+  attention: () => founderAttention(db,50),
+  events: () => db.prepare(`SELECT id,event_type,subject_type,subject_id,idempotency_key,payload_json,occurred_at FROM business_events ORDER BY id DESC LIMIT 100`).all(),
+  autonomy: () => ({policies:db.prepare(`SELECT capability,current_level,maximum_level,successful_runs,material_incidents,duplicate_actions,error_rate,error_tolerance,audit_complete,emergency_stop_tested,promoted_by,promoted_at,updated_at FROM autonomy_policies ORDER BY capability`).all(),promotionRequests:db.prepare(`SELECT id,capability,target_level,status,reason,evidence_json,risks_json,requested_by,requested_at,decided_by,decided_at,decision_note FROM autonomy_promotion_requests ORDER BY id DESC LIMIT 50`).all()})
+};
+try { const query=queries[command]; if(!query) throw new Error(`Unknown read-only command '${command}'. Allowed: ${Object.keys(queries).join(', ')}`); const output=JSON.stringify({command,observedAt:new Date().toISOString(),data:query()},null,2);const guarded=sanitizeUserFacingOutput(output);if(!guarded.safe)throw new Error('User-facing output blocked by the Hermes sanitizer.');console.log(guarded.text); }
+catch(error){ console.error(JSON.stringify({error:error instanceof Error?error.message:String(error)})); process.exitCode=1; }
+finally{ db.close(); }

@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Private UGC project brief — EchoVault</title>
+    <link rel="icon" href="/assets/v-shield-64.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <link rel="stylesheet" href="/assets/css/ugc-forms.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to project brief</a>
+    <header class="site">
+      <nav class="nav" aria-label="Main">
+        <a class="brand" href="/"
+          ><img
+            src="/assets/v-shield-64.png"
+            alt="echov4ult V-shield logo"
+          /><span class="wm">echo<span class="v4">v4</span>ult</span></a
+        ><span class="mono-tag">Private client workspace</span>
+      </nav>
+    </header>
+    <main id="main" class="ugc-form-page">
+      <div class="wrap">
+        <div class="form-intro">
+          <span class="kicker">EchoVault UGC · accepted project</span>
+          <h1>Build the production brief.</h1>
+          <p>
+            Project: <strong id="project-ref">Verifying secure link…</strong>.
+            Your answers are saved only to the protected project record—not to
+            this browser.
+          </p>
+        </div>
+        <div class="form-shell">
+          <form id="ugc-project-form" class="form-card" hidden novalidate>
+            <div class="progress-wrap" aria-label="Form progress">
+              <div class="progress-meta">
+                <span id="step-label">Step 1</span
+                ><span>Save and return anytime</span>
+              </div>
+              <div class="progress-track">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+            </div>
+            <fieldset class="form-section" data-step>
+              <legend tabindex="-1">
+                <span class="section-code">01 · Client and approver</span>Who
+                owns the decisions?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="legalCompanyName">Legal company name *</label
+                  ><input
+                    id="legalCompanyName"
+                    name="legalCompanyName"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="brandName">Public brand name *</label
+                  ><input id="brandName" name="brandName" required />
+                </div>
+                <div class="field full">
+                  <label for="website">Website *</label
+                  ><input
+                    id="website"
+                    name="website"
+                    type="url"
+                    required
+                    placeholder="https://"
+                  />
+                </div>
+                <div class="field">
+                  <label for="primaryContact">Primary contact *</label
+                  ><input
+                    id="primaryContact"
+                    name="primaryContact"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+                <div class="field">
+                  <label for="contactEmail">Contact email *</label
+                  ><input
+                    id="contactEmail"
+                    name="contactEmail"
+                    type="email"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+                <div class="field">
+                  <label for="finalApprover">Final content approver *</label
+                  ><input id="finalApprover" name="finalApprover" required />
+                </div>
+                <div class="field">
+                  <label for="approverEmail">Approver email *</label
+                  ><input
+                    id="approverEmail"
+                    name="approverEmail"
+                    type="email"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="billingContact"
+                    >Billing contact, if different</label
+                  ><input id="billingContact" name="billingContact" />
+                </div>
+                <div class="field">
+                  <label for="preferredContact">Preferred communication</label
+                  ><select id="preferredContact" name="preferredContact">
+                    <option>Email</option>
+                    <option>Phone</option>
+                    <option>Video call</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">02 · Product</span>What are we
+                showing?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Product or service name *</label
+                  ><input name="productName" required />
+                </div>
+                <div class="field">
+                  <label>Product URL *</label
+                  ><input
+                    name="productUrl"
+                    type="url"
+                    required
+                    placeholder="https://"
+                  />
+                </div>
+                <div class="field">
+                  <label>Product category *</label
+                  ><input name="productCategory" required />
+                </div>
+                <div class="field">
+                  <label>Product type *</label
+                  ><select name="productType" required>
+                    <option value="">Choose…</option>
+                    <option value="physical">Physical product</option>
+                    <option value="software">App, website, or software</option>
+                    <option value="service">Service</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Current offer or price</label
+                  ><input name="currentOffer" />
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="productType:software"
+                  hidden
+                >
+                  <label>Software or demo access *</label
+                  ><textarea
+                    name="softwareAccess"
+                    data-conditional-required
+                    placeholder="Test account, staging URL, permissions, and access window. Do not enter passwords here."
+                  ></textarea>
+                </div>
+                <div class="field full">
+                  <label>Short product description *</label
+                  ><textarea name="productDescription" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Target customer *</label
+                  ><textarea name="targetCustomer" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Main customer problem *</label
+                  ><textarea name="mainProblem" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Primary benefit *</label
+                  ><textarea name="primaryBenefit" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Secondary benefits</label
+                  ><textarea name="secondaryBenefits"></textarea>
+                </div>
+                <div class="field">
+                  <label>Key differentiators</label
+                  ><textarea name="differentiators"></textarea>
+                </div>
+                <div class="field">
+                  <label>Competitors or alternatives</label
+                  ><textarea name="competitors"></textarea>
+                </div>
+                <div class="field">
+                  <label>Required terminology</label
+                  ><textarea name="requiredTerminology"></textarea>
+                </div>
+                <div class="field">
+                  <label>Terminology to avoid</label
+                  ><textarea name="terminologyToAvoid"></textarea>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">03 · Claims and evidence</span>What
+                can the creative responsibly say?
+              </legend>
+              <p class="security-note">
+                EchoVault may decline or revise unsupported, misleading,
+                expired, or noncompliant claims. Client submission is not
+                automatic claim approval.
+              </p>
+              <div class="claim-row">
+                <div class="field">
+                  <label>Requested claim 1 *</label
+                  ><input name="claim1" required />
+                </div>
+                <div class="field">
+                  <label>Supporting source URL 1 *</label
+                  ><input
+                    name="claimSource1"
+                    type="url"
+                    required
+                    placeholder="https://"
+                  />
+                </div>
+              </div>
+              <div class="claim-row">
+                <div class="field">
+                  <label>Requested claim 2</label><input name="claim2" />
+                </div>
+                <div class="field">
+                  <label>Supporting source URL 2</label
+                  ><input
+                    name="claimSource2"
+                    type="url"
+                    placeholder="https://"
+                  />
+                </div>
+              </div>
+              <div class="claim-row">
+                <div class="field">
+                  <label>Requested claim 3</label><input name="claim3" />
+                </div>
+                <div class="field">
+                  <label>Supporting source URL 3</label
+                  ><input
+                    name="claimSource3"
+                    type="url"
+                    placeholder="https://"
+                  />
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Claims that must not be made</label
+                  ><textarea name="prohibitedClaims"></textarea>
+                </div>
+                <div class="field">
+                  <label>Required disclaimers</label
+                  ><textarea name="requiredDisclaimers"></textarea>
+                </div>
+                <div class="field">
+                  <label>Regulated-product information</label
+                  ><textarea name="regulatedInfo"></textarea>
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="temporaryPromotion"
+                      value="yes"
+                    /><span>Pricing or promotional claims expire</span></label
+                  >
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="temporaryPromotion:true"
+                  hidden
+                >
+                  <label>Promotion expiration date *</label
+                  ><input
+                    name="promotionExpires"
+                    type="date"
+                    data-conditional-required
+                  />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">04 · Audience and objective</span
+                >What change should the video create?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Target customer *</label
+                  ><textarea name="audienceTargetCustomer" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Awareness level</label
+                  ><select name="awarenessLevel">
+                    <option>Unaware</option>
+                    <option>Problem aware</option>
+                    <option>Solution aware</option>
+                    <option>Product aware</option>
+                    <option>Most aware</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Primary pain point *</label
+                  ><textarea name="primaryPainPoint" required></textarea>
+                </div>
+                <div class="field">
+                  <label>Primary objection</label
+                  ><textarea name="primaryObjection"></textarea>
+                </div>
+                <div class="field">
+                  <label>Desired viewer action *</label
+                  ><input name="desiredAction" required />
+                </div>
+                <div class="field">
+                  <label>Campaign objective *</label
+                  ><select name="campaignObjective" required>
+                    <option value="">Choose…</option>
+                    <option>Awareness</option>
+                    <option>Engagement</option>
+                    <option>Website traffic</option>
+                    <option>Product-page traffic</option>
+                    <option>Lead generation</option>
+                    <option>Sales</option>
+                    <option>App signup</option>
+                    <option>Product education</option>
+                    <option>Creative testing</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">05 · Creative direction</span>How
+                should it feel?
+              </legend>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Requested video format *</label
+                  ><input
+                    name="requestedFormat"
+                    required
+                    placeholder="Demo, tutorial, unboxing…"
+                  />
+                </div>
+                <div class="field">
+                  <label>Preferred tone *</label
+                  ><select name="tone" required>
+                    <option>Natural and conversational</option>
+                    <option>Energetic</option>
+                    <option>Educational</option>
+                    <option>Humorous</option>
+                    <option>Direct response</option>
+                    <option>Premium</option>
+                    <option>Technical</option>
+                    <option>Relaxed</option>
+                    <option>Let EchoVault recommend</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Preferred pace</label><input name="pace" />
+                </div>
+                <div class="field">
+                  <label>Desired CTA</label><input name="desiredCta" />
+                </div>
+                <div class="field">
+                  <label>Required talking points</label
+                  ><textarea name="requiredTalkingPoints"></textarea>
+                </div>
+                <div class="field">
+                  <label>Required visual elements</label
+                  ><textarea name="requiredVisuals"></textarea>
+                </div>
+                <div class="field">
+                  <label>Required on-screen text</label
+                  ><textarea name="requiredOnScreenText"></textarea>
+                </div>
+                <div class="field">
+                  <label>Words or topics to avoid</label
+                  ><textarea name="creativeAvoid"></textarea>
+                </div>
+                <div class="field">
+                  <label>Existing campaign theme</label
+                  ><textarea name="campaignTheme"></textarea>
+                </div>
+                <div class="field">
+                  <label>Examples or inspiration links</label
+                  ><textarea name="inspirationLinks"></textarea>
+                </div>
+                <div class="field">
+                  <label>What do you like about them?</label
+                  ><textarea name="inspirationNotes"></textarea>
+                </div>
+                <div class="field">
+                  <label>Other creative restrictions</label
+                  ><textarea name="creativeRestrictions"></textarea>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">06 · Production method</span>How may
+                the content be made?
+              </legend>
+              <div class="field-grid">
+                <div class="field full">
+                  <label>Production method *</label
+                  ><select name="productionMethod" required>
+                    <option value="">Choose…</option>
+                    <option value="HUMAN_FILMED">
+                      Human-filmed UGC — real creator and captured footage
+                    </option>
+                    <option value="HYBRID_AI_ASSISTED">
+                      Hybrid human and AI-assisted — real material with
+                      disclosed production assistance
+                    </option>
+                    <option value="FULLY_SYNTHETIC">
+                      Fully synthetic creative — no implied personal experience
+                    </option>
+                    <option value="RECOMMEND">
+                      Open to EchoVault’s recommendation
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="choice-field conditional"
+                  data-show="productType:physical"
+                  hidden
+                >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="realProductRequired"
+                      value="yes"
+                    /><span>A real product must appear</span></label
+                  >
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="realProductRequired:true"
+                  hidden
+                >
+                  <label>Product access *</label
+                  ><select name="productAccess" data-conditional-required>
+                    <option value="">Choose…</option>
+                    <option value="ship">Client will ship it</option>
+                    <option value="assets">Use existing product assets</option>
+                    <option value="already-available">
+                      EchoVault already has access
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="choice-field conditional"
+                  data-show="productType:physical"
+                  hidden
+                >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="productReturnRequired"
+                      value="yes"
+                    /><span>Product return is required</span></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="existingAssetsAvailable"
+                      value="yes"
+                    /><span>Existing product assets are available</span></label
+                  >
+                </div>
+                <div class="field">
+                  <label>AI-production restrictions</label
+                  ><textarea name="aiRestrictions"></textarea>
+                </div>
+                <div class="field">
+                  <label>Specific person or demographic requested</label
+                  ><textarea name="demographicRequest"></textarea>
+                  <p class="field-help">
+                    No creator or demographic is promised until availability is
+                    confirmed.
+                  </p>
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="handsOnlyAcceptable"
+                      value="yes"
+                    /><span>Hands-only formats are acceptable</span></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="voiceoverAcceptable"
+                      value="yes"
+                    /><span>Voiceover formats are acceptable</span></label
+                  >
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">07 · Deliverables</span>What files
+                are requested?
+              </legend>
+              <p class="security-note">
+                Requests beyond the signed package may require a revised quote
+                and approval.
+              </p>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Number of videos *</label
+                  ><input
+                    name="videoCount"
+                    type="number"
+                    min="1"
+                    max="100"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label>Desired length *</label
+                  ><input
+                    name="videoLength"
+                    required
+                    placeholder="20–40 seconds"
+                  />
+                </div>
+                <div class="field">
+                  <label>Aspect ratio *</label
+                  ><select name="aspectRatio" required>
+                    <option>9:16</option>
+                    <option>1:1</option>
+                    <option>4:5</option>
+                    <option>16:9</option>
+                    <option>Multiple</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Resolution *</label
+                  ><select name="resolution" required>
+                    <option>1080 × 1920</option>
+                    <option>4K vertical</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>File format *</label
+                  ><select name="fileFormat" required>
+                    <option>MP4</option>
+                    <option>MOV</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Caption requirements</label
+                  ><input name="captionRequirements" />
+                </div>
+                <div class="field">
+                  <label>Voiceover requirements</label
+                  ><input name="voiceoverRequirements" />
+                </div>
+                <div class="field">
+                  <label>Music requirements</label
+                  ><input name="musicRequirements" />
+                </div>
+                <div class="field">
+                  <label>Additional hooks</label
+                  ><input name="additionalHooks" />
+                </div>
+                <div class="field">
+                  <label>Alternate CTAs</label><input name="alternateCtas" />
+                </div>
+                <div class="field">
+                  <label>Alternate formats</label
+                  ><input name="alternateFormats" />
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="rawFootageRequested"
+                      value="yes"
+                    /><span>Raw footage requested</span></label
+                  >
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="rawFootageRequested:true"
+                  hidden
+                >
+                  <label>Raw-footage details *</label
+                  ><textarea
+                    name="rawFootageDetails"
+                    data-conditional-required
+                    placeholder="Needed clips, format, and intended use."
+                  ></textarea>
+                </div>
+                <div class="field">
+                  <label>Requested delivery date *</label
+                  ><input name="requestedDeliveryDate" type="date" required />
+                </div>
+                <div class="field">
+                  <label>Hard campaign-launch date</label
+                  ><input name="launchDate" type="date" />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">08 · Publishing and rights</span>How
+                may the work be used?
+              </legend>
+              <div class="field-grid">
+                <div class="choice-field full">
+                  <span>Publishing platforms</span>
+                  <div class="choice-grid">
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="TikTok"
+                      /><span>TikTok</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="Instagram"
+                      /><span>Instagram / Reels</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="YouTube Shorts"
+                      /><span>YouTube Shorts</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="Website"
+                      /><span>Website / product page</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="Email"
+                      /><span>Email</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="publishingPlatforms"
+                        value="Paid social"
+                      /><span>Paid social</span></label
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Organic or paid usage *</label
+                  ><select name="usageKind" required>
+                    <option value="">Choose…</option>
+                    <option value="organic">Organic only</option>
+                    <option value="paid">Paid advertising</option>
+                    <option value="both">Both</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Requested usage duration *</label
+                  ><input name="usageDuration" required placeholder="90 days" />
+                </div>
+                <div class="field">
+                  <label>Requested usage start</label
+                  ><input name="usageStart" type="date" />
+                </div>
+                <div class="field">
+                  <label>Geographic territory *</label
+                  ><input
+                    name="territory"
+                    required
+                    placeholder="United States"
+                  />
+                </div>
+                <div
+                  class="choice-field conditional"
+                  data-show="usageKind:paid,both"
+                  hidden
+                >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="whitelistingRequest"
+                      value="yes"
+                    /><span>Whitelisting requested</span></label
+                  >
+                </div>
+                <div
+                  class="choice-field conditional"
+                  data-show="usageKind:paid,both"
+                  hidden
+                >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="sparkAdsRequest"
+                      value="yes"
+                    /><span>TikTok Spark Ads requested</span></label
+                  >
+                </div>
+                <div
+                  class="choice-field conditional"
+                  data-show="usageKind:paid,both"
+                  hidden
+                >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="metaPartnershipRequest"
+                      value="yes"
+                    /><span>Meta Partnership Ads requested</span></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="exclusivityRequested"
+                      value="yes"
+                    /><span>Exclusivity requested</span></label
+                  >
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="exclusivityRequested:true"
+                  hidden
+                >
+                  <label>Exclusivity category *</label
+                  ><input
+                    name="exclusivityCategory"
+                    data-conditional-required
+                  />
+                </div>
+                <div
+                  class="field conditional"
+                  data-show="exclusivityRequested:true"
+                  hidden
+                >
+                  <label>Exclusivity duration *</label
+                  ><input
+                    name="exclusivityDuration"
+                    data-conditional-required
+                  />
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="perpetualUseRequested"
+                      value="yes"
+                    /><span>Perpetual use requested</span></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="portfolioPermission"
+                      value="yes"
+                    /><span
+                      >EchoVault may show the finished work in its
+                      portfolio</span
+                    ></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="caseStudyPermission"
+                      value="yes"
+                    /><span
+                      >EchoVault may discuss verified results in a case
+                      study</span
+                    ></label
+                  >
+                </div>
+                <div class="choice-field">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="confidentialityRequired"
+                      value="yes"
+                    /><span>Brand confidentiality is required</span></label
+                  >
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">09 · Brand assets</span>Provide
+                private source links.
+              </legend>
+              <p class="security-note">
+                Direct uploads are disabled until a private storage and
+                malware-scanning provider is approved. Use access-controlled
+                Drive, Dropbox, or equivalent links. Do not include passwords.
+              </p>
+              <div class="field-grid">
+                <div class="field full">
+                  <label>Asset links, one per line</label
+                  ><textarea
+                    name="assetLinks"
+                    placeholder="Logo or brand guide link&#10;Product images or video link&#10;Previous advertisements or scripts&#10;Licensed music, fonts, or required legal text"
+                  ></textarea>
+                </div>
+                <div class="field full">
+                  <label>Ownership and source notes</label
+                  ><textarea
+                    name="assetSourceNotes"
+                    placeholder="Identify who owns each asset and any license limits."
+                  ></textarea>
+                </div>
+                <div class="choice-field full">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="assetRightsConfirmed"
+                      value="yes"
+                      required
+                    /><span
+                      >I confirm that the company has permission to provide
+                      these materials and authorize their use for this project.
+                      *</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-section" data-step hidden>
+              <legend tabindex="-1">
+                <span class="section-code">10 · Review</span>Confirm before
+                submitting.
+              </legend>
+              <div id="review-list" class="review-list"></div>
+              <div class="consent-box">
+                <label class="choice"
+                  ><input
+                    type="checkbox"
+                    name="finalConsent"
+                    value="yes"
+                    required
+                  /><span
+                    >The information is accurate to the best of my knowledge;
+                    supplied assets are authorized; claims remain subject to
+                    review; added scope may require added payment; production
+                    begins only after required payment, information, and assets
+                    arrive; this form does not replace the signed agreement; the
+                    approved production method controls; and EchoVault may
+                    contact the listed approver for clarification. *</span
+                  ></label
+                >
+              </div>
+              <p class="security-note">
+                Submitting places this brief in human review. It does not
+                automatically approve claims, change the agreement, or start
+                production.
+              </p>
+            </fieldset>
+            <div class="form-actions">
+              <button id="step-back" class="btn btn-ghost" type="button">
+                ← Back</button
+              ><span class="save-note"
+                ><button id="save-draft" class="btn btn-ghost" type="button">
+                  Save draft
+                </button></span
+              ><button id="step-next" class="btn btn-primary" type="button">
+                Continue →</button
+              ><button
+                id="submit-brief"
+                class="btn btn-primary"
+                type="submit"
+                hidden
+              >
+                Submit for review →
+              </button>
+            </div>
+          </form>
+          <aside class="form-aside">
+            <span class="section-code">Private brief</span>
+            <h2>Designed to prevent revisions and rights disputes.</h2>
+            <ol>
+              <li>Your secure link expires and can be revoked.</li>
+              <li>Claims require sources and human review.</li>
+              <li>Usage or scope conflicts block production.</li>
+              <li>
+                Saved answers stay on the project record, not in browser
+                storage.
+              </li>
+            </ol>
+          </aside>
+        </div>
+        <div
+          id="project-status"
+          class="form-status"
+          role="status"
+          aria-live="polite"
+        ></div>
+      </div>
+    </main>
+    <script src="/assets/js/ugc-project.js" defer></script>
+  </body>
+</html>
