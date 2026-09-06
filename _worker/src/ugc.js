@@ -886,15 +886,16 @@ async function updateInquiry(request, env, id) {
     values.push(JSON.stringify(body.productionClearance));
   }
   if (!fields.length) return api({ error: "No supported changes." }, 422);
-  const now = new Date().toISOString();
-  fields.push("updated_at=?");
-  values.push(now, key, existing.updated_at);
+  const now = new Date().toISOString(),
+    mutationId = crypto.randomUUID();
+  fields.push("updated_at=?", "mutation_id=?");
+  values.push(now, mutationId, key, existing.updated_at);
   const results = await env.UGC_DB.batch([
     env.UGC_DB.prepare(
       `UPDATE ugc_inquiries SET ${fields.join(",")} WHERE id=? AND updated_at=?`,
     ).bind(...values),
     env.UGC_DB.prepare(
-      "INSERT INTO ugc_status_history(id,inquiry_id,status,detail_json,created_at) VALUES(?,?,?,?,?)",
+      "INSERT INTO ugc_status_history(id,inquiry_id,status,detail_json,created_at) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM ugc_inquiries WHERE id=? AND mutation_id=?)",
     ).bind(
       crypto.randomUUID(),
       key,
@@ -904,10 +905,12 @@ async function updateInquiry(request, env, id) {
         approvalRecorded: body.approvalDecision !== undefined,
       }),
       now,
+      key,
+      mutationId,
     ),
-    audit(env.UGC_DB, "INQUIRY_UPDATED", "INQUIRY", key, {
-      status: body.status || null,
-    }),
+    env.UGC_DB.prepare(
+      "INSERT INTO ugc_audit_events(id,event_type,subject_type,subject_id,detail_json,created_at) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM ugc_inquiries WHERE id=? AND mutation_id=?)",
+    ).bind(crypto.randomUUID(),"INQUIRY_UPDATED","INQUIRY",key,JSON.stringify({status:body.status||null}),now,key,mutationId),
   ]);
   if (!results[0]?.meta?.changes)
     return api({ error: "This inquiry changed elsewhere. Reload and retry." }, 409);

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS ugc_inquiries (
   qualification_json TEXT NOT NULL DEFAULT '{}',
   approval_decision_json TEXT NOT NULL DEFAULT '{}',
   production_clearance_json TEXT NOT NULL DEFAULT '{}',
+  mutation_id TEXT NOT NULL DEFAULT '',
   abuse_key TEXT NOT NULL,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL

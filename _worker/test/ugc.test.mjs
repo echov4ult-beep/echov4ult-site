@@ -799,6 +799,8 @@ test("authorized admin can list, inspect, update, delete, drain queues, and revo
   db.batchFirstChanges = 0;
   const raced = await handleUgc(adminRequest(itemUrl, "PATCH", { owner: "SCOUT" }), env, itemUrl);
   assert.equal(raced.status, 409);
+  const racedBatch = db.batches.at(-1);
+  assert.ok(racedBatch.slice(1).every((entry) => entry.sql.includes("mutation_id=?")));
   db.batchFirstChanges = 1;
 
   db.inquiryRow = { id, status: "READY_FOR_PRODUCTION", production_clearance_json: JSON.stringify(clearances) };
