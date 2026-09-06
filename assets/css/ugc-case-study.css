@@ -41,4 +41,13 @@
 .case-hooks li{min-height:180px;padding:25px;border:1px solid var(--line);background:rgba(10,36,64,.35)}
 .case-hooks li span{color:var(--cyan);font:600 .72rem var(--font-mono)}
 .case-hooks li p{margin-top:48px;font:600 1.15rem var(--font-display)}
-@media(max-width:850px){.ugc-case-gallery .ugc-case-main{height:260px}.ugc-case-gallery img{height:160px}.case-hero{padding-top:58px}.case-hero-grid,.case-two-col,.case-frame-grid,.case-hooks ol{grid-template-columns:1fr}.case-hero-grid{gap:46px}.case-hero-image img{transform:scale(1.12)}.case-brief,.case-claims,.case-frames,.case-hooks{padding:72px 0}.case-hooks li{min-height:145px}}
+.case-camera .case-hero-crop{aspect-ratio:3/4}
+.case-camera .case-hero-image img{transform:none;object-position:center}
+.case-camera .case-frame-grid img{transform:none;object-position:center}
+.case-sample{padding:100px 0;background:#04101d}
+.case-sample-grid{display:grid;grid-template-columns:.72fr 1fr;gap:70px;align-items:center}
+.case-sample-copy p{margin-top:18px;color:var(--muted)}
+.case-video-frame{margin:0;padding:10px;border:1px solid rgba(0,207,240,.35);background:#030b12;box-shadow:18px 22px 0 rgba(0,144,240,.07)}
+.case-video-frame video{display:block;width:100%;max-height:720px;aspect-ratio:768/1080;object-fit:contain;background:#02070c}
+.case-video-frame figcaption{padding:12px 2px 2px;color:var(--cyan);font:600 .64rem var(--font-mono);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:850px){.ugc-case-gallery .ugc-case-main{height:260px}.ugc-case-gallery img{height:160px}.case-hero{padding-top:58px}.case-hero-grid,.case-two-col,.case-frame-grid,.case-hooks ol,.case-sample-grid{grid-template-columns:1fr}.case-hero-grid,.case-sample-grid{gap:46px}.case-hero-image img{transform:scale(1.12)}.case-camera .case-hero-image img{transform:none}.case-brief,.case-claims,.case-frames,.case-hooks,.case-sample{padding:72px 0}.case-hooks li{min-height:145px}}
