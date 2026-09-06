@@ -51,3 +51,4 @@
 .case-video-frame video{display:block;width:100%;max-height:720px;aspect-ratio:768/1080;object-fit:contain;background:#02070c}
 .case-video-frame figcaption{padding:12px 2px 2px;color:var(--cyan);font:600 .64rem var(--font-mono);letter-spacing:.08em;text-transform:uppercase}
 @media(max-width:850px){.ugc-case-gallery .ugc-case-main{height:260px}.ugc-case-gallery img{height:160px}.case-hero{padding-top:58px}.case-hero-grid,.case-two-col,.case-frame-grid,.case-hooks ol,.case-sample-grid{grid-template-columns:1fr}.case-hero-grid,.case-sample-grid{gap:46px}.case-hero-image img{transform:scale(1.12)}.case-camera .case-hero-image img{transform:none}.case-brief,.case-claims,.case-frames,.case-hooks,.case-sample{padding:72px 0}.case-hooks li{min-height:145px}}
+.case-gamesir .case-hero-image img{object-fit:contain;object-position:center;transform:none}
