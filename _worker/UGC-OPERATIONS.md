@@ -21,6 +21,7 @@
 - Notification intents remain `PREVIEW` until a transactional provider and templates are approved. Failed delivery must increment `attempt_count`, record a non-sensitive error, and remain retryable.
 - A lost private link cannot be recovered because the raw token is not stored. Revoke it and issue a replacement.
 - Archive linked records; hard deletion is blocked while a project link exists.
+- Approved hard deletion removes pending notification payloads before the inquiry record so personal data is not left in the preview outbox.
 
 ## Current limits
 

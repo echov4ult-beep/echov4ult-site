@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS ugc_notification_outbox (
   intent_key TEXT NOT NULL UNIQUE,
   notification_type TEXT NOT NULL,
   recipient_ref TEXT NOT NULL,
+  inquiry_id TEXT REFERENCES ugc_inquiries(id),
   template_data_json TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'PREVIEW',
   attempt_count INTEGER NOT NULL DEFAULT 0,
@@ -112,4 +113,7 @@ CREATE TABLE IF NOT EXISTS ugc_status_history (
 CREATE INDEX IF NOT EXISTS idx_ugc_inquiries_status ON ugc_inquiries(status, created_at);
 CREATE INDEX IF NOT EXISTS idx_ugc_inquiries_owner ON ugc_inquiries(owner, created_at);
 CREATE INDEX IF NOT EXISTS idx_ugc_projects_status ON ugc_project_tokens(status, expires_at);
+CREATE INDEX IF NOT EXISTS idx_ugc_project_tokens_inquiry ON ugc_project_tokens(inquiry_id);
 CREATE INDEX IF NOT EXISTS idx_ugc_outbox_status ON ugc_integration_outbox(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_ugc_notifications_inquiry ON ugc_notification_outbox(inquiry_id);
+CREATE INDEX IF NOT EXISTS idx_ugc_status_history_inquiry ON ugc_status_history(inquiry_id, created_at);

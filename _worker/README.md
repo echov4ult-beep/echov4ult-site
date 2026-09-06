@@ -22,6 +22,8 @@ The same Worker contains the provider-neutral UGC intake gateway under `/api/ugc
 - `UGC_ABUSE_SECRET` — separate random value used to hash rate-limit identifiers
 - `UGC_SYNC_SECRET` — separate random value for private administrative and Hermes synchronization requests
 
+The three UGC secrets must be different from one another and from `SESSION_SECRET`. `UGC_PUBLIC_SITE_URL` defines the production site origin and defaults to `https://echov4ult.com`.
+
 The edge database is the private ingress and retry queue. The local UGC Command remains the operational system of record after an authenticated consumer acknowledges each outbox event. The queue uses stable idempotency keys, so a consumer must upsert by `idempotency_key` and acknowledge only after its local transaction commits.
 
 Notification records remain in `PREVIEW` state. No email provider is configured and this Worker never claims delivery. Direct file uploads are also disabled; the brief accepts access-controlled asset links until a private object-store and malware-scanning path is approved.
@@ -36,4 +38,4 @@ Notification records remain in `PREVIEW` state. No email provider is configured 
 6. Review preview notification copy and approve an email provider, if desired.
 7. Deploy only after the owner approves the production change.
 
-Protected admin endpoints support inquiry search/filtering, owner assignment, qualification and approval records, lifecycle status history, secure project-link creation/revocation, submitted-brief export, preview notifications, archiving, and deletion when no project is linked. Raw project tokens are returned once and only their SHA-256 hashes are stored.
+Protected admin endpoints support inquiry search/filtering, owner assignment, qualification and approval records, lifecycle status history, secure project-link creation/revocation, submitted-brief export, preview notifications, archiving, and deletion when no project is linked. Raw project tokens are returned once and only their SHA-256 hashes are stored. The browser removes the token from the address bar and sends it in `X-UGC-Project-Token`, keeping it out of routine request URLs and access logs.

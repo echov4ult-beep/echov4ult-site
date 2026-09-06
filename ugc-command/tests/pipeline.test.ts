@@ -18,6 +18,12 @@ describe('mock pipeline',()=>{
   it('emergency stop blocks queued publishing without deleting it',async()=>{
     const pipeline=setup();const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id;const candidate=await pipeline.generateCandidate(idea);pipeline.approve(candidate);const job=pipeline.schedule(candidate);setSetting(db!,'emergency_stop',true);expect((await pipeline.runJob(job)).published).toBe(false);expect((db!.prepare('SELECT status FROM publishing_jobs WHERE id=?').get(job) as any).status).toBe('BLOCKED');expect((db!.prepare('SELECT COUNT(*) count FROM creative_candidates WHERE id=?').get(candidate) as any).count).toBe(1);
   });
+  it('schedules each approved candidate exactly once with a stable publish key',async()=>{
+    const pipeline=setup();const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id;const candidate=await pipeline.generateCandidate(idea);pipeline.approve(candidate);const first=pipeline.schedule(candidate),second=pipeline.schedule(candidate);expect(second).toBe(first);expect((db!.prepare('SELECT COUNT(*) count FROM publishing_jobs WHERE candidate_id=?').get(candidate) as {count:number}).count).toBe(1);expect((db!.prepare('SELECT idempotency_key FROM publishing_jobs WHERE id=?').get(first) as {idempotency_key:string}).idempotency_key).toBe(`tiktok:candidate:${candidate}`);
+  });
+  it('halts in reconciliation state when the platform succeeds but local recording fails',async()=>{
+    const pipeline=setup();const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id,candidate=await pipeline.generateCandidate(idea);pipeline.approve(candidate);const job=pipeline.schedule(candidate);db!.exec("CREATE TRIGGER fail_post_record BEFORE INSERT ON published_posts BEGIN SELECT RAISE(FAIL,'simulated local write failure'); END;");const result=await pipeline.runJob(job);expect(result.published).toBe(false);expect(result.reason).toMatch(/reconciliation/i);expect((db!.prepare('SELECT status FROM publishing_jobs WHERE id=?').get(job) as {status:string}).status).toBe('UNKNOWN');
+  });
   it('Hermes generation pause blocks the adapter before it is called',async()=>{
     const pipeline=setup();setSetting(db!,'generation_paused',true);const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id;await expect(pipeline.generateCandidate(idea)).rejects.toThrow(/paused/i);
   });

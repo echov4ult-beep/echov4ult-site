@@ -1,5 +1,5 @@
 [hidden] {
-  display: none !important;
+  display: none;
 }
 .ugc-form-page {
   padding: 72px 0 110px;
@@ -111,7 +111,7 @@
   border-radius: 7px;
   background: #03101d;
   color: var(--ice);
-  font: 500 0.9rem/1.5 var(--font-body);
+  font: 500 1rem/1.5 var(--font-body);
 }
 .field textarea {
   min-height: 112px;

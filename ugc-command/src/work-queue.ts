@@ -28,8 +28,7 @@ export class WorkQueue{
     this.db.exec('BEGIN IMMEDIATE');
     try{
       const instant=now();
-      const candidates=this.db.prepare(`SELECT q.* FROM work_queue q LEFT JOIN approvals a ON a.id=q.required_approval_id WHERE (q.status='READY' OR (q.status='CLAIMED' AND q.lease_until<=?)) AND (q.required_approval_id IS NULL OR a.status='APPROVED') ORDER BY q.priority_class ASC,CASE WHEN q.deadline IS NULL THEN 1 ELSE 0 END,q.deadline ASC,q.business_value_cents DESC,q.created_at ASC`).all(instant) as Record<string,unknown>[];
-      const row=candidates.find(candidate=>{const deps=JSON.parse(String(candidate.dependencies_json||'[]')) as number[];if(!deps.length)return true;const marks=deps.map(()=>'?').join(',');const count=(this.db.prepare(`SELECT COUNT(*) count FROM work_queue WHERE id IN (${marks}) AND status='COMPLETED'`).get(...deps) as {count:number}).count;return count===deps.length;});
+      const row=this.db.prepare(`SELECT q.* FROM work_queue q LEFT JOIN approvals a ON a.id=q.required_approval_id WHERE (q.status='READY' OR (q.status='CLAIMED' AND q.lease_until<=?)) AND (q.required_approval_id IS NULL OR a.status='APPROVED') AND NOT EXISTS (SELECT 1 FROM json_each(q.dependencies_json) dependency LEFT JOIN work_queue prerequisite ON prerequisite.id=dependency.value WHERE prerequisite.id IS NULL OR prerequisite.status!='COMPLETED') ORDER BY q.priority_class ASC,CASE WHEN q.deadline IS NULL THEN 1 ELSE 0 END,q.deadline ASC,q.business_value_cents DESC,q.created_at ASC LIMIT 1`).get(instant) as Record<string,unknown>|undefined;
       if(!row){this.db.exec('COMMIT');return undefined;}
       const token=randomUUID(),until=new Date(Date.now()+leaseSeconds*1000).toISOString();
       this.db.prepare(`UPDATE work_queue SET status='CLAIMED',lease_owner=?,lease_token=?,lease_until=?,attempt_count=attempt_count+1,updated_at=? WHERE id=?`).run(worker,token,until,instant,Number(row.id));
@@ -44,7 +43,6 @@ export class WorkQueue{
     const changed=this.db.prepare(`UPDATE work_queue SET status=?,result_json=?,updated_at=?,lease_owner=NULL,lease_token=NULL,lease_until=NULL WHERE id=? AND status='CLAIMED' AND lease_token=?`).run(retry?'READY':'FAILED',json(result),now(),id,leaseToken).changes;
     if(!changed)throw new Error('Work item failure rejected: claim is missing or lease token is stale.');
   }
-  founderAttention(limit=20):Record<string,unknown>[] {return this.db.prepare(`SELECT q.*,a.status approval_status FROM work_queue q LEFT JOIN approvals a ON a.id=q.required_approval_id WHERE q.status IN ('WAITING_APPROVAL','BLOCKED','FAILED') OR (q.status IN ('READY','CLAIMED') AND q.priority_class<=3) ORDER BY q.priority_class,q.deadline,q.created_at LIMIT ?`).all(limit) as Record<string,unknown>[];}
 }
 
 export function autonomyEligibility(db:DatabaseSync,capability:string,targetLevel:number):{eligible:boolean;reasons:string[]}{

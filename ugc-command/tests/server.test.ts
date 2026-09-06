@@ -1,5 +1,6 @@
 import { describe,expect,it } from 'vitest';
 import type { AddressInfo } from 'node:net';
+import { request as httpRequest } from 'node:http';
 import { openDatabase } from '../src/db.js';
 import { seedDatabase } from '../src/seed-data.js';
 import { MockHiggsfieldClient,MockTikTokAnalytics,MockTikTokPublisher } from '../src/integrations.js';
@@ -17,6 +18,11 @@ describe('owner dashboard security',()=>{
     try{
       const blocked=await fetch(`${origin}/actions/lead-create`,{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded',origin},body:'company=Blocked'});
       expect(blocked.status).toBe(400);expect(await blocked.text()).toMatch(/action token/i);
+      const rebound=await new Promise<{status:number;body:string}>((resolve,reject)=>{
+        const request=httpRequest({hostname:'127.0.0.1',port,path:'/',headers:{Host:`attacker.example:${port}`,Origin:`http://attacker.example:${port}`}},response=>{const chunks:Buffer[]=[];response.on('data',chunk=>chunks.push(Buffer.from(chunk)));response.on('end',()=>resolve({status:response.statusCode||0,body:Buffer.concat(chunks).toString()}));});
+        request.on('error',reject);request.end();
+      });
+      expect(rebound.status).toBe(400);expect(rebound.body).toMatch(/host is not allowed/i);
       const page=await (await fetch(origin)).text();const token=page.match(/const csrf="([a-f0-9]+)"/)?.[1];expect(token).toBeTruthy();
       const form=new URLSearchParams({_csrf:token!,company:'Temporary Test Brand',website:'https://test.invalid',productCategory:'technology',leadSource:'automated test',fitReason:'Ephemeral in-memory validation',estimatedDeal:'149',proposedConcept:'Test only'});
       const accepted=await fetch(`${origin}/actions/lead-create`,{method:'POST',redirect:'manual',headers:{'content-type':'application/x-www-form-urlencoded',origin},body:form});

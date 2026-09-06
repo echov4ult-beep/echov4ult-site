@@ -20,12 +20,20 @@ const redirect=(res:ServerResponse)=>{res.writeHead(303,{Location:'/'});res.end(
 const number=(form:URLSearchParams,key:string)=>{const value=Number(form.get(key));if(!Number.isFinite(value))throw new Error(`Invalid ${key}.`);return value;};
 const dollars=(form:URLSearchParams,key:string)=>Math.round(number(form,key)*100);
 const audit=(db:DatabaseSync,eventType:string,subjectType:string,subjectId:number|null,summary:string,detail:unknown={})=>db.prepare("INSERT INTO audit_events(actor_type,actor_id,event_type,subject_type,subject_id,summary,detail_json,created_at) VALUES('HUMAN','CHRIS',?,?,?,?,?,?)").run(eventType,subjectType,subjectId,summary,json(detail),now());
+const loopbackOrigin=(req:IncomingMessage):string=>{
+  const host=String(req.headers.host||'');
+  let parsed:URL;
+  try{parsed=new URL(`http://${host}`);}catch{throw new Error('Invalid request host.');}
+  if(!['127.0.0.1','localhost'].includes(parsed.hostname))throw new Error('Request host is not allowed.');
+  return parsed.origin;
+};
 
 export function createApp(db:DatabaseSync,pipeline:UgcPipeline,revenue:RevenueOps){
   const csrfToken=randomBytes(32).toString('hex');
   return createServer(async(req,res)=>{
     try{
-      const url=new URL(req.url||'/',`http://${req.headers.host||'localhost'}`);
+      const expectedOrigin=loopbackOrigin(req);
+      const url=new URL(req.url||'/',expectedOrigin);
       res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',"default-src 'self'; style-src 'self'; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'");
       if(req.method==='GET'&&url.pathname==='/'){res.setHeader('Content-Type','text/html; charset=utf-8');res.end(dashboard(db,csrfToken));return;}
       if(req.method==='GET'&&url.pathname==='/favicon.ico'){res.writeHead(204);res.end();return;}
@@ -37,7 +45,7 @@ export function createApp(db:DatabaseSync,pipeline:UgcPipeline,revenue:RevenueOp
         res.setHeader('Content-Type','application/json');res.end(JSON.stringify({counts}));return;
       }
       if(req.method==='POST'&&url.pathname.startsWith('/actions/')){
-        const origin=String(req.headers.origin||'');const expected=`http://${req.headers.host}`;if(origin&&origin!==expected)throw new Error('Cross-origin action blocked.');
+        const origin=String(req.headers.origin||'');if(origin&&origin!==expectedOrigin)throw new Error('Cross-origin action blocked.');
         const form=await body(req);const supplied=Buffer.from(String(form.get('_csrf')||''));const expectedToken=Buffer.from(csrfToken);if(supplied.length!==expectedToken.length||!timingSafeEqual(supplied,expectedToken))throw new Error('Invalid or missing action token.');
         const id=Number(form.get('id'));
         if(url.pathname==='/actions/mode'){const mode=String(form.get('mode'));if(!['OFF','MANUAL_APPROVAL','SCHEDULED','AUTONOMOUS'].includes(mode))throw new Error('Invalid publishing mode.');if(mode==='AUTONOMOUS'&&!setting(db,'autonomous_explicitly_enabled',false))throw new Error('Autonomous mode requires a separate governed promotion after its evidence gates pass.');setSetting(db,'publishing_mode',mode);activity(db,'SYSTEM','MODE_CHANGED',`Publishing mode changed to ${mode} by a human dashboard action.`,{mode});audit(db,'PUBLISHING_MODE_CHANGED','SYSTEM',null,`Publishing mode changed to ${mode}.`);}

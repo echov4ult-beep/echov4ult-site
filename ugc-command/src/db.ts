@@ -308,15 +308,27 @@ CREATE TABLE IF NOT EXISTS attention_deferrals (
 );
 `;
 
-const migrations = [{ version: 1, sql: migration1 }, { version: 2, sql: migration2 }, { version: 3, sql: migration3 }, { version: 4, sql: migration4 }, { version: 5, sql: migration5 }, { version: 6, sql: migration6 }, { version: 7, sql: migration7 }];
+const migration8 = `
+CREATE INDEX IF NOT EXISTS idx_communications_lead ON communications(lead_id,id);
+CREATE INDEX IF NOT EXISTS idx_invoices_project_status ON invoices(project_id,status);
+CREATE INDEX IF NOT EXISTS idx_payments_invoice_status ON payments(invoice_id,status);
+`;
+
+const migrations = [{ version: 1, sql: migration1 }, { version: 2, sql: migration2 }, { version: 3, sql: migration3 }, { version: 4, sql: migration4 }, { version: 5, sql: migration5 }, { version: 6, sql: migration6 }, { version: 7, sql: migration7 }, { version: 8, sql: migration8 }];
 
 export function openDatabase(path: string): DatabaseSync {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
   db.exec('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)');
-  const current = db.prepare('SELECT COALESCE(MAX(version), 0) version FROM schema_migrations').get() as { version: number };
-  for (const item of migrations.filter(item => item.version > current.version)) {
+  const applied = (db.prepare('SELECT version FROM schema_migrations ORDER BY version').all() as { version: number }[]).map(row=>row.version);
+  const expectedApplied = migrations.slice(0, applied.length).map(item=>item.version);
+  if(applied.some((version,index)=>version!==expectedApplied[index])){
+    db.close();
+    throw new Error(`Database migration history is incomplete or unknown: ${applied.join(',')||'none'}.`);
+  }
+  const appliedSet = new Set(applied);
+  for (const item of migrations.filter(item => !appliedSet.has(item.version))) {
     db.exec('BEGIN IMMEDIATE');
     try { db.exec(item.sql); db.prepare('INSERT INTO schema_migrations(version, applied_at) VALUES (?, ?)').run(item.version, new Date().toISOString()); db.exec('COMMIT'); }
     catch (error) { db.exec('ROLLBACK'); throw error; }

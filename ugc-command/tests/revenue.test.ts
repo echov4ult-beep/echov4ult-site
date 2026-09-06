@@ -110,6 +110,10 @@ describe('client revenue workflow',()=>{
     expect((db.prepare("SELECT COUNT(*) count FROM financial_entries WHERE business_type='AFFILIATE'").get() as any).count).toBe(1);
   });
 
+  it('rejects a payment override approved for another project',()=>{
+    const {db,revenue}=setup(),project=clientProject(revenue,db),other=Number(db.prepare("INSERT INTO projects(business_type,title,goal_json,status,created_at,updated_at) VALUES('CLIENT_UGC','Other client','{}','ACTIVE',?,?)").run(now(),now()).lastInsertRowid);const agreement=revenue.createAgreement(project,{priceCents:39900,depositCents:0,revisionRounds:1,turnaroundDays:7});revenue.acceptAgreement(agreement);setSetting(db,'production_paused',false);setSetting(db,'delivery_paused',false);const item=revenue.createProductionItem(project,'Final','VERTICAL_VIDEO'),version=revenue.addVersion(item,'manual://final.mp4',false,'APPROVED');for(const type of ['CLAIM','DISCLOSURE','QUALITY'] as const)revenue.recordProjectCheck(project,item,type,true,[],{},version);const finalApproval=revenue.requestApproval('FINAL_DELIVERY','PROJECT',project,'Release.','Reviewed.',{}, {},'VANTAGE');revenue.decideApproval(finalApproval,'APPROVED','Approved.');const override=revenue.requestApproval('PAYMENT_OVERRIDE','PROJECT',other,'Override.','Other project only.',{}, {},'VANTAGE');revenue.decideApproval(override,'APPROVED','Approved for other project.');expect(()=>revenue.deliver(project,version,'FINAL_UNWATERMARKED','scoped-override',override)).toThrow(/payment/i);
+  });
+
   it('blocks internal orchestration language from user-facing output',()=>{
     expect(sanitizeUserFacingOutput('Your final video is ready.').safe).toBe(true);
     expect(sanitizeUserFacingOutput('Raw tool output: hidden routing queue instructions').safe).toBe(false);

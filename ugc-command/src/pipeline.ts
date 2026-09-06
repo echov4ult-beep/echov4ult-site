@@ -1,5 +1,4 @@
 import type { DatabaseSync } from 'node:sqlite';
-import { randomUUID } from 'node:crypto';
 import { activity, json, now, setting } from './db.js';
 import { claimFirewall, complianceGate, decideSkip, publishingGate } from './policies.js';
 import { detectSlop, scoreCreative, selectConcepts, type ConceptFactor } from './scoring.js';
@@ -65,7 +64,15 @@ export class UgcPipeline {
   approve(candidateId: number): void { this.db.prepare("UPDATE creative_candidates SET status='APPROVED',approved_at=?,updated_at=? WHERE id=? AND status='READY'").run(now(),now(),candidateId); activity(this.db,'VANTAGE','CANDIDATE_APPROVED',`Candidate ${candidateId} was approved by a human.`,{candidateId}); }
   reject(candidateId: number, reason='Rejected by human'): void { this.db.prepare("UPDATE creative_candidates SET status='REJECTED',rejection_reason=?,updated_at=? WHERE id=?").run(reason,now(),candidateId); activity(this.db,'VANTAGE','CANDIDATE_REJECTED',`Candidate ${candidateId} was rejected.`,{candidateId,reason}); }
   hold(candidateId: number): void { this.db.prepare("UPDATE creative_candidates SET status='HELD',rejection_reason='MANUAL_HOLD',updated_at=? WHERE id=?").run(now(),candidateId); activity(this.db,'VANTAGE','CANDIDATE_HELD',`Candidate ${candidateId} is on manual hold.`,{candidateId}); }
-  schedule(candidateId: number, scheduledFor = now()): number { const result=this.db.prepare('INSERT INTO publishing_jobs(candidate_id,scheduled_for,idempotency_key,created_at,updated_at) VALUES(?,?,?,?,?)').run(candidateId,scheduledFor,randomUUID(),now(),now()); return Number(result.lastInsertRowid); }
+  schedule(candidateId: number, scheduledFor = now()): number {
+    const key=`tiktok:candidate:${candidateId}`, timestamp=now();
+    this.db.prepare(`INSERT INTO publishing_jobs(candidate_id,scheduled_for,idempotency_key,created_at,updated_at)
+      SELECT id,?,?,?,? FROM creative_candidates WHERE id=? AND status='APPROVED'
+      ON CONFLICT(idempotency_key) DO NOTHING`).run(scheduledFor,key,timestamp,timestamp,candidateId);
+    const job=this.db.prepare('SELECT id FROM publishing_jobs WHERE idempotency_key=?').get(key) as {id:number}|undefined;
+    if(!job)throw new Error('Only an approved candidate may be scheduled.');
+    return job.id;
+  }
 
   async runJob(jobId: number): Promise<{published:boolean;reason?:string;postId?:number}> {
     const row = this.db.prepare(`SELECT j.*,c.status candidate_status,c.caption,c.video_uri,c.score,c.content_idea_id,ci.product_id,ci.hook,ci.angle,ci.format,ci.cta,ci.experiment_tag FROM publishing_jobs j JOIN creative_candidates c ON c.id=j.candidate_id JOIN content_ideas ci ON ci.id=c.content_idea_id WHERE j.id=?`).get(jobId) as Row|undefined;
@@ -80,14 +87,22 @@ export class UgcPipeline {
     const recent=(this.db.prepare("SELECT COUNT(*) count FROM published_posts WHERE published_at >= datetime('now','-24 hours')").get() as {count:number}).count;
     const gate=publishingGate({mode,emergencyStop:setting(this.db,'emergency_stop',false),approved:row.candidate_status==='APPROVED',due:new Date(String(row.scheduled_for)).getTime()<=Date.now(),lifecycle,postsInLast24Hours:recent,accountAgeDays:Math.max(0,Math.floor((Date.now()-start)/86400000)),autonomousExplicitlyEnabled:setting(this.db,'autonomous_explicitly_enabled',false)});
     if (!gate.passed) { const reason = gate.reasons.join(' '); this.db.prepare("UPDATE publishing_jobs SET status='BLOCKED',skip_reason=?,last_error=?,updated_at=? WHERE id=?").run('MANUAL_HOLD',reason,now(),jobId); activity(this.db,'VANTAGE','PUBLISH_BLOCKED',`Publishing job ${jobId} was blocked.`,{jobId,reasons:gate.reasons}); return {published:false,reason}; }
-    this.db.prepare("UPDATE publishing_jobs SET status='RUNNING',attempt_count=attempt_count+1,updated_at=? WHERE id=? AND status='PENDING'").run(now(),jobId);
+    const claimed=this.db.prepare("UPDATE publishing_jobs SET status='RUNNING',attempt_count=attempt_count+1,updated_at=? WHERE id=? AND status='PENDING'").run(now(),jobId);
+    if(!claimed.changes)return {published:false,reason:'Job was already claimed.'};
+    let transportSucceeded=false;
     try {
       const result=await this.publisher.publish({videoUri:String(row.video_uri),caption:String(row.caption),idempotencyKey:String(row.idempotency_key)});
+      transportSucceeded=true;
       const timestamp=now();
-      const post=this.db.prepare(`INSERT INTO published_posts(candidate_id,platform,platform_post_id,published_at,product_id,hook,angle,format,cta,publish_time,hashtags_json,prompt_summary,candidate_score,experiment_tag,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(Number(row.candidate_id),'TIKTOK',result.platformPostId,timestamp,Number(row.product_id),String(row.hook),String(row.angle),String(row.format),String(row.cta),timestamp,json(['#ad']),`Deterministic factual-only candidate for idea ${row.content_idea_id}.`,Number(row.score),String(row.experiment_tag),timestamp);
-      this.db.prepare("UPDATE publishing_jobs SET status='PUBLISHED',updated_at=? WHERE id=?").run(timestamp,jobId);
+      this.db.exec('BEGIN IMMEDIATE');
+      let post;
+      try {
+        post=this.db.prepare(`INSERT INTO published_posts(candidate_id,platform,platform_post_id,published_at,product_id,hook,angle,format,cta,publish_time,hashtags_json,prompt_summary,candidate_score,experiment_tag,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(Number(row.candidate_id),'TIKTOK',result.platformPostId,timestamp,Number(row.product_id),String(row.hook),String(row.angle),String(row.format),String(row.cta),timestamp,json(['#ad']),`Deterministic factual-only candidate for idea ${row.content_idea_id}.`,Number(row.score),String(row.experiment_tag),timestamp);
+        this.db.prepare("UPDATE publishing_jobs SET status='PUBLISHED',updated_at=? WHERE id=? AND status='RUNNING'").run(timestamp,jobId);
+        this.db.exec('COMMIT');
+      } catch(error) { this.db.exec('ROLLBACK'); throw error; }
       const postId=Number(post.lastInsertRowid); activity(this.db,'VANTAGE','POST_PUBLISHED',`Publishing job ${jobId} completed via ${result.mock?'mock':'real'} transport.`,{jobId,postId,platformPostId:result.platformPostId}); return {published:true,postId};
-    } catch(error) { const message=error instanceof Error?error.message:String(error); this.db.prepare("UPDATE publishing_jobs SET status='FAILED',skip_reason='PLATFORM_ERROR',last_error=?,updated_at=? WHERE id=?").run(message,now(),jobId); activity(this.db,'VANTAGE','PUBLISH_FAILED',`Publishing job ${jobId} failed without claiming success.`,{jobId,error:message}); return {published:false,reason:message}; }
+    } catch(error) { const message=error instanceof Error?error.message:String(error), status=transportSucceeded?'UNKNOWN':'FAILED', reason=transportSucceeded?'RECONCILIATION_REQUIRED':'PLATFORM_ERROR'; this.db.prepare('UPDATE publishing_jobs SET status=?,skip_reason=?,last_error=?,updated_at=? WHERE id=?').run(status,reason,message,now(),jobId); activity(this.db,'VANTAGE',transportSucceeded?'PUBLISH_RECONCILIATION_REQUIRED':'PUBLISH_FAILED',transportSucceeded?`Publishing job ${jobId} may have reached the platform and requires manual reconciliation.`:`Publishing job ${jobId} failed without claiming success.`,{jobId,error:message}); return {published:false,reason:transportSucceeded?'Platform result needs manual reconciliation before any retry.':message}; }
   }
 
   async captureSnapshot(postId:number,window:string): Promise<void> { const post=this.db.prepare('SELECT platform_post_id FROM published_posts WHERE id=?').get(postId) as {platform_post_id:string}|undefined; if(!post) throw new Error('Post not found.'); const result=await this.analytics.snapshot(post.platform_post_id); this.db.prepare(`INSERT INTO performance_snapshots(published_post_id,window,observed_at,metrics_json,unavailable_json,source) VALUES(?,?,?,?,?,?) ON CONFLICT(published_post_id,window) DO UPDATE SET observed_at=excluded.observed_at,metrics_json=excluded.metrics_json,unavailable_json=excluded.unavailable_json,source=excluded.source`).run(postId,window,now(),json(result.metrics),json(result.unavailable),result.source); }

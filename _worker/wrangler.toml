@@ -10,3 +10,4 @@ routes = [
 [vars]
 TIKTOK_REDIRECT_URI = "https://echov4ult.com/api/virallens/oauth/callback"
 TIKTOK_SCOPES = "user.info.basic,video.list"
+UGC_PUBLIC_SITE_URL = "https://echov4ult.com"

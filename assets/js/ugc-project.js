@@ -3,8 +3,12 @@
   if (!form) return;
   var sections = Array.from(form.querySelectorAll(".form-section[data-step]")),
     index = 0,
-    token = location.hash.slice(1),
+    token =
+      location.hash.slice(1) ||
+      sessionStorage.getItem("ugc-project-token") ||
+      "",
     csrf = "",
+    revision = 0,
     status = document.getElementById("project-status"),
     projectRef = document.getElementById("project-ref"),
     bar = document.getElementById("progress-bar"),
@@ -13,6 +17,10 @@
     next = document.getElementById("step-next"),
     save = document.getElementById("save-draft"),
     submit = document.getElementById("submit-brief");
+  if (token) {
+    sessionStorage.setItem("ugc-project-token", token);
+    history.replaceState(null, "", location.pathname + location.search);
+  }
   form
     .querySelectorAll(".field > label:not([for])")
     .forEach(function (label, n) {
@@ -212,10 +220,12 @@
     var r = await fetch(path, {
         method: method,
         credentials: "same-origin",
-        headers:
+        headers: Object.assign(
+          { "X-UGC-Project-Token": token },
           method === "GET"
             ? {}
             : { "Content-Type": "application/json", "X-UGC-CSRF": csrf },
+        ),
         body: method === "GET" ? undefined : JSON.stringify(payload),
       }),
       result = await r.json();
@@ -235,10 +245,11 @@
     }
     try {
       var result = await request(
-        "/api/ugc/projects/" + encodeURIComponent(token),
+        "/api/ugc/projects/current",
         "GET",
       );
       projectRef.textContent = result.projectRef;
+      revision = Number(result.revision || 0);
       fill(result.draft);
       form.hidden = false;
       track("private-intake-opened");
@@ -255,10 +266,11 @@
     status.textContent = "Saving securely…";
     try {
       var result = await request(
-        "/api/ugc/projects/" + encodeURIComponent(token),
+        "/api/ugc/projects/current",
         "PATCH",
-        data(),
+        Object.assign(data(), { expectedRevision: revision }),
       );
+      revision = Number(result.revision);
       status.textContent =
         "Draft saved " +
         new Date(result.savedAt).toLocaleTimeString([], {
@@ -293,9 +305,9 @@
     status.textContent = "Submitting brief for review…";
     try {
       var result = await request(
-        "/api/ugc/projects/" + encodeURIComponent(token) + "/complete",
+        "/api/ugc/projects/current/complete",
         "POST",
-        data(),
+        Object.assign(data(), { expectedRevision: revision }),
       );
       track("private-intake-completed");
       location.assign(result.redirect || "/ugc/project/complete/");

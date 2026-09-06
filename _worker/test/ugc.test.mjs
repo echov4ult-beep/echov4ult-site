@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import {
   handleUgc,
   prepareVantagePacket,
@@ -88,6 +93,8 @@ class FakeDb {
     this.prepared = [];
     this.inquiryRow = null;
     this.linkedCount = 0;
+    this.runChanges = 1;
+    this.batchFirstChanges = 1;
   }
   prepare(sql) {
     const db = this;
@@ -109,7 +116,7 @@ class FakeDb {
           return { count: db.linkedCount };
         if (sql.includes("SELECT attempt_count"))
           return { attempt_count: db.attempts };
-        if (sql.includes("SELECT * FROM ugc_inquiries")) return db.inquiryRow;
+        if (sql.includes("FROM ugc_inquiries WHERE id=?")) return db.inquiryRow;
         if (sql.includes("SELECT id FROM ugc_inquiries")) {
           const row = db.inquiries.get(this.values[0]);
           return row ? { id: row } : null;
@@ -119,7 +126,7 @@ class FakeDb {
       async run() {
         if (sql.includes("INSERT INTO ugc_rate_windows")) db.attempts += 1;
         db.runs.push({ sql, values: this.values });
-        return { meta: { changes: 1 } };
+        return { meta: { changes: db.runChanges } };
       },
       async all() {
         return { results: [] };
@@ -130,11 +137,13 @@ class FakeDb {
   }
   async batch(statements) {
     this.batches.push(statements);
+    if (statements.some((s) => s.sql?.includes("INSERT INTO ugc_rate_windows")))
+      this.attempts += 1;
     const inquiry = statements.find((s) =>
       s.sql?.includes("INSERT INTO ugc_inquiries"),
     );
     if (inquiry) this.inquiries.set(inquiry.values[1], inquiry.values[0]);
-    return statements.map(() => ({ success: true }));
+    return statements.map((_, index) => ({ success: true, meta: { changes: index === 0 ? this.batchFirstChanges : 1 } }));
   }
 }
 
@@ -149,13 +158,14 @@ function adminRequest(url, method = "GET", body) {
   });
 }
 
-function projectRequest(url, method, security, body) {
+function projectRequest(url, method, security, body, projectToken) {
   return new Request(url, {
     method,
     headers: {
       Origin: origin,
       "Content-Type": "application/json",
       "X-UGC-CSRF": security.token,
+      "X-UGC-Project-Token": projectToken,
       Cookie: security.cookie,
     },
     body: JSON.stringify(body),
@@ -279,6 +289,7 @@ test("READY_FOR_PRODUCTION is blocked until every clearance is explicitly record
   const db = new FakeDb(),
     env = { ...envBase, UGC_DB: db },
     url = new URL(`${origin}/api/ugc/admin/inquiries/UGC-12345678`);
+  db.inquiryRow = { id: "UGC-12345678", status: "NEW_INQUIRY", production_clearance_json: "{}" };
   const response = await handleUgc(
     new Request(url, {
       method: "PATCH",
@@ -321,7 +332,10 @@ test("duplicate inquiry retries return the original record", async () => {
   assert.equal(first.status, 201);
   assert.equal(second.status, 200);
   assert.equal((await first.json()).inquiryId, (await second.json()).inquiryId);
-  assert.equal(db.batches.length, 1);
+  assert.equal(
+    db.batches.filter((batch) => batch.some((entry) => entry.sql?.includes("INSERT INTO ugc_inquiries"))).length,
+    1,
+  );
 });
 
 test("rate limit rejects the ninth accepted attempt in one window", async () => {
@@ -426,9 +440,9 @@ test("expired and revoked project links return the same safe error", async () =>
   ]) {
     const db = new FakeDb(projectRow),
       token = "x".repeat(43),
-      url = new URL(`${origin}/api/ugc/projects/${token}`);
+      url = new URL(`${origin}/api/ugc/projects/current`);
     const response = await handleUgc(
-      new Request(url),
+      new Request(url, { headers: { "X-UGC-Project-Token": token } }),
       { ...envBase, UGC_DB: db },
       url,
     );
@@ -447,6 +461,78 @@ test("notification intents remain PREVIEW and integration events remain PENDING"
   assert.match(migration, /ugc_notification_outbox[\s\S]*DEFAULT 'PREVIEW'/);
   assert.match(migration, /ugc_integration_outbox[\s\S]*DEFAULT 'PENDING'/);
   assert.doesNotMatch(migration, /password|secret_value|raw_token/i);
+});
+
+test("dedicated UGC secrets are required and cannot reuse one value", async () => {
+  for (const env of [
+    { ...envBase, UGC_CSRF_SECRET: undefined },
+    { ...envBase, UGC_ABUSE_SECRET: undefined },
+    { ...envBase, UGC_ABUSE_SECRET: envBase.UGC_CSRF_SECRET },
+  ]) {
+    const url = new URL(`${origin}/api/ugc/csrf`);
+    const response = await handleUgc(
+      new Request(url, { headers: { Origin: origin } }),
+      { ...env, UGC_DB: new FakeDb() },
+      url,
+    );
+    assert.equal(response.status, 503);
+  }
+});
+
+test("D1 migration executes in Wrangler's production-compatible local database", () => {
+  const persistence = mkdtempSync(join(tmpdir(), "ugc-d1-"));
+  try {
+    const workerRoot = fileURLToPath(new URL("..", import.meta.url));
+    const wrangler = fileURLToPath(
+      new URL("../node_modules/.bin/wrangler", import.meta.url),
+    );
+    const migration = fileURLToPath(
+      new URL("../migrations/0001_ugc_intake.sql", import.meta.url),
+    );
+    const config = join(persistence, "wrangler.toml");
+    writeFileSync(
+      config,
+      'name="ugc-d1-test"\nmain="src/index.js"\ncompatibility_date="2026-08-25"\n[[d1_databases]]\nbinding="UGC_DB"\ndatabase_name="ugc-d1-test"\ndatabase_id="00000000-0000-0000-0000-000000000000"\n',
+    );
+    const run = (...args) =>
+      spawnSync(wrangler, args, {
+        cwd: workerRoot,
+        encoding: "utf8",
+        env: { ...process.env, NO_COLOR: "1" },
+      });
+    const applied = run(
+      "d1",
+      "execute",
+      "UGC_DB",
+      "--config",
+      config,
+      "--local",
+      "--persist-to",
+      persistence,
+      "--file",
+      migration,
+      "--yes",
+    );
+    assert.equal(applied.status, 0, applied.stderr || applied.stdout);
+    const checked = run(
+      "d1",
+      "execute",
+      "UGC_DB",
+      "--config",
+      config,
+      "--local",
+      "--persist-to",
+      persistence,
+      "--command",
+      "SELECT COUNT(*) count FROM sqlite_master WHERE type='table' AND name LIKE 'ugc_%';",
+      "--json",
+    );
+    assert.equal(checked.status, 0, checked.stderr || checked.stdout);
+    const rows = JSON.parse(checked.stdout);
+    assert.ok(rows[0].results[0].count >= 8);
+  } finally {
+    rmSync(persistence, { recursive: true, force: true });
+  }
 });
 
 test("router safely handles missing storage, CORS preflight, and unknown routes", async () => {
@@ -540,24 +626,28 @@ test("active project links load, save, and complete into one conflict-safe VANTA
     },
     db = new FakeDb(projectRow),
     env = { ...envBase, UGC_DB: db },
-    baseUrl = new URL(`${origin}/api/ugc/projects/${token}`);
+    baseUrl = new URL(`${origin}/api/ugc/projects/current`);
 
-  const opened = await handleUgc(new Request(baseUrl), env, baseUrl);
+  const opened = await handleUgc(
+    new Request(baseUrl, { headers: { "X-UGC-Project-Token": token } }),
+    env,
+    baseUrl,
+  );
   assert.equal(opened.status, 200);
   assert.deepEqual((await opened.json()).draft, { brandName: "Saved Brand" });
 
   const security = await csrf(env);
   const saved = await handleUgc(
-    projectRequest(baseUrl, "PATCH", security, { brandName: "New draft" }),
+    projectRequest(baseUrl, "PATCH", security, { brandName: "New draft", expectedRevision: 2 }, token),
     env,
     baseUrl,
   );
   assert.equal(saved.status, 200);
   assert.ok(db.runs.some((entry) => entry.sql.includes("revision=revision+1")));
 
-  const completeUrl = new URL(`${baseUrl}/complete`),
+  const completeUrl = new URL(`${origin}/api/ugc/projects/current/complete`),
     completed = await handleUgc(
-      projectRequest(completeUrl, "POST", security, validBrief()),
+      projectRequest(completeUrl, "POST", security, validBrief({ expectedRevision: 2 }), token),
       env,
       completeUrl,
     ),
@@ -594,23 +684,33 @@ test("submitted project briefs reject draft writes and make completion idempoten
     db = new FakeDb(projectRow),
     env = { ...envBase, UGC_DB: db },
     security = await csrf(env),
-    baseUrl = new URL(`${origin}/api/ugc/projects/${token}`);
+    baseUrl = new URL(`${origin}/api/ugc/projects/current`);
 
   const save = await handleUgc(
-    projectRequest(baseUrl, "PATCH", security, {}),
+    projectRequest(baseUrl, "PATCH", security, {}, token),
     env,
     baseUrl,
   );
   assert.equal(save.status, 409);
 
-  const completeUrl = new URL(`${baseUrl}/complete`),
+  const completeUrl = new URL(`${origin}/api/ugc/projects/current/complete`),
     complete = await handleUgc(
-      projectRequest(completeUrl, "POST", security, {}),
+      projectRequest(completeUrl, "POST", security, {}, token),
       env,
       completeUrl,
     );
   assert.equal(complete.status, 200);
   assert.equal((await complete.json()).redirect, "/ugc/project/complete/");
+});
+
+test("stale project brief revisions are rejected without overwriting newer work", async () => {
+  const token = "r".repeat(43), projectRow = { id:"project-race",project_ref:"PROJECT-RACE",status:"ACTIVE",revoked_at:null,expires_at:"2099-01-01T00:00:00.000Z",brief_status:"DRAFT",revision:5,draft_json:"{}",proposal_snapshot_json:"{}" }, db = new FakeDb(projectRow), env = { ...envBase, UGC_DB: db }, security = await csrf(env), baseUrl = new URL(`${origin}/api/ugc/projects/current`);
+  db.runChanges = 0;
+  const save = await handleUgc(projectRequest(baseUrl,"PATCH",security,{brandName:"Stale",expectedRevision:4},token),env,baseUrl);
+  assert.equal(save.status,409);
+  db.runChanges = 1; db.batchFirstChanges = 0;
+  const completeUrl = new URL(`${origin}/api/ugc/projects/current/complete`), complete = await handleUgc(projectRequest(completeUrl,"POST",security,validBrief({expectedRevision:4}),token),env,completeUrl);
+  assert.equal(complete.status,409);
 });
 
 test("authorized admin can list, inspect, update, delete, drain queues, and revoke access", async () => {
@@ -671,6 +771,14 @@ test("authorized admin can list, inspect, update, delete, drain queues, and revo
     );
   assert.equal(updated.status, 200);
 
+  db.inquiryRow = { id, status: "READY_FOR_PRODUCTION", production_clearance_json: JSON.stringify(clearances) };
+  const invalidated = await handleUgc(
+    adminRequest(itemUrl, "PATCH", { productionClearance: { ...clearances, payment: false } }),
+    env,
+    itemUrl,
+  );
+  assert.equal(invalidated.status, 422);
+
   const removed = await handleUgc(adminRequest(itemUrl, "DELETE"), env, itemUrl);
   assert.equal(removed.status, 200);
 
@@ -686,7 +794,7 @@ test("authorized admin can list, inspect, update, delete, drain queues, and revo
     );
   assert.equal(acknowledged.status, 200);
   assert.equal(
-    db.runs.filter((entry) => entry.sql.includes("status='ACKNOWLEDGED'")).length,
+    db.batches.flat().filter((entry) => entry.sql.includes("status='ACKNOWLEDGED'")).length,
     2,
   );
 
