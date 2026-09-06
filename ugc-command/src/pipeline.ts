@@ -3,7 +3,7 @@ import { activity, json, now, setting } from './db.js';
 import { claimFirewall, complianceGate, decideSkip, publishingGate } from './policies.js';
 import { detectSlop, scoreCreative, selectConcepts, type ConceptFactor } from './scoring.js';
 import type { CandidateDraft, CreativeDimensions, EvidenceState, Lifecycle, PublishingMode, SkipReason } from './types.js';
-import type { HiggsfieldClient, TikTokAnalytics, TikTokPublisher } from './integrations.js';
+import { PublishNotDispatchedError, type HiggsfieldClient, type TikTokAnalytics, type TikTokPublisher } from './integrations.js';
 
 type Row = Record<string, unknown>;
 export class UgcPipeline {
@@ -89,10 +89,8 @@ export class UgcPipeline {
     if (!gate.passed) { const reason = gate.reasons.join(' '); this.db.prepare("UPDATE publishing_jobs SET status='BLOCKED',skip_reason=?,last_error=?,updated_at=? WHERE id=?").run('MANUAL_HOLD',reason,now(),jobId); activity(this.db,'VANTAGE','PUBLISH_BLOCKED',`Publishing job ${jobId} was blocked.`,{jobId,reasons:gate.reasons}); return {published:false,reason}; }
     const claimed=this.db.prepare("UPDATE publishing_jobs SET status='RUNNING',attempt_count=attempt_count+1,updated_at=? WHERE id=? AND status='PENDING'").run(now(),jobId);
     if(!claimed.changes)return {published:false,reason:'Job was already claimed.'};
-    let transportSucceeded=false;
     try {
       const result=await this.publisher.publish({videoUri:String(row.video_uri),caption:String(row.caption),idempotencyKey:String(row.idempotency_key)});
-      transportSucceeded=true;
       const timestamp=now();
       this.db.exec('BEGIN IMMEDIATE');
       let post;
@@ -102,7 +100,7 @@ export class UgcPipeline {
         this.db.exec('COMMIT');
       } catch(error) { this.db.exec('ROLLBACK'); throw error; }
       const postId=Number(post.lastInsertRowid); activity(this.db,'VANTAGE','POST_PUBLISHED',`Publishing job ${jobId} completed via ${result.mock?'mock':'real'} transport.`,{jobId,postId,platformPostId:result.platformPostId}); return {published:true,postId};
-    } catch(error) { const message=error instanceof Error?error.message:String(error), status=transportSucceeded?'UNKNOWN':'FAILED', reason=transportSucceeded?'RECONCILIATION_REQUIRED':'PLATFORM_ERROR'; this.db.prepare('UPDATE publishing_jobs SET status=?,skip_reason=?,last_error=?,updated_at=? WHERE id=?').run(status,reason,message,now(),jobId); activity(this.db,'VANTAGE',transportSucceeded?'PUBLISH_RECONCILIATION_REQUIRED':'PUBLISH_FAILED',transportSucceeded?`Publishing job ${jobId} may have reached the platform and requires manual reconciliation.`:`Publishing job ${jobId} failed without claiming success.`,{jobId,error:message}); return {published:false,reason:transportSucceeded?'Platform result needs manual reconciliation before any retry.':message}; }
+    } catch(error) { const message=error instanceof Error?error.message:String(error), definitive=error instanceof PublishNotDispatchedError, status=definitive?'FAILED':'UNKNOWN', reason=definitive?'NOT_DISPATCHED':'RECONCILIATION_REQUIRED'; this.db.prepare('UPDATE publishing_jobs SET status=?,skip_reason=?,last_error=?,updated_at=? WHERE id=?').run(status,reason,message,now(),jobId); activity(this.db,'VANTAGE',definitive?'PUBLISH_NOT_DISPATCHED':'PUBLISH_RECONCILIATION_REQUIRED',definitive?`Publishing job ${jobId} was not dispatched.`:`Publishing job ${jobId} may have reached the platform and requires manual reconciliation.`,{jobId,error:message}); return {published:false,reason:definitive?message:'Platform result needs manual reconciliation before any retry.'}; }
   }
 
   async captureSnapshot(postId:number,window:string): Promise<void> { const post=this.db.prepare('SELECT platform_post_id FROM published_posts WHERE id=?').get(postId) as {platform_post_id:string}|undefined; if(!post) throw new Error('Post not found.'); const result=await this.analytics.snapshot(post.platform_post_id); this.db.prepare(`INSERT INTO performance_snapshots(published_post_id,window,observed_at,metrics_json,unavailable_json,source) VALUES(?,?,?,?,?,?) ON CONFLICT(published_post_id,window) DO UPDATE SET observed_at=excluded.observed_at,metrics_json=excluded.metrics_json,unavailable_json=excluded.unavailable_json,source=excluded.source`).run(postId,window,now(),json(result.metrics),json(result.unavailable),result.source); }

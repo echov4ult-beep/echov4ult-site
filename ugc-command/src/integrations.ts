@@ -11,6 +11,7 @@ export interface AffiliateLinks { validate(input: { url: string; programType: st
 export interface PaymentConfirmationProvider { validate(input:{amountCents:number;idempotencyKey:string}):{provider:string;valid:boolean;reasons:string[]} }
 
 const digest = (value: string) => createHash('sha256').update(value).digest('hex').slice(0,16);
+export class PublishNotDispatchedError extends Error {}
 export class MockHiggsfieldClient implements HiggsfieldClient {
   async generate(draft: CandidateDraft): Promise<GeneratedVideo> {
     const id = digest(draft.script); return { uri: `mock://generated/${id}.mp4`, providerJobId: `mock-gen-${id}`, mock: true };
@@ -48,5 +49,5 @@ export class ManualPaymentConfirmationProvider implements PaymentConfirmationPro
 }
 
 export class UnconfiguredHiggsfieldClient implements HiggsfieldClient { async generate(): Promise<never> { throw new Error('Real Higgsfield integration is not configured; no generation was submitted.'); } }
-export class UnconfiguredTikTokPublisher implements TikTokPublisher { async publish(): Promise<never> { throw new Error('TikTok Content Posting API is not configured; no post was submitted.'); } }
+export class UnconfiguredTikTokPublisher implements TikTokPublisher { async publish(): Promise<never> { throw new PublishNotDispatchedError('TikTok Content Posting API is not configured; no post was submitted.'); } }
 export class UnconfiguredTikTokAnalytics implements TikTokAnalytics { async snapshot(): Promise<never> { throw new Error('TikTok analytics integration is not configured; no metrics were fabricated.'); } }

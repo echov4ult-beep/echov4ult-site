@@ -24,6 +24,9 @@ describe('mock pipeline',()=>{
   it('halts in reconciliation state when the platform succeeds but local recording fails',async()=>{
     const pipeline=setup();const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id,candidate=await pipeline.generateCandidate(idea);pipeline.approve(candidate);const job=pipeline.schedule(candidate);db!.exec("CREATE TRIGGER fail_post_record BEFORE INSERT ON published_posts BEGIN SELECT RAISE(FAIL,'simulated local write failure'); END;");const result=await pipeline.runJob(job);expect(result.published).toBe(false);expect(result.reason).toMatch(/reconciliation/i);expect((db!.prepare('SELECT status FROM publishing_jobs WHERE id=?').get(job) as {status:string}).status).toBe('UNKNOWN');
   });
+  it('treats a publisher timeout as ambiguous and never retries automatically',async()=>{
+    const base=setup(),timedOut=new UgcPipeline(db!,new MockHiggsfieldClient(),{async publish(){throw new Error('connection timed out after dispatch');}},new MockTikTokAnalytics()),idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id,candidate=await base.generateCandidate(idea);timedOut.approve(candidate);const job=timedOut.schedule(candidate),result=await timedOut.runJob(job);expect(result.reason).toMatch(/reconciliation/i);expect((db!.prepare('SELECT status FROM publishing_jobs WHERE id=?').get(job) as {status:string}).status).toBe('UNKNOWN');
+  });
   it('Hermes generation pause blocks the adapter before it is called',async()=>{
     const pipeline=setup();setSetting(db!,'generation_paused',true);const idea=(db!.prepare('SELECT id FROM content_ideas LIMIT 1').get() as {id:number}).id;await expect(pipeline.generateCandidate(idea)).rejects.toThrow(/paused/i);
   });

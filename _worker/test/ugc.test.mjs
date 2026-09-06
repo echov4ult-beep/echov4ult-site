@@ -468,6 +468,8 @@ test("dedicated UGC secrets are required and cannot reuse one value", async () =
     { ...envBase, UGC_CSRF_SECRET: undefined },
     { ...envBase, UGC_ABUSE_SECRET: undefined },
     { ...envBase, UGC_ABUSE_SECRET: envBase.UGC_CSRF_SECRET },
+    { ...envBase, UGC_SYNC_SECRET: envBase.UGC_CSRF_SECRET },
+    { ...envBase, SESSION_SECRET: envBase.UGC_SYNC_SECRET },
   ]) {
     const url = new URL(`${origin}/api/ugc/csrf`);
     const response = await handleUgc(
@@ -530,6 +532,28 @@ test("D1 migration executes in Wrangler's production-compatible local database",
     assert.equal(checked.status, 0, checked.stderr || checked.stdout);
     const rows = JSON.parse(checked.stdout);
     assert.ok(rows[0].results[0].count >= 8);
+    const cas = run(
+      "d1", "execute", "UGC_DB", "--config", config, "--local", "--persist-to", persistence,
+      "--command",
+      "INSERT INTO ugc_inquiries(id,idempotency_key,name,email,company,company_url,product_name,product_url,content_types_json,video_count,completion_window,budget,usage_locations_json,usage_kind,objective,abuse_key,created_at,updated_at) VALUES('CAS-1','cas-key','Ada','ada@example.com','Example','https://example.com','App','https://example.com/app','[]','1','30 days','1000','[]','organic','Test','hash','2026-01-01','2026-01-01'); UPDATE ugc_inquiries SET status='READY_FOR_PRODUCTION',production_clearance_json='{}',updated_at='2026-01-02' WHERE id='CAS-1' AND updated_at='2026-01-01'; UPDATE ugc_inquiries SET production_clearance_json='{\"payment\":false}',updated_at='2026-01-03' WHERE id='CAS-1' AND updated_at='2026-01-01'; SELECT updated_at FROM ugc_inquiries WHERE id='CAS-1';",
+      "--json",
+    );
+    assert.equal(cas.status, 0, cas.stderr || cas.stdout);
+    const casRows = JSON.parse(cas.stdout), last = casRows.at(-1);
+    assert.equal(last.results[0].updated_at, "2026-01-02");
+
+    const tokenSetup = run(
+      "d1", "execute", "UGC_DB", "--config", config, "--local", "--persist-to", persistence,
+      "--command",
+      "INSERT INTO ugc_project_tokens(id,project_ref,creation_key,token_hash,expires_at,created_at,updated_at) VALUES('TOKEN-1','PROJECT-1','create-1','hash-1','2099-01-01','2026-01-01','2026-01-01'); INSERT INTO ugc_project_briefs(project_token_id,created_at,updated_at) VALUES('TOKEN-1','2026-01-01','2026-01-01');",
+    );
+    assert.equal(tokenSetup.status, 0, tokenSetup.stderr || tokenSetup.stdout);
+    const revoke = run("d1","execute","UGC_DB","--config",config,"--local","--persist-to",persistence,"--command","UPDATE ugc_project_tokens SET status='REVOKED',revoked_at='2026-01-02' WHERE id='TOKEN-1'; SELECT status FROM ugc_project_tokens WHERE id='TOKEN-1';","--json");
+    assert.equal(revoke.status, 0, revoke.stderr || revoke.stdout);
+    assert.equal(JSON.parse(revoke.stdout).at(-1).results[0].status, "REVOKED");
+    const revoked = run("d1","execute","UGC_DB","--config",config,"--local","--persist-to",persistence,"--command","UPDATE ugc_project_briefs SET revision=revision+1 WHERE project_token_id='TOKEN-1' AND status='DRAFT' AND revision=1 AND project_token_id IN (SELECT id FROM ugc_project_tokens WHERE status='ACTIVE' AND revoked_at IS NULL AND expires_at>'2026-01-02'); SELECT t.status,b.revision FROM ugc_project_tokens t JOIN ugc_project_briefs b ON b.project_token_id=t.id WHERE t.id='TOKEN-1';","--json");
+    assert.equal(revoked.status, 0, revoked.stderr || revoked.stdout);
+    assert.equal(JSON.parse(revoked.stdout).at(-1).results[0].revision, 1);
   } finally {
     rmSync(persistence, { recursive: true, force: true });
   }
@@ -771,6 +795,12 @@ test("authorized admin can list, inspect, update, delete, drain queues, and revo
     );
   assert.equal(updated.status, 200);
 
+  db.inquiryRow = { id, status: "BRIEF_REVIEW", production_clearance_json: "{}", updated_at: "2026-01-01" };
+  db.batchFirstChanges = 0;
+  const raced = await handleUgc(adminRequest(itemUrl, "PATCH", { owner: "SCOUT" }), env, itemUrl);
+  assert.equal(raced.status, 409);
+  db.batchFirstChanges = 1;
+
   db.inquiryRow = { id, status: "READY_FOR_PRODUCTION", production_clearance_json: JSON.stringify(clearances) };
   const invalidated = await handleUgc(
     adminRequest(itemUrl, "PATCH", { productionClearance: { ...clearances, payment: false } }),
@@ -781,6 +811,8 @@ test("authorized admin can list, inspect, update, delete, drain queues, and revo
 
   const removed = await handleUgc(adminRequest(itemUrl, "DELETE"), env, itemUrl);
   assert.equal(removed.status, 200);
+  assert.ok(db.batches.flat().some((entry) => entry.sql.includes("DELETE FROM ugc_integration_outbox")));
+  assert.ok(db.batches.flat().some((entry) => entry.sql.includes("DELETE FROM ugc_audit_events")));
 
   for (const path of ["outbox", "notifications"]) {
     const url = new URL(`${origin}/api/ugc/admin/${path}`);

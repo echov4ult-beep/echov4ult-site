@@ -57,6 +57,40 @@ async function fillInquiry(page) {
   await page.getByLabel(/I understand that submission/).check();
 }
 
+async function fillProjectBrief(page) {
+  await page.evaluate(() => {
+    const seenRadios = new Set();
+    document.querySelectorAll("input,select,textarea").forEach((control) => {
+      if (!control.name || control.disabled) return;
+      if (control.type === "checkbox") {
+        control.checked = control.required;
+      } else if (control.type === "radio") {
+        if (!seenRadios.has(control.name)) {
+          control.checked = true;
+          seenRadios.add(control.name);
+        }
+      } else if (control.tagName === "SELECT") {
+        const option = Array.from(control.options).find((item) => item.value);
+        if (option) control.value = option.value;
+      } else if (control.type === "email") {
+        control.value = "client@example.com";
+      } else if (control.type === "url") {
+        control.value = "https://example.com/evidence";
+      } else if (control.type === "date") {
+        control.value = "2030-01-01";
+      } else if (control.type === "number") {
+        control.value = "2";
+      } else {
+        control.value = "Test project detail";
+      }
+      control.dispatchEvent(new Event("input", { bubbles: true }));
+      control.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  });
+  await page.locator('select[name="productType"]').selectOption("software", { force: true });
+  await page.locator('textarea[name="softwareAccess"]').fill("A test account will be supplied securely.", { force: true });
+}
+
 test("public inquiry validates errors, retries, and redirects after success", async () => {
   const browser = await chromium.launch({ headless: true });
   try {
@@ -113,6 +147,65 @@ test("private brief hides its token, authenticates by header, and handles save f
     assert.equal(new URL(page.url()).hash, "");
     await page.getByRole("button", { name: /save draft/i }).click();
     await page.getByText("Temporary save failure.").waitFor();
+  } finally {
+    await browser.close();
+  }
+});
+
+test("private brief completes all steps with revision-safe save and submit", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage(), token = "h".repeat(43);
+    let savedRevision, submittedRevision;
+    await page.route("**/api/ugc/projects/current", async (route) => {
+      if (route.request().method() === "GET") {
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ projectRef: "PROJECT-HAPPY", draft: {}, status: "DRAFT", revision: 4 }) });
+        return;
+      }
+      savedRevision = route.request().postDataJSON().expectedRevision;
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, savedAt: "2030-01-01T12:00:00.000Z", revision: 5 }) });
+    });
+    await page.route("**/api/ugc/projects/current/complete", async (route) => {
+      submittedRevision = route.request().postDataJSON().expectedRevision;
+      await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ redirect: "/ugc/project/complete/" }) });
+    });
+    await page.route("**/api/ugc/csrf", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ token: "test-csrf" }) }));
+    await page.goto(`${baseUrl}/ugc/project/#${token}`);
+    await page.getByText("PROJECT-HAPPY").waitFor();
+    await fillProjectBrief(page);
+    await page.getByRole("button", { name: /save draft/i }).click();
+    await page.getByText(/Draft saved/).waitFor();
+    assert.equal(savedRevision, 4);
+    for (let step = 2; step <= 10; step += 1)
+      await page.evaluate(() => document.querySelector("#step-next").click());
+    await page.getByText("Step 10 of 10").waitFor();
+    await page.locator("#submit-brief").click();
+    await page.waitForURL("**/ugc/project/complete/");
+    assert.equal(submittedRevision, 5);
+  } finally {
+    await browser.close();
+  }
+});
+
+test("private brief shows a CAS conflict without clearing entered work", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage(), token = "c".repeat(43);
+    await page.route("**/api/ugc/projects/current", async (route) => {
+      if (route.request().method() === "GET") {
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ projectRef: "PROJECT-CONFLICT", draft: {}, status: "DRAFT", revision: 8 }) });
+        return;
+      }
+      assert.equal(route.request().postDataJSON().expectedRevision, 8);
+      await route.fulfill({ status: 409, contentType: "application/json", body: JSON.stringify({ error: "This brief changed elsewhere. Reload before saving again." }) });
+    });
+    await page.route("**/api/ugc/csrf", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ token: "test-csrf" }) }));
+    await page.goto(`${baseUrl}/ugc/project/#${token}`);
+    const brand = page.locator('input[name="brandName"]');
+    await brand.fill("Unsaved client edit");
+    await page.getByRole("button", { name: /save draft/i }).click();
+    await page.getByText(/changed elsewhere/).waitFor();
+    assert.equal(await brand.inputValue(), "Unsaved client edit");
   } finally {
     await browser.close();
   }

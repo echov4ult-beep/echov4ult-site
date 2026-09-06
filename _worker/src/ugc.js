@@ -492,9 +492,9 @@ async function saveBrief(request, env, token) {
   const checked = validateBrief(brief, false),
     now = new Date().toISOString();
   const result = await env.UGC_DB.prepare(
-    `UPDATE ugc_project_briefs SET draft_json=?,revision=revision+1,updated_at=? WHERE project_token_id=? AND status='DRAFT' AND revision=?`,
+    `UPDATE ugc_project_briefs SET draft_json=?,revision=revision+1,updated_at=? WHERE project_token_id=? AND status='DRAFT' AND revision=? AND project_token_id IN (SELECT id FROM ugc_project_tokens WHERE status='ACTIVE' AND revoked_at IS NULL AND expires_at>?)`,
   )
-    .bind(JSON.stringify(checked.data), now, row.id, expectedRevision)
+    .bind(JSON.stringify(checked.data), now, row.id, expectedRevision, now)
     .run();
   if (!result.meta?.changes)
     return api(
@@ -557,11 +557,11 @@ async function completeBrief(request, env, token) {
       conflicts,
       assets,
     );
-  const guard = `EXISTS(SELECT 1 FROM ugc_project_briefs WHERE project_token_id=? AND status='SUBMITTED' AND revision=? AND updated_at=?)`,
+  const guard = `EXISTS(SELECT 1 FROM ugc_project_briefs b JOIN ugc_project_tokens t ON t.id=b.project_token_id WHERE b.project_token_id=? AND b.status='SUBMITTED' AND b.revision=? AND b.updated_at=? AND t.status='ACTIVE' AND t.revoked_at IS NULL AND t.expires_at>?)`,
     newRevision = expectedRevision + 1,
     batch = await env.UGC_DB.batch([
     env.UGC_DB.prepare(
-      `UPDATE ugc_project_briefs SET draft_json=?,completeness_json=?,conflicts_json=?,asset_inventory_json=?,vantage_packet_json=?,status='SUBMITTED',submitted_at=?,updated_at=?,revision=revision+1 WHERE project_token_id=? AND status='DRAFT' AND revision=?`,
+      `UPDATE ugc_project_briefs SET draft_json=?,completeness_json=?,conflicts_json=?,asset_inventory_json=?,vantage_packet_json=?,status='SUBMITTED',submitted_at=?,updated_at=?,revision=revision+1 WHERE project_token_id=? AND status='DRAFT' AND revision=? AND project_token_id IN (SELECT id FROM ugc_project_tokens WHERE status='ACTIVE' AND revoked_at IS NULL AND expires_at>?)`,
     ).bind(
       JSON.stringify(checked.data),
       JSON.stringify({ complete: missing.length === 0, missing }),
@@ -572,24 +572,25 @@ async function completeBrief(request, env, token) {
       now,
       row.id,
       expectedRevision,
+      now,
     ),
     env.UGC_DB.prepare(
       `UPDATE ugc_project_tokens SET completed_at=?,updated_at=? WHERE id=? AND ${guard}`,
-    ).bind(now, now, row.id, row.id, newRevision, now),
+    ).bind(now, now, row.id, row.id, newRevision, now, now),
     env.UGC_DB.prepare(
       `INSERT INTO ugc_integration_outbox(id,event_type,subject_id,idempotency_key,payload_json,created_at,updated_at) SELECT ?,?,?,?,?,?,? WHERE ${guard}`,
-    ).bind(crypto.randomUUID(),"PRIVATE_INTAKE_COMPLETED",row.id,`project:${row.id}:intake-complete`,JSON.stringify({projectAccessId:row.id,projectRef:row.project_ref,conflicts,productionBlocked:true}),now,now,row.id,newRevision,now),
+    ).bind(crypto.randomUUID(),"PRIVATE_INTAKE_COMPLETED",row.id,`project:${row.id}:intake-complete`,JSON.stringify({projectAccessId:row.id,projectRef:row.project_ref,conflicts,productionBlocked:true}),now,now,row.id,newRevision,now,now),
     env.UGC_DB.prepare(
       `INSERT INTO ugc_notification_outbox(id,intent_key,notification_type,recipient_ref,inquiry_id,template_data_json,created_at,updated_at) SELECT ?,?,?,?,?,?,?,? WHERE ${guard}`,
-    ).bind(crypto.randomUUID(),`intake:${row.id}:complete`,"INTAKE_COMPLETION",row.id,row.inquiry_id||null,JSON.stringify({projectRef:row.project_ref}),now,now,row.id,newRevision,now),
+    ).bind(crypto.randomUUID(),`intake:${row.id}:complete`,"INTAKE_COMPLETION",row.id,row.inquiry_id||null,JSON.stringify({projectRef:row.project_ref}),now,now,row.id,newRevision,now,now),
     env.UGC_DB.prepare(
       `INSERT INTO ugc_audit_events(id,event_type,subject_type,subject_id,detail_json,created_at) SELECT ?,?,?,?,?,? WHERE ${guard}`,
-    ).bind(crypto.randomUUID(),"PROJECT_BRIEF_SUBMITTED","PROJECT_TOKEN",row.id,JSON.stringify({conflictCount:conflicts.length,productionBlocked:true}),now,row.id,newRevision,now),
+    ).bind(crypto.randomUUID(),"PROJECT_BRIEF_SUBMITTED","PROJECT_TOKEN",row.id,JSON.stringify({conflictCount:conflicts.length,productionBlocked:true}),now,row.id,newRevision,now,now),
     ...(row.inquiry_id
       ? [
           env.UGC_DB.prepare(
             `UPDATE ugc_inquiries SET status='INTAKE_RECEIVED',updated_at=? WHERE id=? AND ${guard}`,
-          ).bind(now, row.inquiry_id, row.id, newRevision, now),
+          ).bind(now, row.inquiry_id, row.id, newRevision, now, now),
           env.UGC_DB.prepare(
             `INSERT INTO ugc_status_history(id,inquiry_id,status,detail_json,created_at) SELECT ?,?,?,?,? WHERE ${guard}`,
           ).bind(
@@ -600,6 +601,7 @@ async function completeBrief(request, env, token) {
             now,
             row.id,
             newRevision,
+            now,
             now,
           ),
         ]
@@ -810,7 +812,7 @@ async function updateInquiry(request, env, id) {
   if (!body) return api({ error: "Invalid request." }, 400);
   const key = text(id, 80),
     existing = await env.UGC_DB.prepare(
-      "SELECT id,status,production_clearance_json FROM ugc_inquiries WHERE id=?",
+      "SELECT id,status,production_clearance_json,updated_at FROM ugc_inquiries WHERE id=?",
     )
       .bind(key)
       .first();
@@ -886,10 +888,10 @@ async function updateInquiry(request, env, id) {
   if (!fields.length) return api({ error: "No supported changes." }, 422);
   const now = new Date().toISOString();
   fields.push("updated_at=?");
-  values.push(now, key);
+  values.push(now, key, existing.updated_at);
   const results = await env.UGC_DB.batch([
     env.UGC_DB.prepare(
-      `UPDATE ugc_inquiries SET ${fields.join(",")} WHERE id=?`,
+      `UPDATE ugc_inquiries SET ${fields.join(",")} WHERE id=? AND updated_at=?`,
     ).bind(...values),
     env.UGC_DB.prepare(
       "INSERT INTO ugc_status_history(id,inquiry_id,status,detail_json,created_at) VALUES(?,?,?,?,?)",
@@ -907,7 +909,8 @@ async function updateInquiry(request, env, id) {
       status: body.status || null,
     }),
   ]);
-  if (!results[0]?.meta?.changes) return api({ error: "Not found" }, 404);
+  if (!results[0]?.meta?.changes)
+    return api({ error: "This inquiry changed elsewhere. Reload and retry." }, 409);
   return api({ ok: true, updatedAt: now });
 }
 async function deleteInquiry(request, env, id) {
@@ -930,6 +933,12 @@ async function deleteInquiry(request, env, id) {
     .first();
   if (!existing) return api({ error: "Not found" }, 404);
   await env.UGC_DB.batch([
+    env.UGC_DB.prepare(
+      "DELETE FROM ugc_integration_outbox WHERE subject_id=? OR instr(payload_json,?)>0",
+    ).bind(key, key),
+    env.UGC_DB.prepare(
+      "DELETE FROM ugc_audit_events WHERE subject_id=? OR instr(detail_json,?)>0",
+    ).bind(key, key),
     env.UGC_DB.prepare(
       "DELETE FROM ugc_notification_outbox WHERE inquiry_id=?",
     ).bind(key),
@@ -1074,27 +1083,25 @@ async function abuseHash(request, env) {
   const raw = request.headers.get("CF-Connecting-IP") || "unknown";
   return hmac(raw, secret);
 }
+function ugcSecrets(env) {
+  const secrets = {
+      csrf: String(env.UGC_CSRF_SECRET || ""),
+      abuse: String(env.UGC_ABUSE_SECRET || ""),
+      sync: String(env.UGC_SYNC_SECRET || ""),
+      session: String(env.SESSION_SECRET || ""),
+    },
+    required = [secrets.csrf, secrets.abuse, secrets.sync],
+    present = [...required, ...(secrets.session ? [secrets.session] : [])];
+  return required.every((value) => value.length >= 32) &&
+    new Set(present).size === present.length
+    ? secrets
+    : null;
+}
 function csrfSecret(env) {
-  const value = String(env.UGC_CSRF_SECRET || ""),
-    abuse = String(env.UGC_ABUSE_SECRET || ""),
-    shared = String(env.SESSION_SECRET || "");
-  return value.length >= 32 &&
-    abuse.length >= 32 &&
-    value !== abuse &&
-    value !== shared
-    ? value
-    : "";
+  return ugcSecrets(env)?.csrf || "";
 }
 function abuseSecret(env) {
-  const value = String(env.UGC_ABUSE_SECRET || ""),
-    csrf = String(env.UGC_CSRF_SECRET || ""),
-    shared = String(env.SESSION_SECRET || "");
-  return value.length >= 32 &&
-    csrf.length >= 32 &&
-    value !== csrf &&
-    value !== shared
-    ? value
-    : "";
+  return ugcSecrets(env)?.abuse || "";
 }
 function projectToken(request) {
   return String(request.headers.get("X-UGC-Project-Token") || "");
@@ -1115,7 +1122,7 @@ function publicSiteUrl(env) {
   }
 }
 function admin(request, env) {
-  const expected = String(env.UGC_SYNC_SECRET || ""),
+  const expected = ugcSecrets(env)?.sync || "",
     actual = String(request.headers.get("Authorization") || "").replace(
       /^Bearer\s+/i,
       "",
