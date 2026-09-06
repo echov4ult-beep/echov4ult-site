@@ -53,12 +53,12 @@ Cold start, outreach pause, Higgsfield-generation pause, and global automation p
 
 ## Environment variable names
 
+The current runtime reads:
+
 - `PORT`, `UGC_DATABASE_PATH`, `UGC_MOCK_MODE`, `UGC_SCHEDULER_INTERVAL_MS`
-- `UGC_ENCRYPTION_KEY`
-- `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`
-- `HIGGSFIELD_API_KEY`, `HIGGSFIELD_API_BASE_URL`
-- `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`, `TIKTOK_ACCESS_TOKEN`, `TIKTOK_REFRESH_TOKEN`
 - `TIKTOK_PUBLISH_ENABLED`, `TIKTOK_ANALYTICS_ENABLED`
+
+`.env.example` also reserves `UGC_ENCRYPTION_KEY`, the `LLM_*`, `HIGGSFIELD_*`, and TikTok credential fields for capability-blocked adapters. The current application does not consume those reserved values or treat them as working integrations.
 
 Never commit `.env`. Secrets are neither rendered nor logged.
 
@@ -93,5 +93,11 @@ The server binds to `127.0.0.1`, rejects cross-origin form posts, requires a per
 - Public portfolio records require either explicit permission or a `SELF_INITIATED` label before they can be made public.
 - Unwatermarked final delivery requires owner approval, paid invoices (or a separately approved payment override), and passing claim, disclosure, and quality checks.
 
-See [`docs/PLAN.md`](docs/PLAN.md) for the audited implementation plan.
-See [`docs/GROWTH-PLAN.md`](docs/GROWTH-PLAN.md) for the plain-English customer and revenue path.
+## Documentation
+
+- [`docs/RUNBOOK.md`](docs/RUNBOOK.md) — start, pause, customer processing, backup, and recovery
+- [`docs/GROWTH-PLAN.md`](docs/GROWTH-PLAN.md) — plain-English customer and revenue path
+- [`docs/HYBRID-REVENUE-MAP.md`](docs/HYBRID-REVENUE-MAP.md) — current architecture and safety boundaries
+- [`docs/LAUNCH-PACKET.md`](docs/LAUNCH-PACKET.md) — owner checklist and first-customer playbook
+- [`docs/LAUNCH-READINESS-2026-09-05.md`](docs/LAUNCH-READINESS-2026-09-05.md) — verified blockers before public intake
+- [`docs/PLAN.md`](docs/PLAN.md) — original implementation plan with a current-state note

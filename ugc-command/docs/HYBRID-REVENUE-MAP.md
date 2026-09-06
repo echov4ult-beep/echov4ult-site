@@ -80,3 +80,4 @@ The suite verifies audit coverage and financial separation. Negative tests prove
 - The dashboard now begins with Founder Attention and the durable queue, while the agent CLI exposes `queue`, `attention`, `events`, and `autonomy` as read-only views.
 - Founder Attention consolidates pending decisions, sales replies, unsigned agreements, unpaid invoices, footage/client blockers, final deliverables, and critical queue work. Decisions are recorded in place and any item can be deferred for 24 hours with an audit event.
 - Migration v6 adds test-data labeling, version-specific QA, revision scope warnings, production pause state, and attention deferrals.
+- Migrations v7–v8 preserve the attention-deferral table across upgrade paths and add the indexes used by bounded invoice, payment, communication, and dashboard queries.

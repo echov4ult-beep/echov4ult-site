@@ -10,3 +10,10 @@ Static site on GitHub Pages, custom domain via CNAME.
 
 Copy source of truth: `~/SecondBrain/02 Areas/Product Marketing/FULL_PARTY_LISTING.md`
 (verified claims only — see RECHECK log there).
+
+## Repository documentation
+
+- [UGC Command](ugc-command/README.md) — local client, production, approval, queue, and revenue operations
+- [Cloudflare Worker](./_worker/README.md) — ViralLens API and the owner-gated UGC intake gateway
+- [Affiliate playbook](AFFILIATE.md) · [permanent-link layer](go/README.md)
+- [Release history](CHANGELOG.md) · [open work](TODOS.md) · [newsletter drafts](newsletter/)

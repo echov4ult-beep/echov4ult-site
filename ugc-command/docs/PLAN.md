@@ -1,10 +1,10 @@
 # UGC Command implementation plan
 
-> Current-state note — 2026-09-05: the original plan below describes the first build. Migrations v1–v5, the client-revenue workflow, and the durable event/work-queue layer now exist. The active runtime is Hermes (verified live); no OpenClaw executable is installed. Hermes gateway and cron are operational, but the three externally asserted UGC Work schedules are not visible in local Hermes/Codex schedule state, so no duplicates were installed. The remaining Milestone 1 gaps are five complete truthful portfolio formats, 50 verified qualified prospects, and their personalized pitch drafts. See `HYBRID-REVENUE-MAP.md` and `GROWTH-PLAN.md` for the current architecture and plain-English next actions.
+> Current-state note — 2026-09-05: the original plan below describes the first build. Migrations v1–v8, the client-revenue workflow, durable event/work-queue layer, public portfolio, inquiry flow, and private intake gateway now exist. The active runtime is Hermes (verified live); no OpenClaw executable is installed. Hermes gateway and cron are operational, but the three externally asserted UGC Work schedules are not visible in local Hermes/Codex schedule state, so no duplicates were installed. The remaining Milestone 1 gaps are five complete truthful portfolio formats, three opening-hook examples, 50 verified qualified prospects, and their personalized pitch drafts. See `HYBRID-REVENUE-MAP.md` and `GROWTH-PLAN.md` for the current architecture and plain-English next actions.
 
 ## Audit findings
 
-- The repository is a static GitHub Pages site. The new application will live entirely in `ugc-command/`; no public-site pages or assets will be changed.
+- The initial audit treated the repository as a static GitHub Pages site and scoped the local application to `ugc-command/`. The completed release also adds the static `/ugc/` portfolio and inquiry pages plus a Cloudflare Worker intake gateway; GitHub Pages still serves no private data itself.
 - `_worker/src/index.js` is the only existing backend. It implements TikTok OAuth with state validation, an encrypted cookie session, and read-only Display API calls for user info and video metrics. UGC Command will reuse its endpoint/field knowledge but keep credentials and sessions in its own encrypted local store.
 - There is no database, scheduler, dashboard framework, publishing implementation, or test harness to extend.
 - `AFFILIATE.md` is binding. Monetized social captions must begin with `#ad` or `(ad)`, social video must carry `#advertisement` burned in from the start when required by the program, affiliate links must be sponsored, and Amazon links must remain raw tagged Amazon URLs rather than `/go/` redirects.
@@ -21,13 +21,13 @@ Browser dashboard -> HTTP routes/actions -> application services -> SQLite
                                                    (mock or explicitly enabled real adapter)
 ```
 
-- `src/server`: server-rendered dashboard, JSON API, and action endpoints.
-- `src/db`: SQLite connection, ordered migrations, repositories, and seed command.
-- `src/domain`: enums, policy gates, scoring engines, skip logic, baseline classification, and experiment selection.
-- `src/services`: SCOUT, VANTAGE, pipeline orchestration, scheduler, learning loop, and audit logging.
-- `src/integrations`: interfaces and safe mock implementations. Real adapters are enabled only by explicit environment flags and fail closed when configuration is incomplete.
-- `src/jobs`: bounded polling loop for due publishing and analytics jobs; no recursive or unbounded generation.
-- `tests`: unit policy/score tests plus a temporary-database mock pipeline integration test.
+- `src/server.ts` and `src/dashboard.ts`: server-rendered dashboard, JSON health/state API, and owner action routes.
+- `src/db.ts`: SQLite connection, ordered migrations, repositories, and settings.
+- `src/policies.ts` and `src/scoring.ts`: policy gates, scoring, skip logic, and concept selection.
+- `src/pipeline.ts` and `src/scheduler.ts`: bounded generation, publishing, reconciliation, and analytics work.
+- `src/revenue.ts`, `src/attention.ts`, `src/events.ts`, and `src/work-queue.ts`: client operations, founder decisions, durable events, and leased work.
+- `src/integrations.ts`: capability interfaces and safe mock implementations; unavailable real adapters fail closed.
+- `src/agent-cli.ts`: read-only Hermes views; `tests/` covers policy, pipeline, revenue, queue, database, and server behavior.
 
 ## Data model
 

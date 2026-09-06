@@ -32,7 +32,7 @@ The app binds to localhost and uses `data/ugc-command.db`. VANTAGE and SCOUT-UGC
 
 ## Private intake gateway
 
-The public site is static. The Cloudflare Worker is the provider-neutral server boundary, but it is not production-ready until an owner provisions `UGC_DB`, runs `_worker/migrations/0001_ugc_intake.sql`, sets `UGC_CSRF_SECRET`, `UGC_ABUSE_SECRET`, and `UGC_SYNC_SECRET` (plus `UGC_ALLOWED_ORIGINS` only for approved non-production origins), and deploys. Create private links only through the authenticated admin endpoint. Tokens are displayed once, stored as hashes, expire, and can be revoked. Direct uploads are disabled; accept only approved access-controlled HTTPS asset links.
+The public site is static. The Cloudflare Worker is the provider-neutral server boundary, but it is not production-ready until an owner provisions `UGC_DB`, runs `_worker/migrations/0001_ugc_intake.sql`, sets `UGC_CSRF_SECRET`, `UGC_ABUSE_SECRET`, and `UGC_SYNC_SECRET`, verifies `UGC_PUBLIC_SITE_URL`, and deploys. Use `UGC_ALLOWED_ORIGINS` only for explicitly approved non-production origins. Create private links only through the authenticated admin endpoint. Tokens are displayed once, stored as hashes, expire, and can be revoked. Direct uploads are disabled; accept only approved access-controlled HTTPS asset links.
 
 ## Backup and restore
 
