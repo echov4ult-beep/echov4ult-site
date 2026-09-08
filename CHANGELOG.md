@@ -2,6 +2,13 @@
 
 All notable changes to the EchoVault site are documented here.
 
+## [0.1.0.2] - 2026-09-08
+
+### Changed
+
+- Replace the W&O Q7 camera portfolio backdrops with the approved dark studio treatment across the UGC gallery, case study, and social preview.
+- Disclose the AI-assisted background compositing and serve optimized WebP derivatives for the visible portfolio images.
+
 ## [0.1.0.1] - 2026-09-06
 
 ### Added
