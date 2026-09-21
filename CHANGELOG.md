@@ -2,6 +2,12 @@
 
 All notable changes to the EchoVault site are documented here.
 
+## [0.1.0.4] - 2026-09-21
+
+### Fixed
+
+- Legend Drop: the reveal now plays on Play and Draw again when the operating system has Reduce Motion turned on; previously that setting skipped the animation and the frame jumped straight to the end state.
+
 ## [0.1.0.3] - 2026-09-21
 
 ### Added
