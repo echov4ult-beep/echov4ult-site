@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /worker/
+Disallow: /lab/
 
 Sitemap: https://echov4ult.com/sitemap.xml
