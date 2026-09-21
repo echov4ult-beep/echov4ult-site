@@ -325,7 +325,7 @@
   .store.on i{background:var(--good);}
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);
     padding:9px 18px;border-radius:999px;font-size:13px;box-shadow:var(--shadow);z-index:20;}
-  @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important;} }
+  @media (prefers-reduced-motion: reduce){ .btn, .dev{transition:none;} }
 </style>
 </head>
 <body>
@@ -1284,8 +1284,10 @@
     if(state.safe) stage.appendChild(buildSafe());
     fitStage();
 
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(!play || reduce) return;
+    /* the reveal only ever runs on an explicit Play or Draw, and the motion IS
+       the thing being previewed, so an OS "reduce motion" setting doesn't
+       skip it */
+    if(!play) return;
 
     /* sequence: reveal device -> nameplate (rise, hold 2.5s, fade) -> stat bug slides in */
     var build = BUILDERS[state.settings.device] || devSlot;
