@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "updated": "2026-09-02",
+  "laws": [
+    {
+      "id": "seven-zero-opener",
+      "number": 1,
+      "title": "Open with the Seven / Zero question",
+      "rule": "Every video opens with the question: \"What if Seven and Zero swapped teams?\"",
+      "why": "The old videos that pulled the highest view counts all started with this exact question. It is the proven hook, so it is the default opener until the numbers say otherwise.",
+      "check": "The spoken opener, on-screen text, and the caption all lead with the question before anything else.",
+      "pattern": "^what\\s+if\\s+(seven|7)\\s+(and|&|\\+)\\s+(zero|0)\\s+(swap|swaps|swapped|switch|switches|switched|trade|trades|traded)\\s+teams",
+      "accepted_forms": [
+        "What if Seven and Zero swapped teams?",
+        "What if Seven and Zero swap teams?",
+        "What if 7 and 0 switched teams?"
+      ]
+    }
+  ]
+}
