@@ -2,6 +2,16 @@
 
 All notable changes to the EchoVault site are documented here.
 
+## [0.1.0.3] - 2026-09-21
+
+### Added
+
+- Host the WowSportSims Legend Drop tool at an unlisted `/lab/legend-drop/` page so it can be opened from any computer: a date-locked daily draw of one NFL legend onto a team, four wheel-free on-screen reveals staged in the 1080x1920 frame, a 221-legend pool with an add-a-legend form, generated Madden ratings with CSV export, and an export/import box for moving the pool and draw history between browsers.
+
+### Changed
+
+- Keep `/lab/` out of search: `robots.txt` disallows it, the page carries `noindex`, and it is not in the sitemap or navigation.
+
 ## [0.1.0.2] - 2026-09-08
 
 ### Changed
